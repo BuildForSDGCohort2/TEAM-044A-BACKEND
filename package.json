@@ -1,0 +1,59 @@
+{
+  "name": "team-044-group-a",
+  "version": "1.0.0",
+  "description": "Internet Escrow Payment service",
+  "main": "index.js",
+  "engineStrict": true,
+  "engines": {
+    "node": ">=12.18.3"
+  },
+  "scripts": {
+    "test": "jest api --testEnvironment=node --forceExit --verbose --watch --detectOpenHandles --runInBand",
+    "dev": "nodemon --exec babel-node ./api/server/server.js"
+  },
+  "keywords": [
+    "Escrow",
+    "Payment",
+    "Fintech"
+  ],
+  "author": "Team-044-group-a",
+  "license": "ISC",
+  "dependencies": {
+    "@sendgrid/mail": "7.2.3",
+    "cron": "1.8.2",
+    "dotenv": "8.2.0",
+    "express": "4.17.1",
+    "faker": "4.1.0",
+    "ip-regex": "4.1.0",
+    "jsonwebtoken": "8.5.1",
+    "lodash": "4.17.20",
+    "moment": "2.27.0",
+    "mongoose": "5.10.0",
+    "nodemailer": "6.4.11",
+    "semver": "7.3.2",
+    "uuid": "8.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.11.1",
+    "@babel/node": "7.10.5",
+    "@babel/preset-env": "7.11.0",
+    "eslint": "7.7.0",
+    "eslint-config-airbnb-base": "14.2.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-import": "2.22.0",
+    "husky": "4.2.5",
+    "jest": "26.4.0",
+    "lint-staged": "10.2.11",
+    "nodemon": "2.0.4",
+    "prettier": "2.0.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
+  }
+}
