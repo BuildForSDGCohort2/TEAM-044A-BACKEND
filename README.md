@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Money Guard, FastCash, HoldmyMoney
 
 If you have any cool name, please suggest. This is the bare starter files, I choose this pattern to structure code
@@ -19,3 +20,6 @@ To install on your machine `npm install`
 `Test`
 To run test on your machine, just type `npm run test`
 Let's get to work!!!
+=======
+# TEAM-044A-BACKEND
+>>>>>>> c9f6186dc55c393239045bde6925b6e68f6c9886
