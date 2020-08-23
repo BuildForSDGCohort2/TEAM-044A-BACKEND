@@ -29,22 +29,16 @@ const makeUsersDb = ({ User, createToken }) => {
     return await User.findById(objectId(_id)).populate('transactions').exec()
   }
 
-  // Mark the transaction that is on-going
-  // Find the transaction from the transaction collections
-
-  // async function findMyTransactions({ email }) {
-  //   console.log('THE INCOMING EMAIL IS', email)
-  //   const found = await User.findOne({ 'transactions.email': email })
-  //   console.log('FOUND TRANSACTION', found)
-  //   return found
-  // }
+  async function findAll() {
+    return await User.find()
+  }
 
   return Object.freeze({
     insert,
     update,
     findByEmail,
-    findById
-    // findMyTransactions
+    findById,
+    findAll
   })
 }
 

@@ -68,7 +68,7 @@ const makeTransactionsDb = ({ Transaction, usersDb, User, Escrow }) => {
     session.startTransaction()
     try {
       const sender = await User.findOne({ _id: senderId }).session(session)
-      sender.balance -= amount
+      sender.balance -= amount / 100
       await sender.save({ session })
       const receiver = await User.findOne({ _id: receiverId }).session(session)
       // receiver.balance += amount

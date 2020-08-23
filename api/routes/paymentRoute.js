@@ -5,7 +5,7 @@ export const path = '/api/v1/payment'
 
 export function config(router) {
   router
-    // .post('/:referenceId', makeExpressCallback(postReleaseFunds))
     .post('/:ref', makeExpressCallback(postPayment))
+    .post('/pay/:referenceId', makeExpressCallback(postReleaseFunds))
   return router
 }

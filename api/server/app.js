@@ -1,6 +1,7 @@
 import express from 'express'
 // import setupDB from '../database'
 import usersDb from '../users/model'
+import { cronTest } from '../core-payment/use-cases'
 
 const app = express()
 
@@ -13,11 +14,13 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(async (req, res, next) => {
-  const user = await usersDb.findById({ id: '5f3d7edd899eb112a8b444ca' })
+  const user = await usersDb.findById({ id: '5f3fbbe9eaeeae091841cd71' })
 
   req.user = user
   next()
 })
 require('../routes')(app)
+
+cronTest.start()
 
 module.exports = app

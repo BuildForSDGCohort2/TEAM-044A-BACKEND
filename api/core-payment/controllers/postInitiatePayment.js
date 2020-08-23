@@ -2,7 +2,6 @@ import { makeHttpError, onSuccess } from '../../helpers/http-response'
 
 const makePostPayment = ({ sendMoney }) => {
   return async function postPayment(httpRequest) {
-    console.log(httpRequest)
     try {
       const { user } = httpRequest
       const { ref } = httpRequest.pathParams
