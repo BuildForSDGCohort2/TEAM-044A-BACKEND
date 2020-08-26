@@ -1,5 +1,7 @@
 # MoneyGuard
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6edce45adf1e4462ba9bfc1589c2cb24)](https://app.codacy.com/gh/BuildForSDGCohort2/TEAM-044A-BACKEND?utm_source=github.com&utm_medium=referral&utm_content=BuildForSDGCohort2/TEAM-044A-BACKEND&utm_campaign=Badge_Grade_Dashboard)
+
 > MoneyGuard is an Internet Escrow System that acts as the safe "middleman" for customers and merchants. It aims to create a safer ground for both customers and merchants. It also aims to encourage online purchases while providing assurance about the customer's money.
 
 ## Tech Stack
