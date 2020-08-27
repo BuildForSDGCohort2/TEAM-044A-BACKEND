@@ -1,22 +1,23 @@
 /* eslint-disable no-underscore-dangle */
-const makesAcceptTransaction = ({ transactionDb, sendAcceptanceEmail }) => {
-  return async function acceptTransaction({ user, ref }) {
-    const { transactions } = user
-    transactions.forEach(async (el) => {
-      const found = el.transactionStatus !== 'Ongoing' && el.reference === ref
-      if (found) {
-        const currentTransaction = await transactionDb.findByRef({ ref })
-        const transactionId = currentTransaction._id
-        let status = currentTransaction.transactionStatus
-        status = 'Ongoing'
-        await transactionDb.update({
-          transactionStatus: status,
-          id: transactionId
-        })
-        await sendAcceptanceEmail({ transactionId, user })
-      }
-      return found
-    })
+
+/**
+ * This is responsible for when a user chooses to agree to the current transaction
+ * POST - Accept transaction
+ * @param {string} makesAcceptTransaction
+ */
+const makesAcceptTransaction = ({
+  transactionDb,
+  usersDb,
+  sendAcceptanceEmail
+}) => {
+  return async function acceptTransaction({ ref }) {
+    const currentTransaction = await transactionDb.findByRef({ ref })
+    let { transactionStatus, _id, initiator } = currentTransaction
+    transactionStatus = 'Transaction Accepted - Not funded'
+    await Promise.all([
+      transactionDb.update({ id: _id, transactionStatus }),
+      sendAcceptanceEmail({ _id, initiator })
+    ])
   }
 }
 export default makesAcceptTransaction

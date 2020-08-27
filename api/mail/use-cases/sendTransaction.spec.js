@@ -2,20 +2,20 @@
 /* eslint-disable no-undef */
 import makeFakeTransaction from '../../test/fixtures/transaction'
 import makeFakeUser from '../../test/fixtures/user'
-import sendMail from '../../mail/sendMail'
+import sendMail from '../sendMail'
 import {
   getTransactionEmailURL,
   transactionEmailTemplate
 } from '../../helpers/email'
 import buildMakeSendTransaction from './send-transaction'
-import Transaction from '../models/transactionModel'
+import Transaction from '../../transactions/models/transactionModel'
 import User from '../../users/model/userModel'
 import makeUsersDb from '../../users/model/usersDb'
-import makeTransactionsDb from '../models/transactionDb'
-import createToken from '../../helpers/jsonwt'
+import makeTransactionsDb from '../../transactions/models/transactionDb'
+import { createToken } from '../../helpers/jsonwt'
 import makeAddUser from '../../users/use-cases/add-user'
 import setupDB from '../../test/db'
-import makeBuildCreateTransaction from './createTransaction'
+import makeBuildCreateTransaction from '../../transactions/use-cases/createTransaction'
 
 jest.setTimeout(30000)
 setupDB('transactions')

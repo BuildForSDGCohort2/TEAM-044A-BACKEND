@@ -62,13 +62,24 @@ const transactionSchema = new mongoose.Schema({
   },
   transactionStatus: {
     type: String,
-    enum: ['Awaiting Confirmation', 'Ongoing', 'Completed', 'cancelled'],
+    enum: [
+      'Awaiting Confirmation',
+      'Transaction Accepted - Not funded',
+      'Buyer Funded Transaction',
+      'Accepted and Paid',
+      'Seller rejects Transaction',
+      'In progess',
+      'Delivered',
+      'Product Accepted',
+      'Delivery Rejected',
+      'Settlement Pending',
+      'Completed'
+    ],
     default: 'Awaiting Confirmation'
   },
   amount: { type: Number, required: true },
-  source: {}
+  source: {},
+  initiator: { type: mongoose.Types.ObjectId, email: String, ref: 'User' }
 })
 
-const Transaction = mongoose.model('Transaction', transactionSchema)
-// export default transactionSchema
-export default Transaction
+export default transactionSchema

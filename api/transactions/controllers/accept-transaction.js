@@ -1,19 +1,23 @@
-import { makeHttpError, onSuccess } from '../../helpers/http-response'
+import { makeHttpError, apiResponse } from '../../helpers/http-response'
 
+/**
+ * Accept Transaction Controller - Responsible for sending a POST request
+ * Required - Transaction Reference Id
+ * @function makePostAcceptTransaction
+ * @returns {object}
+ */
 const makePostAcceptTransaction = ({ acceptTransaction }) => {
   return async function postAcceptTransaction(httpRequest) {
     try {
-      const { user } = httpRequest
       const { ref } = httpRequest.pathParams
 
-      const toPost = await acceptTransaction({ user, ref })
-      return {
-        headers: {
-          'Content-Type': 'application/vnd.api+json'
-        },
+      await acceptTransaction({ ref })
+      return apiResponse({
+        status: true,
         statusCode: 200,
-        data: JSON.stringify({ toPost })
-      }
+        message: 'Transaction Accepted',
+        data: null
+      })
     } catch (error) {
       return makeHttpError({
         statusCode: error.statusCode || 400,

@@ -10,9 +10,9 @@ const buildMakeSendTransaction = ({
   sendMail,
   createToken,
   getTransactionEmailURL,
-  transactionEmailTemplate
+  createTransactionTemplate
 }) => {
-  return async function sendTransaction({ newTransaction, user }) {
+  return async function sendTransactionMail({ newTransaction, user }) {
     try {
       const sender = await usersDb.findById({ id: user.id })
       const receiver = await transactionDb.findById({ id: newTransaction._id })
@@ -22,14 +22,20 @@ const buildMakeSendTransaction = ({
         emailVerified: receiver.emailVerified
       }
       const transactionRef = createToken(toSend)
-      // const transactionRef = receiver.reference
+      const {
+        transactionTitle,
+        transactionDesc,
+        amount,
+        transactionStatus
+      } = receiver
       const transaction = {
-        title: receiver.transactionTitle,
-        transactionDesc: receiver.transactionDesc,
-        amount: receiver.amount
+        transactionTitle,
+        transactionDesc,
+        amount,
+        transactionStatus
       }
       const url = getTransactionEmailURL(transactionRef)
-      const emailTemplate = transactionEmailTemplate(
+      const emailTemplate = createTransactionTemplate(
         receiver,
         sender,
         transaction,

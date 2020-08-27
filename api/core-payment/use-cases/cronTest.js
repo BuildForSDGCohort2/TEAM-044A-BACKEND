@@ -39,12 +39,10 @@ const automateFundsTransfer = ({
                   .add(1, 'minutes')
                   .valueOf()
                 if (
-                  new Date(cloned).getTime() >=
-                  new Date(inspectionPeriod).getTime()
+                  new Date(cloned).getTime() === new Date(Date.now()).getTime()
                 ) {
-                  console.log('cloned', cloned)
+                  console.log('Yes!!')
                   amountToTransfer.forEach(async (money) => {
-                    console.log('monies', money)
                     await escrowDb.handleMoneyTransfer({
                       referenceId: foundRef.reference,
                       receiverId: foundSeller._id,

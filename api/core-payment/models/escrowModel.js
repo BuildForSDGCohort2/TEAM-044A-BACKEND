@@ -2,7 +2,7 @@
 import mongoose from '../../database/index'
 
 const escrowSchema = new mongoose.Schema({
-  amount: {
+  totalAmount: {
     type: Number,
     required: true
   },
@@ -10,41 +10,34 @@ const escrowSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  buyerInfo: {
-    buyerId: {
-      type: mongoose.Types.ObjectId,
-      ref: 'User'
-    },
-    email: String
+  buyerId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User'
   },
-  sellerInfo: {
-    sellerId: {
-      type: mongoose.Types.ObjectId,
-      ref: 'User'
-    },
-    email: String
+  transactionId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Transaction'
   },
-  // inspectionPeriod: {
-  //   numOfDays: {
-  //     type: Types.ObjectId,
-  //     ref: 'Transaction'
-  //   },
-  //   inspectionDays: Number
-  // },
-  // dueDate: {
-  //   date: {
-  //     type: Types.ObjectId,
-  //     ref: 'Transaction'
-  //   },
-  //   dueDate: Number
-  // },
-  currentTransaction: {
-    transaction: {
-      type: mongoose.Types.ObjectId,
-      ref: 'Transaction'
-    }
+  escrowCharge: {
+    type: Number,
+    required: true
+  },
+  isPaid: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  paymentMadeAt: {
+    type: Date,
+    default: Date.now()
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now()
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now()
   }
 })
-const Escrow = mongoose.model('Escrow', escrowSchema)
-export default Escrow
-// export default escrowSchema
+export default escrowSchema

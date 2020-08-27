@@ -2,19 +2,25 @@
 const makeSendNotificationEmail = ({
   transactionDb,
   sendMail,
-  dashboard,
+  dashboardURL,
   acceptanceEmailTemplate
 }) => {
   return async function sendNotificationEmail({ ref, user }) {
     const receiver = await transactionDb.findByRef({ ref })
     const transactionRef = receiver.reference
+    const {
+      transactionStatus,
+      transactionTitle,
+      transactionDesc,
+      amount
+    } = receiver
     const transaction = {
-      transactionTitle: receiver.transactionTitle,
-      transactionDesc: receiver.transactionDesc,
-      amount: receiver.amount,
-      transactionStatus: receiver.transactionStatus
+      transactionTitle,
+      transactionDesc,
+      amount,
+      transactionStatus
     }
-    const url = dashboard(transactionRef)
+    const url = dashboardURL(transactionRef)
     const emailTemplate = acceptanceEmailTemplate(
       receiver,
       user,

@@ -2,7 +2,6 @@ import { makeHttpError, onSuccess } from '../../helpers/http-response'
 
 const makeGetUser = ({ listUser }) => {
   return async function getUser(httpRequest) {
-    console.log('HTTPrequest', httpRequest)
     try {
       const user = await listUser({ id: httpRequest.user.id })
       return onSuccess({

@@ -21,8 +21,8 @@ const makeUsersDb = ({ User, createToken }) => {
     return result.nModified > 0 ? { _id, ...changes } : null
   }
 
-  async function findByEmail(user) {
-    return await User.findOne({ email: user.email }).populate('transactions')
+  async function findByEmail({ email }) {
+    return await User.findOne({ email }).populate('transactions')
   }
 
   async function findById({ id: _id }) {

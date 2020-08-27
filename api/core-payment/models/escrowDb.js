@@ -56,7 +56,19 @@ const makeEscrowDb = ({ Escrow, User, Transaction }) => {
         await completedTransaction.save({ session })
       })
     } finally {
-      session.endSession
+      session.endSession()
+    }
+  }
+
+  async function deposit({ ...paymentDetails }) {
+    const session = await mongoose.startSession()
+    try {
+      await session.withTransaction(async () => {
+        const newEscrow = await new Escrow({ ...paymentDetails })
+        await newEscrow.save({ session })
+      })
+    } finally {
+      session.endSession()
     }
   }
 
@@ -72,7 +84,8 @@ const makeEscrowDb = ({ Escrow, User, Transaction }) => {
     findByRef,
     transferMoney,
     findAll,
-    handleMoneyTransfer
+    handleMoneyTransfer,
+    deposit
   })
 }
 

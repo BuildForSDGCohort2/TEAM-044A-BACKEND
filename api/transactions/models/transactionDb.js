@@ -4,15 +4,16 @@
 /* eslint-disable no-return-await */
 /* eslint-disable no-underscore-dangle */
 import mongoose from 'mongoose'
+// import User from '../../users/model/userModel'
 
 const objectId = mongoose.Types.ObjectId
 
-const makeTransactionsDb = ({ Transaction, usersDb, User, Escrow }) => {
+const makeTransactionsDb = ({ User, Transaction, Escrow }) => {
   async function insert({ ...transactionInfo }) {
     const userId = transactionInfo.user.id
     const newTransaction = new Transaction({ ...transactionInfo })
     await newTransaction.save()
-    const user = await usersDb.findById({ id: userId })
+    const user = await User.findById({ _id: userId })
     await user.transactions.push(newTransaction)
     await user.save()
     return newTransaction
@@ -31,7 +32,7 @@ const makeTransactionsDb = ({ Transaction, usersDb, User, Escrow }) => {
   }
 
   async function findById({ id: _id }) {
-    return await Transaction.findById(objectId(_id))
+    return await Transaction.findById(objectId(_id)).populate('initiator')
   }
 
   async function findMyTransactions(email) {
@@ -53,7 +54,7 @@ const makeTransactionsDb = ({ Transaction, usersDb, User, Escrow }) => {
   }
 
   async function findAll() {
-    return await Transaction.find()
+    return await Transaction.find().populate('initiator')
   }
 
   async function findByTransactionStatus(status) {

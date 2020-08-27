@@ -1,5 +1,6 @@
 import express from 'express'
 // import setupDB from '../database'
+import path from 'path'
 import usersDb from '../users/model'
 import { cronTest } from '../core-payment/use-cases'
 
@@ -13,14 +14,28 @@ const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(async (req, res, next) => {
-  const user = await usersDb.findById({ id: '5f3fbbe9eaeeae091841cd71' })
 
+//Initiator
+app.use(async (req, res, next) => {
+  const user = await usersDb.findById({ id: '5f4606f0122cc53160eb0810' })
   req.user = user
   next()
 })
+
+// Recipient
+// app.use(async (req, res, next) => {
+//   const user = await usersDb.findById({ id: '5f460a421ff47031a02f4775' })
+//   req.user = user
+//   next()
+// })
+
+app.get('/', (_, res) => res.json({ msg: 'Hello' }))
+app.get('/:ref', (req, res) => {
+  // res.json({ hello: 'hellooo' })
+  res.sendFile(path.join(__dirname, './pay.html'))
+})
 require('../routes')(app)
 
-cronTest.start()
+// cronTest.start()
 
 module.exports = app

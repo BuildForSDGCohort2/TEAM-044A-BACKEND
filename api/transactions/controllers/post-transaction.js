@@ -1,11 +1,15 @@
 /* eslint-disable no-underscore-dangle */
-import { makeHttpError, onSuccess } from '../../helpers/http-response'
+import {
+  makeHttpError,
+  onSuccess,
+  apiResponse
+} from '../../helpers/http-response'
 
 const makePostTransaction = ({ createTransaction }) => {
   return async function postTransaction(httpRequest) {
     try {
-      const { user = {}, source = {}, ...transactionInfo } = httpRequest.body
-      user.id = httpRequest.user._id
+      const { source = {}, ...transactionInfo } = httpRequest.body
+      const { user } = httpRequest
       source.ip = httpRequest.ip
       source.browser = httpRequest.headers['User-Agent']
       if (httpRequest.headers.Referer) {
@@ -16,11 +20,11 @@ const makePostTransaction = ({ createTransaction }) => {
         source,
         ...transactionInfo
       })
-      return onSuccess({
-        type: 'transactions',
-        attributes: transaction,
-        statusCode: 201,
-        self: `http://localhost:4000/api/v1/transactions`
+      return apiResponse({
+        status: true,
+        message: 'Transaction Created',
+        data: [{ transaction }],
+        statusCode: 201
       })
     } catch (error) {
       return makeHttpError({

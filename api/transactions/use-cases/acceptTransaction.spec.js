@@ -27,6 +27,6 @@ describe('Accept Transaction', () => {
     })
     const toTest = await acceptTransaction({ user, ref })
     expect(toTest).toBeDefined()
-    expect(transaction.transactionStatus).toBe('Ongoing')
+    expect(transaction.transactionStatus).toBe('Transaction')
   })
 })
