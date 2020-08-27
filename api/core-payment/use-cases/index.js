@@ -1,6 +1,7 @@
 import moment from 'moment'
 import initiatePayment from './initiatePayment'
 import makeReleaseFunds from './releaseFunds'
+import automateFundsTransfer from './cronTest'
 import { sendNotificationEmail } from '../../mail'
 import usersDb from '../../users/model'
 import transactionDb from '../../transactions/models'
@@ -21,4 +22,11 @@ const releaseFunds = makeReleaseFunds({
   transactionDb
 })
 
-export { sendMoney, releaseFunds }
+const cronTest = automateFundsTransfer({
+  escrowDb,
+  transactionDb,
+  usersDb,
+  moment
+})
+
+export { sendMoney, releaseFunds, cronTest }

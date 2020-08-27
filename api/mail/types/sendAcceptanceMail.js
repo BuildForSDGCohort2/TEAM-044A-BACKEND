@@ -1,6 +1,3 @@
-const dashboard = (transactionRef) =>
-  `http://localhost:4000/api/v1/transactions/${transactionRef}`
-
 const acceptanceEmailTemplate = (receiver, user, transaction, url) => {
   const from = 'kingetiosasere@gmail.com'
   const to = receiver.email
@@ -22,7 +19,7 @@ const acceptanceEmailTemplate = (receiver, user, transaction, url) => {
     <tr>
       <td>${transaction.transactionTitle}</td>
       <td>${transaction.transactionDesc}</td>
-      <td>${transaction.amount}</td>
+      <td>${transaction.amount / 100}</td>
       <td>${transaction.transactionStatus}</td>
     <tr>
   </table>
@@ -33,4 +30,4 @@ const acceptanceEmailTemplate = (receiver, user, transaction, url) => {
   return { from, to, username, name, subject, html }
 }
 
-export { dashboard, acceptanceEmailTemplate }
+export { acceptanceEmailTemplate }

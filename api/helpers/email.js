@@ -18,7 +18,7 @@ const transactionEmailTemplate = (receiver, sender, transaction, url) => {
 
     <p>Please click this link to access your dashboard to accept this transaction.</p>
 
-    <p>Thank you. :)</p>
+    <p>Thank you. :)</p> 
     <p>FastCash</p>
   `
   return { from, to, username, name, subject, html }

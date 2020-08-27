@@ -3,12 +3,11 @@
 const makeVerifyEmail = ({ decodeToken, transactionDb }) => {
   return async function verifyEmail({ ...details } = {}) {
     const toDecode = decodeToken(details.token)
-    const transactionId = toDecode.id
-    let verificationStatus = toDecode.emailVerified
-    verificationStatus = true
+    let { emailVerified, id } = toDecode
+    emailVerified = true
     return await transactionDb.update({
-      emailVerified: verificationStatus,
-      id: transactionId
+      emailVerified,
+      id
     })
   }
 }

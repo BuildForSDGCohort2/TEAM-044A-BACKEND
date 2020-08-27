@@ -35,18 +35,18 @@ async function dropAllCollections() {
 
 const setupDB = (uri, databaseName) => {
   // Connect to Mongoose
-  beforeAll(async () => {
-    const url = `mongodb://localhost:27017/${databaseName}`
-    await mongoose.connect(url, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    })
-  })
+  // beforeAll(async () => {
+  //   const url = `mongodb://localhost:27017/${databaseName}`
+  //   await mongoose.connect(url, {
+  //     useNewUrlParser: true,
+  //     useUnifiedTopology: true
+  //   })
+  // })
 
   // Cleans up database between each test
-  afterEach(async () => {
-    await removeAllCollections()
-  })
+  // afterEach(async () => {
+  //   await removeAllCollections()
+  // })
 
   // Disconnect Mongoose
   afterAll(async () => {
