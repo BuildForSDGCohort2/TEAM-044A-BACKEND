@@ -3,7 +3,7 @@ import makeTransaction from '../factory'
 
 const makeBuildCreateTransaction = ({ transactionDb, sendTransactionMail }) => {
   return async function createTransaction({ user, ...transactionInfo } = {}) {
-    const { email, _id } = user
+    const { _id } = user
     const transaction = makeTransaction({ ...transactionInfo })
     const transactionSource = transaction.getSource()
     const newTransaction = await transactionDb.insert({
@@ -18,10 +18,7 @@ const makeBuildCreateTransaction = ({ transactionDb, sendTransactionMail }) => {
       inspectionPeriod: transaction.getInspectionPeriod(),
       dueDate: transaction.getDueDate(),
       reference: transaction.getRef(),
-      initiator: {
-        email,
-        _id
-      },
+      initiator: _id,
       source: {
         ip: transactionSource.getIp(),
         browser: transactionSource.getBrowser(),

@@ -7,6 +7,7 @@ import makeConfirmEmail from './use-cases/sendConfirmTransaction'
 import buildMakeSendTransaction from './use-cases/sendCreateTransaction'
 import makeInProgressEmail from './use-cases/sendInProgressMail'
 import makeDeliveryRejectionMail from './use-cases/deliveryRejectionMail'
+import makeSendDisputeMail from './use-cases/sendDisputeMail'
 import dashboardURL from './use-cases/dashboard'
 import { decodeToken, sendTokenResponse, createToken } from '../helpers/jsonwt'
 import transactionDb from '../transactions/models'
@@ -21,7 +22,8 @@ import {
   getTransactionEmailURL,
   createTransactionTemplate,
   inProgressEmailTemplate,
-  deliveryRejectionTemplate
+  deliveryRejectionTemplate,
+  disputeMailTemplate
 } from './types/index'
 
 const verifyEmail = makeVerifyEmail({
@@ -65,9 +67,19 @@ const sendDeliveryRejectionEmail = makeDeliveryRejectionMail({
   deliveryRejectionTemplate
 })
 
+// for creating disputes
+const sendDisputeMail = makeSendDisputeMail({
+  transactionDb,
+  usersDb,
+  sendMail,
+  dashboardURL,
+  disputeMailTemplate
+})
+
 // sends mail to buyer/initiator of the transaction to signify delivery on its way
 const sendDeliveryEmail = makeDeliveryEmail({
   transactionDb,
+  usersDb,
   sendMail,
   deliveryEmailTemplate,
   dashboardURL
@@ -107,5 +119,6 @@ export {
   sendConfirmEmail,
   sendTransactionMail,
   sendInProgressEmail,
-  sendDeliveryRejectionEmail
+  sendDeliveryRejectionEmail,
+  sendDisputeMail
 }

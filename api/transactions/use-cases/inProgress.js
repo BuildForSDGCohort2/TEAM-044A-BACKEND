@@ -34,10 +34,11 @@ const makeInProgress = ({ transactionDb, sendInProgressEmail, usersDb }) => {
               })
               let { transactionStatus, _id, initiator } = currentTransaction
               transactionStatus = 'In Progress'
-              await Promise.all([
+              const [updated, email] = await Promise.all([
                 transactionDb.update({ id: _id, transactionStatus }),
                 sendInProgressEmail({ ref, initiator })
               ])
+              return updated
             }
           })
         }

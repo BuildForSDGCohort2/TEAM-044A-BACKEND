@@ -3,6 +3,10 @@ import mongoose from 'mongoose'
 import moment from 'moment'
 import { v4 as uuidv4 } from 'uuid'
 
+const Id = Object.freeze({
+  makeId: mongoose.Types.ObjectId
+})
+
 const makeFakeUser = (overrides) => {
   const user = {
     firstName: faker.name.firstName(),
@@ -17,30 +21,9 @@ const makeFakeUser = (overrides) => {
     dob: faker.date.past(),
     username: faker.name.findName(),
     password: 'Jesusisreal1234!!@',
-    _id: mongoose.Types.ObjectId,
-    transactions: [
-      {
-        emailVerified: true,
-        dateCreated: moment().valueOf(),
-        transactionStatus: 'Awaiting Confirmation',
-        firstName: 'King',
-        lastName: 'Etiosa',
-        phoneNumber: '09020491830',
-        email: faker.internet.email(),
-        transactionTitle: faker.commerce.productName(),
-        transactionDesc: faker.commerce.productAdjective(),
-        currency: 'Naira',
-        amount: 50000,
-        inspectionPeriod: moment().add(2, 'days'),
-        dueDate: moment().valueOf(),
-        reference: uuidv4(),
-        source: {
-          ip: faker.internet.ip(),
-          browser: faker.internet.userAgent(),
-          referrer: faker.internet.url()
-        }
-      }
-    ]
+    _id: Id.makeId(),
+    initiator: Id.makeId(),
+    transactions: []
   }
 
   return {

@@ -2,7 +2,7 @@ import makeTransactionsDb from './transactionDb'
 import models from '../../database/models'
 // import usersDb from '../../users/model'
 
-const { Transaction, User, Escrow } = models
+const { User, Transaction, Escrow } = models
 
-const transactionDb = makeTransactionsDb({ Transaction, User, Escrow })
+const transactionDb = makeTransactionsDb({ User, Transaction, Escrow })
 export default transactionDb

@@ -1,5 +1,5 @@
-// import { Schema, Types, model } from 'mongoose'
-import mongoose from '../../database'
+import mongoose from 'mongoose'
+// import mongoose from '../../database'
 
 const userSchema = new mongoose.Schema({
   firstName: {

@@ -1,12 +1,11 @@
-/* eslint-disable no-undef */
-import makeTransactionsDb from '../models/transactionDb'
-import makeFakeTransaction from '../../test/fixtures/transaction'
+import makeTransactionDb from '../models/transactionDb'
 import makeFakeUser from '../../test/fixtures/user'
+import makeFakeTransaction from '../../test/fixtures/transaction'
 import setupDB from '../../test/db'
 import models from '../../database/models'
-import makeAcceptTransaction from './acceptTransaction'
 import makeUsersDb from '../../users/model/usersDb'
 import { createToken } from '../../helpers/jsonwt'
+import makeDeliveryComplete from './deliveryComplete'
 
 const { Transaction, User, Escrow } = models
 
@@ -14,24 +13,26 @@ setupDB('transactions')
 
 let transactionDb
 let usersDb
+
 beforeAll(() => {
-  transactionDb = makeTransactionsDb({ Transaction, User, Escrow })
   usersDb = makeUsersDb({ User, createToken })
+  transactionDb = makeTransactionDb({ User, Transaction, Escrow })
 })
 
-describe('Accept Transaction', () => {
-  it('marks transaction status as Transaction Accepted - Not funded', async () => {
+describe('Deliver Status', () => {
+  it('marks an order as deliverd', async () => {
     const newuser = makeFakeUser()
     const user = await usersDb.insert(newuser)
     const newtransaction = makeFakeTransaction({
       user: { id: user?.user?._id }
     })
     const transaction = await transactionDb.insert(newtransaction)
-    const acceptTransaction = makeAcceptTransaction({
+    const ref = transaction.reference
+    const deliveryComplete = makeDeliveryComplete({
       transactionDb,
-      sendAcceptanceEmail: () => {}
+      sendDeliveryEmail: () => {}
     })
-    const found = await acceptTransaction({ ref: transaction.reference })
-    expect(found.transactionStatus).toBe('Transaction Accepted - Not funded')
+    const found = await deliveryComplete({ ref })
+    expect(found.transactionStatus).toBe('Delivered')
   })
 })

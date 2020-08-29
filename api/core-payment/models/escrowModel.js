@@ -1,5 +1,5 @@
-// import { Schema, Types, model } from 'mongoose'
-import mongoose from '../../database/index'
+import mongoose from 'mongoose'
+// import mongoose from '../../database/index'
 
 const escrowSchema = new mongoose.Schema({
   totalAmount: {

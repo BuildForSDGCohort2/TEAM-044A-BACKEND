@@ -2,10 +2,12 @@
 const makeDeliveryEmail = ({
   transactionDb,
   sendMail,
+  usersDb,
   dashboardURL,
   deliveryEmailTemplate
 }) => {
-  return async function sendDeliveryEmail({ ref, user }) {
+  return async function sendDeliveryEmail({ ref, initiator }) {
+    const user = await usersDb.findById({ id: initiator })
     const { email, firstName } = user
     const receiver = {
       email,

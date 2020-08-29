@@ -1,21 +1,16 @@
 const makeDeliveryComplete = ({ transactionDb, sendDeliveryEmail }) => {
-  return async function deliveryComplete({ user, ref }) {
-    const { transactions } = user
-    transactions.forEach(async (el) => {
-      const found = el.reference === ref
-      if (found) {
-        const currentTransaction = await transactionDb.findByRef({ ref })
-        let { transactionStatus, _id } = currentTransaction
-        transactionStatus = 'Delivered'
-        await Promise.all([
-          transactionDb.update({
-            id: _id,
-            transactionStatus
-          }),
-          sendDeliveryEmail({ ref, user })
-        ])
-      }
-    })
+  return async function deliveryComplete({ ref }) {
+    const currentTransaction = await transactionDb.findByRef({ ref })
+    let { transactionStatus, _id, initiator } = currentTransaction
+    transactionStatus = 'Delivered'
+    const [updated, email] = await Promise.all([
+      transactionDb.update({
+        id: _id,
+        transactionStatus
+      }),
+      sendDeliveryEmail({ ref, initiator })
+    ])
+    return updated
   }
 }
 
