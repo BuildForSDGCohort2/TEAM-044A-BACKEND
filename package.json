@@ -9,9 +9,7 @@
   },
   "scripts": {
     "test": "jest api --testEnvironment=node --forceExit --verbose --watch --detectOpenHandles --runInBand",
-    "dev": "nodemon --exec babel-node ./api/server/server.js",
-    "build": "npm run clean && babel src -d dist",
-    "clean": "rimraf dist"
+    "dev": "nodemon --exec babel-node ./api/server/server.js"
   },
   "keywords": [
     "Escrow",
