@@ -9,7 +9,11 @@
   },
   "scripts": {
     "test": "jest api --testEnvironment=node --forceExit --verbose --watch --detectOpenHandles --runInBand",
-    "dev": "nodemon --exec babel-node ./api/server/server.js"
+    "dev": "nodemon --exec babel-node ./api/server/server.js",
+    "clean": "rimraf dist",
+    "build": "npm run clean && babel api -d dist",
+    "start": "cd dist && node ./server/server.js"
+
   },
   "keywords": [
     "Escrow",
@@ -20,6 +24,7 @@
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "7.2.3",
+    "babel-plugin-inline-dotenv": "1.6.0",
     "cron": "1.8.2",
     "dotenv": "8.2.0",
     "express": "4.17.1",
@@ -36,6 +41,7 @@
     "uuid": "8.3.0"
   },
   "devDependencies": {
+    "@babel/cli": "7.10.5",
     "@babel/core": "7.11.1",
     "@babel/node": "7.10.5",
     "@babel/preset-env": "7.11.0",
