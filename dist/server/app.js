@@ -16,7 +16,7 @@ const app = (0, _express.default)(); // setupDB('mongodb://localhost:27017,local
 //   'escrow?replicaSet=rs'
 // )
 
-(0, _database.default)(`mongodb+srv://king:${process && process.env && process.env.DB_PASS || "jesusisreal"}@projects.yhzkf.mongodb.net`, `${process && process.env && process.env.DB_URL || "escrow"}?retryWrites=true&w=majority`);
+(0, _database.default)(`mongodb+srv://king:${process.env.DB_PASS}@projects.yhzkf.mongodb.net`, `${process.env.DB_URL}?retryWrites=true&w=majority`);
 app.use(_express.default.json());
 app.use(_express.default.urlencoded({
   extended: true

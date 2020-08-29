@@ -29,7 +29,7 @@ const decodeToken = controller => {
         });
       }
 
-      const decoded = _jsonwebtoken.default.verify(token, process && process.env && process.env.JWT_SECRET || "kingisagoodboy");
+      const decoded = _jsonwebtoken.default.verify(token, process.env.JWT_SECRET);
 
       httpRequest.user = decoded;
       return controller(httpRequest);

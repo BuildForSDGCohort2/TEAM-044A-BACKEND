@@ -2,7 +2,6 @@ import express from 'express'
 import setupDB from '../database'
 import path from 'path'
 import usersDb from '../users/model'
-
 const app = express()
 
 // setupDB('mongodb://localhost:27017,localhost:27018,localhost:27019', 'escrow')

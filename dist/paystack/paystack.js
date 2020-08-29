@@ -5,7 +5,7 @@ const paystack = request => {
     const options = {
       url: 'https://api.paystack.co/transaction/initialize',
       headers: {
-        Authorization: process && process.env && process.env.PAYSTACK_BEARER_KEY || "Bearer sk_test_2be62ae408bd9637f260d0d4a14f8e761660301f",
+        Authorization: process.env.PAYSTACK_BEARER_KEY,
         'content-type': 'application/json',
         'cache-control': 'no-cache'
       },
@@ -23,7 +23,7 @@ const paystack = request => {
     const options = {
       url: 'https://api.paystack.co/transaction/verify/' + encodeURIComponent(ref),
       headers: {
-        Authorization: process && process.env && process.env.PAYSTACK_BEARER_KEY || "Bearer sk_test_2be62ae408bd9637f260d0d4a14f8e761660301f",
+        Authorization: process.env.PAYSTACK_BEARER_KEY,
         'content-type': 'application/json',
         'cache-control': 'no-cache'
       }

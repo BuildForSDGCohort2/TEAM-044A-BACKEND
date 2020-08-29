@@ -5,7 +5,7 @@ const http = require('http');
 
 const app = require('./app');
 
-const port = process && process.env && process.env.PORT || undefined || 4000;
+const port = process.env.PORT || 4000;
 const server = http.createServer(app);
 
 function onError(error) {
