@@ -19,7 +19,8 @@ const makeEditUser = ({ usersDb }) => {
       password: user.getPassword(),
       dob: user.getDOB(),
       username: user.getUsername(),
-      modifiedOn: user.getModifiedOn()
+      modifiedOn: user.getModifiedOn(),
+      id
     })
   }
 }

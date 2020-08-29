@@ -11,7 +11,7 @@ beforeAll(() => {
   transactionDb = makeTransactionsDb({ Transaction })
 })
 
-describe('Transactions Db', () => {
+describe.skip('Transactions Db', () => {
   it('adds a transaction', async () => {
     const transaction = makeFakeTransaction()
     const toInsert = await transactionDb.insert(transaction)

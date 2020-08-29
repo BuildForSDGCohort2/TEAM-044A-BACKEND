@@ -1,6 +1,7 @@
 // import { Schema, model } from 'mongoose'
 import moment from 'moment'
-import mongoose from '../../database/index'
+// import mongoose from '../../database/index'
+import mongoose from 'mongoose'
 
 const transactionSchema = new mongoose.Schema({
   firstName: {

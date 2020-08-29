@@ -4,19 +4,22 @@
 /* eslint-disable no-return-await */
 /* eslint-disable no-underscore-dangle */
 import mongoose from 'mongoose'
-// import User from '../../users/model/userModel'
 
 const objectId = mongoose.Types.ObjectId
 
 const makeTransactionsDb = ({ User, Transaction, Escrow }) => {
   async function insert({ ...transactionInfo }) {
-    const userId = transactionInfo.user.id
-    const newTransaction = new Transaction({ ...transactionInfo })
-    await newTransaction.save()
-    const user = await User.findById({ _id: userId })
-    await user.transactions.push(newTransaction)
-    await user.save()
-    return newTransaction
+    try {
+      const userId = transactionInfo.user.id
+      const newTransaction = await new Transaction({ ...transactionInfo })
+      await newTransaction.save()
+      const user = await User.findById({ _id: userId })
+      await user.transactions.push(newTransaction)
+      await user.save()
+      return newTransaction
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   async function update({ id: _id, ...changes }) {

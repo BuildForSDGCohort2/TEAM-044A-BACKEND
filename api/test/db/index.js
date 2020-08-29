@@ -33,20 +33,21 @@ async function dropAllCollections() {
   }
 }
 
-const setupDB = (uri, databaseName) => {
+const setupDB = (databaseName) => {
   // Connect to Mongoose
-  // beforeAll(async () => {
-  //   const url = `mongodb://localhost:27017/${databaseName}`
-  //   await mongoose.connect(url, {
-  //     useNewUrlParser: true,
-  //     useUnifiedTopology: true
-  //   })
-  // })
+  beforeAll(async () => {
+    // const url = `mongodb://DESKTOP-SNA1HQK:27017,DESKTOP-SNA1HQK:27018,DESKTOP-SNA1HQK:27019/${databaseName}`
+    const url = `mongodb://localhost:27017/${databaseName}`
+    await mongoose.connect(url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    })
+  })
 
   // Cleans up database between each test
-  // afterEach(async () => {
-  //   await removeAllCollections()
-  // })
+  afterEach(async () => {
+    await removeAllCollections()
+  })
 
   // Disconnect Mongoose
   afterAll(async () => {
