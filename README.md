@@ -6,8 +6,9 @@
 
 ## Tech Stack
 
-- NodeJS, Express
-- MongoDB,
+- NodeJS
+- Express
+- MongoDB
 - ReactJs
 - Javascript
 
