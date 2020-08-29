@@ -2,14 +2,18 @@ import express from 'express'
 import setupDB from '../database'
 import path from 'path'
 import usersDb from '../users/model'
-import { cronTest } from '../core-payment/use-cases'
 
 const app = express()
 
 // setupDB('mongodb://localhost:27017,localhost:27018,localhost:27019', 'escrow')
+// setupDB(
+//   'mongodb://DESKTOP-SNA1HQK:27017,DESKTOP-SNA1HQK:27018,DESKTOP-SNA1HQK:27019',
+//   'escrow?replicaSet=rs'
+// )
+
 setupDB(
-  'mongodb://DESKTOP-SNA1HQK:27017,DESKTOP-SNA1HQK:27018,DESKTOP-SNA1HQK:27019',
-  'escrow?replicaSet=rs'
+  `mongodb+srv://king:${process.env.DB_PASS}@projects.yhzkf.mongodb.net`,
+  `${process.env.DB_URL}?retryWrites=true&w=majority`
 )
 
 app.use(express.json())
@@ -17,7 +21,7 @@ app.use(express.urlencoded({ extended: true }))
 
 //Initiator
 app.use(async (req, res, next) => {
-  const user = await usersDb.findById({ id: '5f4606f0122cc53160eb0810' })
+  const user = await usersDb.findById({ id: '5f4aa44f16d0172a30a92362' })
   req.user = user
   next()
 })
@@ -29,13 +33,10 @@ app.use(async (req, res, next) => {
 //   next()
 // })
 
-app.get('/', (_, res) => res.json({ msg: 'Hello' }))
+app.get('/', (_, res) => res.json({ msg: 'MoneyGuard is Protectinggg.' }))
 app.get('/:ref', (req, res) => {
-  // res.json({ hello: 'hellooo' })
   res.sendFile(path.join(__dirname, './pay.html'))
 })
 require('../routes')(app)
-
-// cronTest.start()
 
 module.exports = app

@@ -9,7 +9,10 @@
   },
   "scripts": {
     "test": "jest api --testEnvironment=node --forceExit --verbose --watch --detectOpenHandles --runInBand",
-    "dev": "nodemon --exec babel-node ./api/server/server.js"
+    "dev": "nodemon --exec babel-node ./api/server/server.js",
+    "build": "npm run clean && babel src -d dist",
+    "clean": "rimraf dist",
+    "start": "npm run clean && npm run build && cd dist && node ./api/server/server.js"
   },
   "keywords": [
     "Escrow",
@@ -31,6 +34,7 @@
     "mongoose": "5.10.0",
     "nodemailer": "6.4.11",
     "request": "2.88.2",
+    "rimraf": "3.0.2",
     "semver": "7.3.2",
     "uuid": "8.3.0"
   },
