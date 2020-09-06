@@ -6,6 +6,7 @@ import makeDeliveryComplete from './deliveryComplete'
 import makeConfirmTransaction from './confirmTransaction'
 import makeInProgress from './inProgress'
 import makeRejectTransactionRequest from './rejectTransactionRequest'
+import publisher from '../../pubsub/publisher'
 import {
   sendAcceptanceEmail,
   sendRejectionMail,
@@ -17,6 +18,7 @@ import {
 } from '../../mail'
 import transactionDb from '../models'
 import usersDb from '../../users/model'
+import DisbursementAPI from '../../pubsub/events'
 
 const createTransaction = makeCreateTransaction({
   transactionDb,
@@ -56,7 +58,9 @@ const deliveryComplete = makeDeliveryComplete({
 // buyer/initiator confirms the delivery of shipped product/service
 const confirmTransaction = makeConfirmTransaction({
   transactionDb,
-  sendConfirmEmail
+  sendConfirmEmail,
+  DisbursementAPI,
+  publisher
 })
 
 // marks transaction status to be in progress

@@ -14,8 +14,8 @@ const makeInProgress = ({ transactionDb, sendInProgressEmail, usersDb }) => {
 
     // map through the returned documentss
     const userArr = foundUser
-      .map((user) => user.email)
-      .filter((user) => user !== null)
+      .map((el) => el.email)
+      .filter((person) => person !== null)
 
     const transactionArr = foundTransaction
       .map((item) => item.email)

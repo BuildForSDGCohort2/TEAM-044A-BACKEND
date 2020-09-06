@@ -31,4 +31,4 @@ const inProgressEmailTemplate = (receiver, sender, transaction, url) => {
   return { from, to, username, name, subject, html }
 }
 
-export { inProgressEmailTemplate }
+export default inProgressEmailTemplate

@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 export default function buildMakeEscrowDetails({ uuidv4 }) {
   return function makeEscrow({ totalAmount, reference, buyerId } = {}) {
     if (!totalAmount || typeof totalAmount !== 'number') {

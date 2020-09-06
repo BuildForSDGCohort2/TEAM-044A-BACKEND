@@ -31,4 +31,4 @@ const deliveryRejectionTemplate = (receiver, sender, transaction, url) => {
   return { from, to, username, name, subject, html }
 }
 
-export { deliveryRejectionTemplate }
+export default deliveryRejectionTemplate

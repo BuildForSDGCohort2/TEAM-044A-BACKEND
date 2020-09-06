@@ -1,12 +1,13 @@
 /* eslint-disable no-return-await */
 const makeConfirmEmail = ({
   transactionDb,
+  usersDb,
   sendMail,
   dashboardURL,
   confirmEmailTemplate
 }) => {
-  return async function sendConfirmEmail({ ref, user }) {
-    const sender = user
+  return async function sendConfirmEmail({ ref, initiator }) {
+    const sender = await usersDb.findById({ id: initiator })
     const receiver = await transactionDb.findByRef({ ref })
     const transactionRef = receiver.reference
     const {

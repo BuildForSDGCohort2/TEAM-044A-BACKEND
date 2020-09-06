@@ -1,26 +1,27 @@
 import express from 'express'
-import setupDB from '../database'
 import path from 'path'
+import setupDB from '../database'
 import usersDb from '../users/model'
+
 const app = express()
 
 // setupDB('mongodb://localhost:27017,localhost:27018,localhost:27019', 'escrow')
-// setupDB(
-//   'mongodb://DESKTOP-SNA1HQK:27017,DESKTOP-SNA1HQK:27018,DESKTOP-SNA1HQK:27019',
-//   'escrow?replicaSet=rs'
-// )
-
 setupDB(
-  `mongodb+srv://king:${process.env.DB_PASS}@projects.yhzkf.mongodb.net`,
-  `${process.env.DB_URL}?retryWrites=true&w=majority`
+  'mongodb://DESKTOP-SNA1HQK:27017,DESKTOP-SNA1HQK:27018,DESKTOP-SNA1HQK:27019',
+  'escrow?replicaSet=rs'
 )
+
+// setupDB(
+//   `mongodb+srv://king:${process.env.DB_PASS}@projects.yhzkf.mongodb.net`,
+//   `${process.env.DB_URL}?retryWrites=true&w=majority`
+// )
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-//Initiator
+// Initiator
 app.use(async (req, res, next) => {
-  const user = await usersDb.findById({ id: '5f4aa44f16d0172a30a92362' })
+  const user = await usersDb.findById({ id: '5f4fd5b0d9f81a072c337b48' })
   req.user = user
   next()
 })

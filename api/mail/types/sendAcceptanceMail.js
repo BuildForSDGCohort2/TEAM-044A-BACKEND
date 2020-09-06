@@ -30,4 +30,4 @@ const acceptanceEmailTemplate = (receiver, user, transaction, url) => {
   return { from, to, username, name, subject, html }
 }
 
-export { acceptanceEmailTemplate }
+export default acceptanceEmailTemplate
