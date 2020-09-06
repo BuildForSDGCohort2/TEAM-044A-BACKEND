@@ -30,4 +30,4 @@ const transactionEmailTemplate = (receiver, sender, transaction, url) => {
   return { from, to, username, name, subject, html }
 }
 
-export { transactionEmailTemplate }
+export default transactionEmailTemplate

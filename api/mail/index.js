@@ -90,7 +90,8 @@ const sendConfirmEmail = makeConfirmEmail({
   transactionDb,
   sendMail,
   dashboardURL,
-  confirmEmailTemplate
+  confirmEmailTemplate,
+  usersDb
 })
 
 // sends initial transaction mail to accept or decline

@@ -16,14 +16,14 @@ export function config(router) {
     .get('/', makeExpressCallback(getTransactions))
     .get('/:ref', makeExpressCallback(getTransactions))
     .post('/', makeExpressCallback(postTransaction))
-    .post(
+    .patch(
       '/accept-transaction/:ref',
       makeExpressCallback(postAcceptTransaction)
     )
-    .post('/reject-delivery/:ref', makeExpressCallback(postRejectDelivery))
-    .post('/reject/:ref', makeExpressCallback(rejectTransactions)) // reject initial transaction request
-    .post('/deliver/:ref', makeExpressCallback(postDeliverTransaction)) // sets transaction status to deliver
-    .post('/confirm/:ref', makeExpressCallback(postConfirmTransaction))
-    .post('/progress/:ref', makeExpressCallback(postInProgress)) // sets transaction status to in progress
+    .patch('/reject-delivery/:ref', makeExpressCallback(postRejectDelivery))
+    .patch('/reject/:ref', makeExpressCallback(rejectTransactions)) // reject initial transaction request
+    .patch('/deliver/:ref', makeExpressCallback(postDeliverTransaction)) // sets transaction status to deliver
+    .patch('/confirm/:ref', makeExpressCallback(postConfirmTransaction))
+    .patch('/progress/:ref', makeExpressCallback(postInProgress)) // sets transaction status to in progress
   return router
 }

@@ -1,9 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import {
-  makeHttpError,
-  onSuccess,
-  apiResponse
-} from '../../helpers/http-response'
+import { makeHttpError, apiResponse } from '../../helpers/http-response'
 
 const makePostTransaction = ({ createTransaction }) => {
   return async function postTransaction(httpRequest) {

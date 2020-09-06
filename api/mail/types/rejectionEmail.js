@@ -31,4 +31,4 @@ const rejectionEmailTemplate = (receiver, sender, transaction, url) => {
   return { from, to, username, name, subject, html }
 }
 
-export { rejectionEmailTemplate }
+export default rejectionEmailTemplate

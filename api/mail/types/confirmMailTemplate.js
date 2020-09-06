@@ -13,7 +13,7 @@ const confirmEmailTemplate = (receiver, sender, transaction, url) => {
       <tr>
         <th>Title</th>
         <th>Description</th>
-        <th>Amount</th>
+        <th>Amount</th> 
         <th>Status</th>
       </tr> 
       <tr>
@@ -30,4 +30,4 @@ const confirmEmailTemplate = (receiver, sender, transaction, url) => {
   return { from, to, username, name, subject, html }
 }
 
-export { confirmEmailTemplate }
+export default confirmEmailTemplate
