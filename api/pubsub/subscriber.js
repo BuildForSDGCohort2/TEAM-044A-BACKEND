@@ -2,8 +2,9 @@
 import amqp from 'amqplib/callback_api'
 import { disburse } from './events'
 
+const url = process.env.CLOUDAMQP_URL || 'amqp://localhost'
 export default function subscriber() {
-  amqp.connect('amqp://localhost', (err, conn) => {
+  amqp.connect(url, (err, conn) => {
     conn.createChannel((error, channel) => {
       if (error) {
         console.log(`An error occured ${error}`)
