@@ -2,7 +2,8 @@
 import amqp from 'amqplib/callback_api'
 
 let ch = null
-amqp.connect('amqp://localhost', (err, conn) => {
+const url = process.env.CLOUDAMQP_URL || 'amqp://localhost'
+amqp.connect(url, (err, conn) => {
   conn.createChannel((err, channel) => {
     if (err) {
       throw err
