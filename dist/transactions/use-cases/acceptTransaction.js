@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable prefer-const */
 const makeAcceptTransaction = ({
   transactionDb,
   sendAcceptanceEmail
@@ -22,7 +22,7 @@ const makeAcceptTransaction = ({
       initiator
     } = currentTransaction;
     transactionStatus = 'Transaction Accepted - Not funded';
-    const [updated, email] = await Promise.all([transactionDb.update({
+    const [updated] = await Promise.all([transactionDb.update({
       id: _id,
       transactionStatus
     }), sendAcceptanceEmail({

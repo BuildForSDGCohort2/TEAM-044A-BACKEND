@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-/* eslint-disable no-return-await */
+/* eslint-disable no-useless-catch */
 
 /* eslint-disable consistent-return */
 const makeVerifyEmail = ({
@@ -14,16 +14,20 @@ const makeVerifyEmail = ({
 }) => {
   return async function verifyEmail({ ...details
   } = {}) {
-    const toDecode = decodeToken(details.token);
-    let {
-      emailVerified,
-      id
-    } = toDecode;
-    emailVerified = true;
-    return await transactionDb.update({
-      emailVerified,
-      id
-    });
+    try {
+      const toDecode = decodeToken(details.token);
+      let {
+        emailVerified,
+        id
+      } = toDecode;
+      emailVerified = true;
+      return await transactionDb.update({
+        emailVerified,
+        id
+      });
+    } catch (error) {
+      throw error;
+    }
   };
 };
 

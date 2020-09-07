@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.disputeMailTemplate = void 0;
+exports.default = void 0;
 
 const disputeMailTemplate = (receiver, sender, transaction, url) => {
   const from = 'kingetiosasere@gmail.com';
@@ -45,4 +45,5 @@ const disputeMailTemplate = (receiver, sender, transaction, url) => {
   };
 };
 
-exports.disputeMailTemplate = disputeMailTemplate;
+var _default = disputeMailTemplate;
+exports.default = _default;

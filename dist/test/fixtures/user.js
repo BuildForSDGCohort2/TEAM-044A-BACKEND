@@ -9,10 +9,6 @@ var _faker = _interopRequireDefault(require("faker"));
 
 var _mongoose = _interopRequireDefault(require("mongoose"));
 
-var _moment = _interopRequireDefault(require("moment"));
-
-var _uuid = require("uuid");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const Id = Object.freeze({

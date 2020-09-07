@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.makeEscrow = exports.makePayment = void 0;
 
+var _uuid = require("uuid");
+
 var _paymentFactory = _interopRequireDefault(require("./paymentFactory"));
 
 var _escrowFactory = _interopRequireDefault(require("./escrowFactory"));
-
-var _uuid = require("uuid");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

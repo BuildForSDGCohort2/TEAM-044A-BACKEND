@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.transactionEmailTemplate = void 0;
+exports.default = void 0;
 
 const transactionEmailTemplate = (receiver, sender, transaction, url) => {
   const from = 'kingetiosasere@gmail.com';
@@ -44,4 +44,5 @@ const transactionEmailTemplate = (receiver, sender, transaction, url) => {
   };
 };
 
-exports.transactionEmailTemplate = transactionEmailTemplate;
+var _default = transactionEmailTemplate;
+exports.default = _default;

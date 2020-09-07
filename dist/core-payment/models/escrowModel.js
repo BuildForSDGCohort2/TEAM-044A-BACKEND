@@ -47,6 +47,10 @@ const escrowSchema = new _mongoose.default.Schema({
   updatedAt: {
     type: Date,
     default: Date.now()
+  },
+  isCustomerPaid: {
+    type: Boolean,
+    default: false
   }
 });
 var _default = escrowSchema;

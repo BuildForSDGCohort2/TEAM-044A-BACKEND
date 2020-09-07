@@ -5,9 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _publisher = _interopRequireDefault(require("../../pubsub/publisher"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 const makeConfirmTransaction = ({
   transactionDb,
-  sendConfirmEmail
+  sendConfirmEmail // DisbursementAPI
+
 }) => {
   return async function confirmTransation({
     ref
@@ -16,19 +21,26 @@ const makeConfirmTransaction = ({
       ref
     });
     let {
-      transactionStatus,
+      transactionStatus
+    } = currentTransaction;
+    const {
       _id,
       initiator
     } = currentTransaction;
     transactionStatus = 'Buyer confirmed Order';
-    const [updated, email] = await Promise.all([transactionDb.update({
+    const [updated] = await Promise.all([transactionDb.update({
       id: _id,
       transactionStatus
     }), sendConfirmEmail({
       ref,
       initiator
     })]);
-    return updated; // trigger pay of
+    const exchange = 'escrow';
+    const routingKey = 'disbursement';
+    await (0, _publisher.default)(exchange, routingKey, _id.toString()); // const fund = new DisbursementAPI()
+    // fund.on('transferMoney', () => {}).releaseFunds({ transactionID: _id })
+
+    return updated;
   };
 };
 

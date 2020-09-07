@@ -18,17 +18,16 @@ const automateFundsTransfer = ({
   escrowDb,
   transactionDb,
   usersDb,
-  moment,
-  sendInspectionPeriodEmail
+  moment
 }) => {
   return new CronJob('* * * * * *', async () => {
     try {
-      console.log('I am starting this.');
       const foundEscrowDoc = await escrowDb.findAll();
       const referenceNumbers = foundEscrowDoc.map(acct => acct.reference).filter(item => item !== null);
       const sellerIds = foundEscrowDoc.map(acct => acct.sellerInfo.sellerId).filter(item => item !== null);
       const amountToTransfer = foundEscrowDoc.map(el => el.amount / 100).filter(item => item !== null);
       sellerIds.forEach(async id => {
+        // eslint-disable-next-line no-useless-catch
         try {
           const foundSeller = await usersDb.findById({
             id
@@ -48,7 +47,6 @@ const automateFundsTransfer = ({
                 const cloned = inspectionPeriod.clone().add(1, 'minutes').valueOf();
 
                 if (new Date(cloned).getTime() === new Date(Date.now()).getTime()) {
-                  console.log('Yes!!');
                   amountToTransfer.forEach(async money => {
                     await escrowDb.handleMoneyTransfer({
                       referenceId: foundRef.reference,
@@ -61,11 +59,10 @@ const automateFundsTransfer = ({
             }
           });
         } catch (error) {
-          console.error(error);
+          throw error;
         }
       });
-    } catch (error) {
-      console.error(error);
+    } catch (error) {// throw error
     }
   });
 };

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.inProgressEmailTemplate = void 0;
+exports.default = void 0;
 
 const inProgressEmailTemplate = (receiver, sender, transaction, url) => {
   const from = 'kingetiosasere@gmail.com';
@@ -45,4 +45,5 @@ const inProgressEmailTemplate = (receiver, sender, transaction, url) => {
   };
 };
 
-exports.inProgressEmailTemplate = inProgressEmailTemplate;
+var _default = inProgressEmailTemplate;
+exports.default = _default;

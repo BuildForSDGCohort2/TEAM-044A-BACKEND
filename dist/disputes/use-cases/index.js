@@ -15,8 +15,6 @@ var _models = _interopRequireDefault(require("../models"));
 
 var _models2 = _interopRequireDefault(require("../../transactions/models"));
 
-var _model = _interopRequireDefault(require("../../users/model"));
-
 var _mail = require("../../mail");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

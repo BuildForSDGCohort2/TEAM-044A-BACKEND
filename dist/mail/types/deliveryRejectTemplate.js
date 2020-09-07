@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deliveryRejectionTemplate = void 0;
+exports.default = void 0;
 
 const deliveryRejectionTemplate = (receiver, sender, transaction, url) => {
   const from = 'kingetiosasere@gmail.com';
@@ -45,4 +45,5 @@ const deliveryRejectionTemplate = (receiver, sender, transaction, url) => {
   };
 };
 
-exports.deliveryRejectionTemplate = deliveryRejectionTemplate;
+var _default = deliveryRejectionTemplate;
+exports.default = _default;
