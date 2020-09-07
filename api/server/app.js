@@ -13,10 +13,7 @@ const app = express()
 //   'escrow?replicaSet=rs'
 // )
 
-setupDB(
-  `mongodb+srv://king:${process.env.DB_PASS}@projects.yhzkf.mongodb.net`,
-  `${process.env.DB_URL}?retryWrites=true&w=majority`
-)
+setupDB()
 subscriber()
 
 app.use(cors())
