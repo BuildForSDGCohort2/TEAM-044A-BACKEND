@@ -11,9 +11,10 @@ const makeListDisputes = ({
   return async function listDisputes({
     id
   } = {}) {
-    return id ? await disputeDb.findById({
+    const found = id ? await disputeDb.findById({
       id
     }) : await disputeDb.findAll();
+    return found;
   };
 };
 

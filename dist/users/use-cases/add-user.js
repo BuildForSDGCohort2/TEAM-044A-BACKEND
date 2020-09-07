@@ -7,16 +7,22 @@ exports.default = void 0;
 
 var _factory = _interopRequireDefault(require("../factory"));
 
+var _errors = require("../../helpers/errors");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const makeAddUser = ({
   usersDb
 }) => {
   return async function addUser(userInfo) {
-    const user = (0, _factory.default)(userInfo); // const exists = await usersDb.findByEmail({ email: user.getEmail() })
-    // if (exists) {
-    //   throw new Error('Email address is registered already.')
-    // }
+    const user = (0, _factory.default)(userInfo);
+    const exists = await usersDb.findByEmail({
+      email: user.getEmail()
+    });
+
+    if (exists) {
+      throw new _errors.UniqueConstraintError('Email address');
+    }
 
     const userSource = user.getSource();
     return usersDb.insert({

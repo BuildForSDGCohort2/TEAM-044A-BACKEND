@@ -3,71 +3,86 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _acceptanceMail = require("./acceptanceMail");
-
-Object.keys(_acceptanceMail).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _acceptanceMail[key];
-    }
-  });
+var _exportNames = {
+  transactionEmailTemplate: true,
+  rejectionEmailTemplate: true,
+  acceptanceEmailTemplate: true,
+  deliveryEmailTemplate: true,
+  confirmEmailTemplate: true,
+  inProgressEmailTemplate: true,
+  deliveryRejectionTemplate: true,
+  disputeMailTemplate: true
+};
+Object.defineProperty(exports, "transactionEmailTemplate", {
+  enumerable: true,
+  get: function () {
+    return _acceptanceMail.default;
+  }
+});
+Object.defineProperty(exports, "rejectionEmailTemplate", {
+  enumerable: true,
+  get: function () {
+    return _rejectionEmail.default;
+  }
+});
+Object.defineProperty(exports, "acceptanceEmailTemplate", {
+  enumerable: true,
+  get: function () {
+    return _sendAcceptanceMail.default;
+  }
+});
+Object.defineProperty(exports, "deliveryEmailTemplate", {
+  enumerable: true,
+  get: function () {
+    return _deliveryTemplate.default;
+  }
+});
+Object.defineProperty(exports, "confirmEmailTemplate", {
+  enumerable: true,
+  get: function () {
+    return _confirmMailTemplate.default;
+  }
+});
+Object.defineProperty(exports, "inProgressEmailTemplate", {
+  enumerable: true,
+  get: function () {
+    return _inProgressTemplate.default;
+  }
+});
+Object.defineProperty(exports, "deliveryRejectionTemplate", {
+  enumerable: true,
+  get: function () {
+    return _deliveryRejectTemplate.default;
+  }
+});
+Object.defineProperty(exports, "disputeMailTemplate", {
+  enumerable: true,
+  get: function () {
+    return _disputeMailTemplate.default;
+  }
 });
 
-var _rejectionEmail = require("./rejectionEmail");
+var _acceptanceMail = _interopRequireDefault(require("./acceptanceMail"));
 
-Object.keys(_rejectionEmail).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _rejectionEmail[key];
-    }
-  });
-});
+var _rejectionEmail = _interopRequireDefault(require("./rejectionEmail"));
 
-var _sendAcceptanceMail = require("./sendAcceptanceMail");
+var _sendAcceptanceMail = _interopRequireDefault(require("./sendAcceptanceMail"));
 
-Object.keys(_sendAcceptanceMail).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _sendAcceptanceMail[key];
-    }
-  });
-});
+var _deliveryTemplate = _interopRequireDefault(require("./deliveryTemplate"));
 
-var _deliveryTemplate = require("./deliveryTemplate");
+var _confirmMailTemplate = _interopRequireDefault(require("./confirmMailTemplate"));
 
-Object.keys(_deliveryTemplate).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _deliveryTemplate[key];
-    }
-  });
-});
+var _inProgressTemplate = _interopRequireDefault(require("./inProgressTemplate"));
 
-var _confirmMailTemplate = require("./confirmMailTemplate");
+var _deliveryRejectTemplate = _interopRequireDefault(require("./deliveryRejectTemplate"));
 
-Object.keys(_confirmMailTemplate).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _confirmMailTemplate[key];
-    }
-  });
-});
+var _disputeMailTemplate = _interopRequireDefault(require("./disputeMailTemplate"));
 
 var _transactionMail = require("./transactionMail");
 
 Object.keys(_transactionMail).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
@@ -76,38 +91,4 @@ Object.keys(_transactionMail).forEach(function (key) {
   });
 });
 
-var _inProgressTemplate = require("./inProgressTemplate");
-
-Object.keys(_inProgressTemplate).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _inProgressTemplate[key];
-    }
-  });
-});
-
-var _deliveryRejectTemplate = require("./deliveryRejectTemplate");
-
-Object.keys(_deliveryRejectTemplate).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _deliveryRejectTemplate[key];
-    }
-  });
-});
-
-var _disputeMailTemplate = require("./disputeMailTemplate");
-
-Object.keys(_disputeMailTemplate).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _disputeMailTemplate[key];
-    }
-  });
-});
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

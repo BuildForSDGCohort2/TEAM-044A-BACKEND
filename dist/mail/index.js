@@ -103,7 +103,8 @@ const sendConfirmEmail = (0, _sendConfirmTransaction.default)({
   transactionDb: _models.default,
   sendMail: _sendMail.default,
   dashboardURL: _dashboard.default,
-  confirmEmailTemplate: _index.confirmEmailTemplate
+  confirmEmailTemplate: _index.confirmEmailTemplate,
+  usersDb: _model.default
 }); // sends initial transaction mail to accept or decline
 
 exports.sendConfirmEmail = sendConfirmEmail;

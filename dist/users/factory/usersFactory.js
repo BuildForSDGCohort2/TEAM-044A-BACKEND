@@ -5,6 +5,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _requireParam = _interopRequireDefault(require("../../helpers/requireParam"));
+
+var _errors = require("../../helpers/errors");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 const buildMakeUserFactory = ({
   upperFirst,
   isValidEmail,
@@ -12,51 +18,35 @@ const buildMakeUserFactory = ({
   makeSource
 }) => {
   return function makeUser({
-    firstName,
-    lastName,
-    email,
-    phoneNumber,
+    firstName = (0, _requireParam.default)('First name'),
+    lastName = (0, _requireParam.default)('Last name'),
+    email = (0, _requireParam.default)('Email'),
+    phoneNumber = (0, _requireParam.default)('Phone number'),
     source,
     dob,
-    username,
-    password,
+    username = (0, _requireParam.default)('Username'),
+    password = (0, _requireParam.default)('Password'),
     createdOn = Date.now(),
     modifiedOn = Date.now()
   } = {}) {
-    if (!firstName) {
-      throw new Error('First name is required.');
+    if (firstName.length < 3) {
+      throw new _errors.InvalidPropertyError('Name cannot be less than 3 characters.');
     }
 
-    if (!lastName) {
-      throw new Error('Last name is required.');
-    }
-
-    if (!email) {
-      throw new Error('Email address is required.');
+    if (lastName.length < 3) {
+      throw new _errors.InvalidPropertyError('Name cannot be less than 3 characters.');
     }
 
     if (!isValidEmail(email)) {
-      throw new Error('Please enter a valid email address.');
-    }
-
-    if (!phoneNumber) {
-      throw new Error('Please enter a valid phone number.');
+      throw new _errors.InvalidPropertyError('Please enter a valid email address.');
     }
 
     if (!source) {
-      throw new Error('User must have a valid source.');
-    }
-
-    if (!username) {
-      throw new Error('User must have a valid username.');
-    }
-
-    if (!password) {
-      throw new Error('Please enter a valid password.');
+      throw new _errors.InvalidPropertyError('User must have a valid source.');
     }
 
     if (!isValidPassword(password)) {
-      throw new Error('Password must be at least 8 characters long and must contain at least one Uppercase character and one special sign.');
+      throw new _errors.InvalidPropertyError('Password must be at least 8 characters long and must contain at least one Uppercase character, one special sign and a number.');
     }
 
     const validSource = makeSource(source);

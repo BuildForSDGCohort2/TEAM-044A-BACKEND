@@ -21,11 +21,15 @@ var _inProgress = _interopRequireDefault(require("./inProgress"));
 
 var _rejectTransactionRequest = _interopRequireDefault(require("./rejectTransactionRequest"));
 
+var _publisher = _interopRequireDefault(require("../../pubsub/publisher"));
+
 var _mail = require("../../mail");
 
 var _models = _interopRequireDefault(require("../models"));
 
 var _model = _interopRequireDefault(require("../../users/model"));
+
+var _events = _interopRequireDefault(require("../../pubsub/events"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -69,7 +73,9 @@ const deliveryComplete = (0, _deliveryComplete.default)({
 exports.deliveryComplete = deliveryComplete;
 const confirmTransaction = (0, _confirmTransaction.default)({
   transactionDb: _models.default,
-  sendConfirmEmail: _mail.sendConfirmEmail
+  sendConfirmEmail: _mail.sendConfirmEmail,
+  DisbursementAPI: _events.default,
+  publisher: _publisher.default
 }); // marks transaction status to be in progress
 
 exports.confirmTransaction = confirmTransaction;

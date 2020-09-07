@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+/* eslint-disable prefer-const */
+
 /**
  * @function makeRejectTransactionRequest
  * POST - It rejects the current transaction request.

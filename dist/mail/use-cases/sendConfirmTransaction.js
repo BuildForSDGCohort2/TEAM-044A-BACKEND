@@ -8,15 +8,18 @@ exports.default = void 0;
 /* eslint-disable no-return-await */
 const makeConfirmEmail = ({
   transactionDb,
+  usersDb,
   sendMail,
   dashboardURL,
   confirmEmailTemplate
 }) => {
   return async function sendConfirmEmail({
     ref,
-    user
+    initiator
   }) {
-    const sender = user;
+    const sender = await usersDb.findById({
+      id: initiator
+    });
     const receiver = await transactionDb.findByRef({
       ref
     });

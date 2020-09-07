@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = buildMakeEscrowDetails;
 
+/* eslint-disable no-return-assign */
 function buildMakeEscrowDetails({
   uuidv4
 }) {
