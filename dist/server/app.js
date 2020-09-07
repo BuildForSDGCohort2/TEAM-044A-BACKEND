@@ -15,12 +15,12 @@ var _subscriber = _interopRequireDefault(require("../pubsub/subscriber"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const app = (0, _express.default)(); // setupDB('mongodb://localhost:27017,localhost:27018,localhost:27019', 'escrow')
-
-(0, _database.default)('mongodb://DESKTOP-SNA1HQK:27017,DESKTOP-SNA1HQK:27018,DESKTOP-SNA1HQK:27019', 'escrow?replicaSet=rs'); // setupDB(
-//   `mongodb+srv://king:${process.env.DB_PASS}@projects.yhzkf.mongodb.net`,
-//   `${process.env.DB_URL}?retryWrites=true&w=majority`
+// setupDB(
+//   'mongodb://DESKTOP-SNA1HQK:27017,DESKTOP-SNA1HQK:27018,DESKTOP-SNA1HQK:27019',
+//   'escrow?replicaSet=rs'
 // )
 
+(0, _database.default)(`mongodb+srv://king:${process.env.DB_PASS}@projects.yhzkf.mongodb.net`, `${process.env.DB_URL}?retryWrites=true&w=majority`);
 (0, _subscriber.default)();
 app.use((0, _cors.default)());
 app.use(_express.default.json());

@@ -8,15 +8,15 @@ import subscriber from '../pubsub/subscriber'
 const app = express()
 
 // setupDB('mongodb://localhost:27017,localhost:27018,localhost:27019', 'escrow')
-setupDB(
-  'mongodb://DESKTOP-SNA1HQK:27017,DESKTOP-SNA1HQK:27018,DESKTOP-SNA1HQK:27019',
-  'escrow?replicaSet=rs'
-)
-
 // setupDB(
-//   `mongodb+srv://king:${process.env.DB_PASS}@projects.yhzkf.mongodb.net`,
-//   `${process.env.DB_URL}?retryWrites=true&w=majority`
+//   'mongodb://DESKTOP-SNA1HQK:27017,DESKTOP-SNA1HQK:27018,DESKTOP-SNA1HQK:27019',
+//   'escrow?replicaSet=rs'
 // )
+
+setupDB(
+  `mongodb+srv://king:${process.env.DB_PASS}@projects.yhzkf.mongodb.net`,
+  `${process.env.DB_URL}?retryWrites=true&w=majority`
+)
 subscriber()
 
 app.use(cors())
