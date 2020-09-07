@@ -1,28 +1,20 @@
-import { makeHttpError, apiResponse } from '../../helpers/http-response'
+import { apiResponse } from '../../helpers/http-response'
+import tryCatchHandler from '../../helpers/try-catch-handler'
 
 const makePostDeliveryTransaction = ({ deliveryComplete }) => {
-  return async function postDeliverTransaction(httpRequest) {
-    try {
-      const { user } = httpRequest
-      console.log('USER', user)
-      const { ref } = httpRequest.pathParams
+  const postDeliverTransaction = tryCatchHandler(async (httpRequest) => {
+    const { user } = httpRequest
+    const { ref } = httpRequest.pathParams
 
-      await deliveryComplete({ user, ref })
-      return apiResponse({
-        status: true,
-        message: 'Transaction Delivered',
-        data: null,
-        statusCode: 200
-      })
-    } catch (error) {
-      return makeHttpError({
-        statusCode: error.statusCode || 400,
-        title: error.name,
-        errorMessage: error.message,
-        stack: error.stack
-      })
-    }
-  }
+    await deliveryComplete({ user, ref })
+    return apiResponse({
+      status: true,
+      message: 'Transaction Delivered',
+      data: null,
+      statusCode: 200
+    })
+  })
+  return postDeliverTransaction
 }
 
 export default makePostDeliveryTransaction

@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /**
  * Customer Reject Transaction use-case
  * @function makeRejectDeliveredTransaction

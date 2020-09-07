@@ -1,3 +1,6 @@
+import requiredParam from '../../helpers/requireParam'
+import { InvalidPropertyError } from '../../helpers/errors'
+
 const buildMakeUserFactory = ({
   upperFirst,
   isValidEmail,
@@ -5,43 +8,31 @@ const buildMakeUserFactory = ({
   makeSource
 }) => {
   return function makeUser({
-    firstName,
-    lastName,
-    email,
-    phoneNumber,
+    firstName = requiredParam('First name'),
+    lastName = requiredParam('Last name'),
+    email = requiredParam('Email'),
+    phoneNumber = requiredParam('Phone number'),
     source,
     dob,
-    username,
-    password,
+    username = requiredParam('Username'),
+    password = requiredParam('Password'),
     createdOn = Date.now(),
     modifiedOn = Date.now()
   } = {}) {
-    if (!firstName) {
-      throw new Error('First name is required.')
+    if (firstName.length < 3) {
+      throw new InvalidPropertyError('Name cannot be less than 3 characters.')
     }
-    if (!lastName) {
-      throw new Error('Last name is required.')
-    }
-    if (!email) {
-      throw new Error('Email address is required.')
+    if (lastName.length < 3) {
+      throw new InvalidPropertyError('Name cannot be less than 3 characters.')
     }
     if (!isValidEmail(email)) {
-      throw new Error('Please enter a valid email address.')
-    }
-    if (!phoneNumber) {
-      throw new Error('Please enter a valid phone number.')
+      throw new InvalidPropertyError('Please enter a valid email address.')
     }
     if (!source) {
-      throw new Error('User must have a valid source.')
-    }
-    if (!username) {
-      throw new Error('User must have a valid username.')
-    }
-    if (!password) {
-      throw new Error('Please enter a valid password.')
+      throw new InvalidPropertyError('User must have a valid source.')
     }
     if (!isValidPassword(password)) {
-      throw new Error(
+      throw new InvalidPropertyError(
         'Password must be at least 8 characters long and must contain at least one Uppercase character, one special sign and a number.'
       )
     }

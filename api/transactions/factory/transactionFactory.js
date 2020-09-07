@@ -1,5 +1,8 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
+import requiredParam from '../../helpers/requireParam'
+import { InvalidPropertyError } from '../../helpers/errors'
+
 const buildMakeTransactionFactory = ({
   makeSource,
   isValidAmount,
@@ -9,56 +12,23 @@ const buildMakeTransactionFactory = ({
   moment
 }) => {
   return function makeTransaction({
-    firstName,
-    lastName,
-    phoneNumber,
-    email,
-    transactionTitle,
-    transactionDesc,
-    currency,
-    inspectionPeriod,
-    dueDate,
-    source,
-    amount
+    firstName = requiredParam('First name'),
+    lastName = requiredParam('Last name'),
+    phoneNumber = requiredParam('Phone number'),
+    email = requiredParam('Email'),
+    transactionTitle = requiredParam('Transaction Title'),
+    transactionDesc = requiredParam('Transaction Description'),
+    currency = requiredParam('Currency'),
+    inspectionPeriod = requiredParam('Inspection Period'),
+    dueDate = requiredParam('Due date'),
+    source = requiredParam('Source'),
+    amount = requiredParam('Amount')
   } = {}) {
-    if (!firstName) {
-      throw new Error("Receiver's First name is required.")
-    }
-    if (!lastName) {
-      throw new Error("Receiver's Last name is required.")
-    }
-    if (!phoneNumber) {
-      throw new Error("Receiver's Phone number is required.")
-    }
-    if (!email) {
-      throw new Error("Receiver's Email is required.")
-    }
     if (!isValidEmail(email)) {
-      throw new Error('Please enter a valid email.')
-    }
-    if (!transactionTitle) {
-      throw new Error('Transaction title is required.')
-    }
-    if (!transactionDesc) {
-      throw new Error('You must provide a transaction description')
-    }
-    if (!currency) {
-      throw new Error('Please enter currency.')
-    }
-    if (!inspectionPeriod) {
-      throw new Error('Please specify the inspection period.')
-    }
-    if (!dueDate) {
-      throw new Error('Please specify a due date.')
-    }
-    if (!source) {
-      throw new Error('Buyer must have a valid source.')
-    }
-    if (!amount) {
-      throw new Error('Please enter the amount to be transferred.')
+      throw new InvalidPropertyError('Email is invalid')
     }
     if (!isValidAmount(amount)) {
-      throw new Error('Please enter a valid amount')
+      throw new InvalidPropertyError('Amount is invalid')
     }
 
     let reference

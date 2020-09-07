@@ -1,13 +1,6 @@
+/* eslint-disable prefer-const */
 const makeInProgress = ({ transactionDb, sendInProgressEmail, usersDb }) => {
   return async function inProgress({ user, ref }) {
-    /**
-     * In order to diffrentiate who's delivering a product or service,
-     * We loop through the transasctionsDb and UsersDb, if we find an email that
-     * match from both documents, then we know that person is the recipient.
-     * The found user can go ahead and make a POST request to state that the product is in transition
-     * The status is changed to In- Progress
-     */
-
     const { transactions } = user
     const foundUser = await usersDb.findAll()
     const foundTransaction = await transactionDb.findAll()
@@ -34,7 +27,7 @@ const makeInProgress = ({ transactionDb, sendInProgressEmail, usersDb }) => {
               })
               let { transactionStatus, _id, initiator } = currentTransaction
               transactionStatus = 'In Progress'
-              const [updated, email] = await Promise.all([
+              const [updated] = await Promise.all([
                 transactionDb.update({ id: _id, transactionStatus }),
                 sendInProgressEmail({ ref, initiator })
               ])
