@@ -1,7 +1,9 @@
 import express from 'express'
+import cors from 'cors'
 import path from 'path'
 import setupDB from '../database'
 import usersDb from '../users/model'
+import subscriber from '../pubsub/subscriber'
 
 const app = express()
 
@@ -15,7 +17,9 @@ setupDB(
 //   `mongodb+srv://king:${process.env.DB_PASS}@projects.yhzkf.mongodb.net`,
 //   `${process.env.DB_URL}?retryWrites=true&w=majority`
 // )
+subscriber()
 
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -37,6 +41,7 @@ app.get('/', (_, res) => res.json({ msg: 'MoneyGuard is Protectinggg.' }))
 app.get('/:ref', (req, res) => {
   res.sendFile(path.join(__dirname, './pay.html'))
 })
+
 require('../routes')(app)
 
 module.exports = app

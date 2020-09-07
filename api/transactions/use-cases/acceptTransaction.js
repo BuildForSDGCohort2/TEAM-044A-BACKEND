@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable prefer-const */
 
 const makeAcceptTransaction = ({ transactionDb, sendAcceptanceEmail }) => {
   return async function acceptTransaction({ ref } = {}) {

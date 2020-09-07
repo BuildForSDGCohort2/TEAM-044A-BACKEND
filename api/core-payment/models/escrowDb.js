@@ -71,8 +71,8 @@ const makeEscrowDb = ({ Escrow, User, Transaction }) => {
     }
   }
 
-  async function findEscrow({ transactionID }) {
-    const found = await Escrow.findOne({ transactionId: transactionID })
+  async function findEscrow({ msg }) {
+    const found = await Escrow.findOne({ transactionId: objectId(msg) })
     return found
   }
 
