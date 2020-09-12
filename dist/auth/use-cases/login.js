@@ -23,10 +23,15 @@ const makeLoginUser = ({
     const exists = await usersDb.findByEmail({
       email: user.getEmail()
     });
+
+    if (!exists) {
+      throw new _errors.InvalidPropertyError('User does not exist.');
+    }
+
     const password = await (0, _jsonwt.validatePassword)(user.getPassword(), exists.password);
 
-    if (!exists || !password) {
-      throw new _errors.InvalidPropertyError('Email or password is incorrect.');
+    if (!password) {
+      throw new _errors.InvalidPropertyError('Password is incorrect.');
     }
 
     const payload = {
