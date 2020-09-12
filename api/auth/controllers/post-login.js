@@ -3,7 +3,6 @@ import tryCatchHandler from '../../helpers/try-catch-handler'
 const makePostLogin = ({ loginUser }) => {
   const postLogin = tryCatchHandler(async (httpRequest) => {
     const { ...userInfo } = httpRequest.body
-
     const token = await loginUser({ ...userInfo })
     return {
       headers: {
