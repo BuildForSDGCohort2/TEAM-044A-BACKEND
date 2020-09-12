@@ -1,12 +1,13 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable no-return-await */
 import mongoose from 'mongoose'
+import { DatabaseError } from '../../helpers/errors'
 
 const objectId = mongoose.Types.ObjectId
 const makeUsersDb = ({ User, createToken, hashPassword }) => {
   async function insert({ ...userInfo }) {
     try {
       if (userInfo.password) {
+        // eslint-disable-next-line no-param-reassign
         userInfo.password = await hashPassword(userInfo.password)
       }
       const newUser = new User({ ...userInfo })
@@ -18,7 +19,7 @@ const makeUsersDb = ({ User, createToken, hashPassword }) => {
       const user = await newUser.save()
       return { user, token }
     } catch (error) {
-      console.log('error', error)
+      throw new DatabaseError(error)
     }
   }
 
@@ -30,15 +31,18 @@ const makeUsersDb = ({ User, createToken, hashPassword }) => {
   }
 
   async function findByEmail({ email }) {
-    return await User.findOne({ email }).populate('transactions')
+    return User.findOne({ email }).select('-password').populate('transactions')
   }
 
   async function findById({ id: _id }) {
-    return await User.findById(objectId(_id)).populate('transactions').exec()
+    return User.findById(objectId(_id))
+      .select('-password')
+      .populate('transactions')
+      .exec()
   }
 
   async function findAll() {
-    return await User.find()
+    return User.find().select('-password')
   }
 
   return Object.freeze({

@@ -1,9 +1,8 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-unused-expressions */
-/* eslint-disable no-return-await */
-/* eslint-disable no-underscore-dangle */
 import mongoose from 'mongoose'
+import { DatabaseError } from '../../helpers/errors'
 
 const objectId = mongoose.Types.ObjectId
 
@@ -18,7 +17,7 @@ const makeTransactionsDb = ({ User, Transaction, Escrow }) => {
       await user.save()
       return newTransaction
     } catch (error) {
-      console.error(error)
+      throw new DatabaseError(error)
     }
   }
 
@@ -31,33 +30,46 @@ const makeTransactionsDb = ({ User, Transaction, Escrow }) => {
 
   async function remove({ id: _id }) {
     // eslint-disable-next-line no-return-await
-    return await Transaction.findByIdAndDelete(objectId(_id))
+    return Transaction.findByIdAndDelete(objectId(_id))
   }
 
   async function findById({ id: _id }) {
-    return await Transaction.findById(objectId(_id)).populate('initiator')
+    return Transaction.findById(objectId(_id)).populate('initiator')
   }
 
   async function findMyTransactions(email) {
-    const transaction = await Transaction.find({ email })
-    const result = transaction
-      .map((obj) => obj.email)
-      .find((myMail) => myMail === email)
-    const user = await User.findOne({ email: result })
-    for (let i = 0; i < transaction.length; i++) {
-      const toAdd = transaction[i]
-      await user.transactions.addToSet(toAdd)
-      await user.save()
+    try {
+      const user = await User.findOne({ email }).select(
+        '-password -__v -createdOn -modifiedOn'
+      )
+      const transaction = await Transaction.find({ email })
+      const result = transaction
+        .map((obj) => obj.email)
+        .find((myMail) => myMail === email)
+      if (result) {
+        for (let i = 0; i < transaction.length; i++) {
+          const toAdd = transaction[i]
+          await user.transactions.addToSet(toAdd)
+          await user.save()
+        }
+        return user
+      }
+      return user
+    } catch (error) {
+      throw new DatabaseError(error)
     }
-    return user
+  }
+
+  async function findByEmail(email) {
+    return Transaction.findOne({ email })
   }
 
   async function findByRef({ ref }) {
-    return await Transaction.findOne({ reference: ref })
+    return Transaction.findOne({ reference: ref })
   }
 
   async function findAll() {
-    return await Transaction.find().populate('initiator')
+    return Transaction.find().populate('initiator')
   }
 
   async function findByTransactionStatus(status) {
@@ -112,7 +124,8 @@ const makeTransactionsDb = ({ User, Transaction, Escrow }) => {
     findByRef,
     findAll,
     findByTransactionStatus,
-    handleMoneyTransfer
+    handleMoneyTransfer,
+    findByEmail
   })
 }
 

@@ -11,7 +11,6 @@ var _errors = require("../../helpers/errors");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* eslint-disable no-return-await */
 const makeListUser = ({
   usersDb,
   transactionDb
@@ -30,7 +29,7 @@ const makeListUser = ({
     const {
       email
     } = user;
-    return await transactionDb.findMyTransactions(email);
+    return transactionDb.findMyTransactions(email);
   };
 };
 
