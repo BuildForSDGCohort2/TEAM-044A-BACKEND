@@ -7,6 +7,10 @@ exports.default = void 0;
 
 var _factory = _interopRequireDefault(require("../factory"));
 
+var _errors = require("../../helpers/errors");
+
+var _jsonwt = require("../../helpers/jsonwt");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* eslint-disable no-underscore-dangle */
@@ -19,9 +23,10 @@ const makeLoginUser = ({
     const exists = await usersDb.findByEmail({
       email: user.getEmail()
     });
+    const password = await (0, _jsonwt.validatePassword)(user.getPassword(), exists.password);
 
-    if (!exists) {
-      throw new Error('User does not exist.');
+    if (!exists || !password) {
+      throw new _errors.InvalidPropertyError('Email or password is incorrect.');
     }
 
     const payload = {

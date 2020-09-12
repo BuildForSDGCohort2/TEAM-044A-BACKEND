@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+/* eslint-disable prefer-const */
+
 /* eslint-disable no-useless-catch */
 
 /* eslint-disable consistent-return */

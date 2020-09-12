@@ -30,11 +30,11 @@ const buildMakeUserFactory = ({
     modifiedOn = Date.now()
   } = {}) {
     if (firstName.length < 3) {
-      throw new _errors.InvalidPropertyError('Name cannot be less than 3 characters.');
+      throw new _errors.InvalidPropertyError('First name cannot be less than 3 characters.');
     }
 
     if (lastName.length < 3) {
-      throw new _errors.InvalidPropertyError('Name cannot be less than 3 characters.');
+      throw new _errors.InvalidPropertyError('Last name cannot be less than 3 characters.');
     }
 
     if (!isValidEmail(email)) {

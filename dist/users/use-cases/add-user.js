@@ -11,6 +11,7 @@ var _errors = require("../../helpers/errors");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// import publishToQueue from '../../pubsub/publisher'
 const makeAddUser = ({
   usersDb
 }) => {

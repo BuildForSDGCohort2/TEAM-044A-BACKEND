@@ -10,10 +10,6 @@ exports.default = void 0;
 /* eslint-disable no-useless-catch */
 
 /* eslint-disable no-console */
-
-/* eslint-disable no-return-await */
-
-/* eslint-disable no-underscore-dangle */
 const buildMakeSendTransaction = ({
   transactionDb,
   usersDb,
@@ -53,7 +49,7 @@ const buildMakeSendTransaction = ({
       };
       const url = getTransactionEmailURL(transactionRef);
       const emailTemplate = createTransactionTemplate(receiver, sender, transaction, url);
-      return await sendMail({
+      return sendMail({
         emailTemplate
       });
     } catch (error) {

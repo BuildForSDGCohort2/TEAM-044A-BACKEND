@@ -16,21 +16,30 @@ const objectId = _mongoose.default.Types.ObjectId;
 
 const makeUsersDb = ({
   User,
-  createToken
+  createToken,
+  hashPassword
 }) => {
   async function insert({ ...userInfo
   }) {
-    const user = await new User({ ...userInfo
-    });
-    const userId = {
-      id: user._id
-    };
-    const token = await createToken(userId);
-    await user.save();
-    return {
-      user,
-      token
-    };
+    try {
+      if (userInfo.password) {
+        userInfo.password = await hashPassword(userInfo.password);
+      }
+
+      const newUser = new User({ ...userInfo
+      });
+      const userId = {
+        id: newUser._id
+      };
+      const token = await createToken(userId);
+      const user = await newUser.save();
+      return {
+        user,
+        token
+      };
+    } catch (error) {
+      console.log('error', error);
+    }
   }
 
   async function update({

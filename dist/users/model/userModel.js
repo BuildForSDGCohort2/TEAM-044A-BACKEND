@@ -9,7 +9,6 @@ var _mongoose = _interopRequireDefault(require("mongoose"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import mongoose from '../../database'
 const userSchema = new _mongoose.default.Schema({
   firstName: {
     type: String,
@@ -53,6 +52,10 @@ const userSchema = new _mongoose.default.Schema({
     type: _mongoose.default.Types.ObjectId,
     ref: 'Transaction'
   }],
+  walletId: {
+    type: _mongoose.default.Types.ObjectId,
+    ref: 'Wallet'
+  },
   source: {}
 });
 var _default = userSchema;

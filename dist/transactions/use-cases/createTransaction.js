@@ -9,7 +9,6 @@ var _factory = _interopRequireDefault(require("../factory"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* eslint-disable no-return-await */
 const makeBuildCreateTransaction = ({
   transactionDb,
   sendTransactionMail

@@ -11,22 +11,28 @@ var _tryCatchHandler = _interopRequireDefault(require("../../helpers/try-catch-h
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const makeGetUser = ({
-  listUser
+const makePostTransfer = ({
+  walletTransfer
 }) => {
-  const getUser = (0, _tryCatchHandler.default)(async httpRequest => {
-    const user = await listUser({
-      id: httpRequest.user.id
+  const postTransfer = (0, _tryCatchHandler.default)(async httpRequest => {
+    const {
+      user
+    } = httpRequest;
+    const { ...walletDetails
+    } = httpRequest.body;
+    await walletTransfer({
+      user,
+      ...walletDetails
     });
     return (0, _httpResponse.apiResponse)({
       status: 'OK',
       statusCode: 200,
-      message: 'Authorized',
-      data: [user]
+      message: 'Transfer successful',
+      data: null
     });
   });
-  return getUser;
+  return postTransfer;
 };
 
-var _default = makeGetUser;
+var _default = makePostTransfer;
 exports.default = _default;
