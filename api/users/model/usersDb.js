@@ -3,15 +3,23 @@
 import mongoose from 'mongoose'
 
 const objectId = mongoose.Types.ObjectId
-const makeUsersDb = ({ User, createToken }) => {
+const makeUsersDb = ({ User, createToken, hashPassword }) => {
   async function insert({ ...userInfo }) {
-    const user = await new User({ ...userInfo })
-    const userId = {
-      id: user._id
+    try {
+      if (userInfo.password) {
+        userInfo.password = await hashPassword(userInfo.password)
+      }
+      const newUser = new User({ ...userInfo })
+      const userId = {
+        id: newUser._id
+      }
+
+      const token = await createToken(userId)
+      const user = await newUser.save()
+      return { user, token }
+    } catch (error) {
+      console.log('error', error)
     }
-    const token = await createToken(userId)
-    await user.save()
-    return { user, token }
   }
 
   async function update({ id: _id, ...changes }) {

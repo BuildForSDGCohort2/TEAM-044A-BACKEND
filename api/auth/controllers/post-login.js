@@ -1,38 +1,21 @@
-import { makeHttpError } from '../../helpers/http-response'
+import tryCatchHandler from '../../helpers/try-catch-handler'
 
 const makePostLogin = ({ loginUser }) => {
-  return async function postLogin(httpRequest) {
-    try {
-      let { ...userInfo } = httpRequest.body
+  const postLogin = tryCatchHandler(async (httpRequest) => {
+    const { ...userInfo } = httpRequest.body
 
-      if (typeof httpRequest.body === 'string') {
-        try {
-          userInfo = JSON.parse(userInfo)
-        } catch (error) {
-          return makeHttpError({
-            statusCode: 403,
-            errorMessage: 'Bad request. POST body must be valid JSON'
-          })
-        }
-      }
-
-      const user = await loginUser({ ...userInfo })
-      return {
-        headers: {
-          'Content-Type': 'application/vnd.api+json'
-        },
-        statusCode: 200,
-        data: user
-      }
-    } catch (error) {
-      return makeHttpError({
-        title: error.name,
-        errorMessage: error.message,
-        statusCode: error.statusCode || 401,
-        stack: error.stack
-      })
+    const token = await loginUser({ ...userInfo })
+    return {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      status: 'OK',
+      statusCode: 200,
+      message: 'Authorized',
+      data: token
     }
-  }
+  })
+  return postLogin
 }
 
 export default makePostLogin

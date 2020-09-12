@@ -44,9 +44,22 @@ class UnauthorizedError extends Error {
   }
 }
 
+class DatabaseError extends Error {
+  constructor(message, statusCode = 503) {
+    super(message)
+    this.name = 'MongoDBError'
+    this.statusCode = statusCode
+
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, DatabaseError)
+    }
+  }
+}
+
 export {
   RequiredParameterError,
   InvalidPropertyError,
   UniqueConstraintError,
-  UnauthorizedError
+  UnauthorizedError,
+  DatabaseError
 }

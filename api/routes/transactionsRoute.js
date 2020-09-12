@@ -9,21 +9,31 @@ import {
   postInProgress,
   postRejectDelivery
 } from '../transactions/controllers'
+import decodeToken from '../middleware/auth'
 
 export const path = '/api/v1/transactions'
 export function config(router) {
   router
-    .get('/', makeExpressCallback(getTransactions))
-    .get('/:ref', makeExpressCallback(getTransactions))
-    .post('/', makeExpressCallback(postTransaction))
+    .get('/', makeExpressCallback(decodeToken(getTransactions)))
+    .get('/:ref', makeExpressCallback(decodeToken(getTransactions)))
+    .post('/', makeExpressCallback(decodeToken(postTransaction)))
     .patch(
       '/accept-transaction/:ref',
-      makeExpressCallback(postAcceptTransaction)
+      makeExpressCallback(decodeToken(postAcceptTransaction))
     )
-    .patch('/reject-delivery/:ref', makeExpressCallback(postRejectDelivery))
-    .patch('/reject/:ref', makeExpressCallback(rejectTransactions)) // reject initial transaction request
-    .patch('/deliver/:ref', makeExpressCallback(postDeliverTransaction)) // sets transaction status to deliver
-    .patch('/confirm/:ref', makeExpressCallback(postConfirmTransaction))
-    .patch('/progress/:ref', makeExpressCallback(postInProgress)) // sets transaction status to in progress
+    .patch(
+      '/reject-delivery/:ref',
+      makeExpressCallback(decodeToken(postRejectDelivery))
+    )
+    .patch('/reject/:ref', makeExpressCallback(decodeToken(rejectTransactions))) // reject initial transaction request
+    .patch(
+      '/deliver/:ref',
+      makeExpressCallback(decodeToken(postDeliverTransaction))
+    ) // sets transaction status to deliver
+    .patch(
+      '/confirm/:ref',
+      makeExpressCallback(decodeToken(postConfirmTransaction))
+    )
+    .patch('/progress/:ref', makeExpressCallback(decodeToken(postInProgress))) // sets transaction status to in progress
   return router
 }

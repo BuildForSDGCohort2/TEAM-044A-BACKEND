@@ -1,4 +1,3 @@
-/* eslint-disable no-return-await */
 import makeTransaction from '../factory'
 
 const makeBuildCreateTransaction = ({ transactionDb, sendTransactionMail }) => {

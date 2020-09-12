@@ -4,11 +4,14 @@ import {
   UniqueConstraintError,
   InvalidPropertyError,
   RequiredParameterError,
-  UnauthorizedError
+  UnauthorizedError,
+  DatabaseError
 } from './errors'
+// import logging from '../configuration/logging/logger'
 
-const tryCatchHandler = (fn) => (req, res, ...otherParams) => {
-  return Promise.resolve(fn(req, res, ...otherParams)).catch((error) => {
+const tryCatchHandler = (fn) => (req, res, ...otherParams) =>
+  fn(req, res, ...otherParams).catch((error) => {
+    // logging.error(`An error occured: Error ${error}`)
     return makeHttpError({
       errorMessage: error.message,
       title: error.name,
@@ -21,9 +24,10 @@ const tryCatchHandler = (fn) => (req, res, ...otherParams) => {
           ? 400
           : 500 || error instanceof UnauthorizedError
           ? error.statusCode
-          : 401
+          : 401 || error instanceof DatabaseError
+          ? error.statusCode
+          : 400
     })
   })
-}
 
 export default tryCatchHandler
