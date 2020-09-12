@@ -64,13 +64,13 @@ const makeUsersDb = ({
   }) {
     return User.findOne({
       email
-    }).select('-password').populate('transactions');
+    }).populate('transactions');
   }
 
   async function findById({
     id: _id
   }) {
-    return User.findById(objectId(_id)).select('-password').populate('transactions').exec();
+    return User.findById(objectId(_id)).populate('transactions').exec();
   }
 
   async function findAll() {

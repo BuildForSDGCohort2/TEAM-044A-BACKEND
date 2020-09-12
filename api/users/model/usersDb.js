@@ -31,14 +31,11 @@ const makeUsersDb = ({ User, createToken, hashPassword }) => {
   }
 
   async function findByEmail({ email }) {
-    return User.findOne({ email }).select('-password').populate('transactions')
+    return User.findOne({ email }).populate('transactions')
   }
 
   async function findById({ id: _id }) {
-    return User.findById(objectId(_id))
-      .select('-password')
-      .populate('transactions')
-      .exec()
+    return User.findById(objectId(_id)).populate('transactions').exec()
   }
 
   async function findAll() {
