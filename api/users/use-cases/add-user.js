@@ -1,5 +1,6 @@
 import makeUser from '../factory'
 import { UniqueConstraintError } from '../../helpers/errors'
+// import publishToQueue from '../../pubsub/publisher'
 
 const makeAddUser = ({ usersDb }) => {
   return async function addUser(userInfo) {

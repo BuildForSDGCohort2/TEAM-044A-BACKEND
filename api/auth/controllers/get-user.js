@@ -1,24 +1,17 @@
-import { makeHttpError, onSuccess } from '../../helpers/http-response'
+import { apiResponse } from '../../helpers/http-response'
+import tryCatchHandler from '../../helpers/try-catch-handler'
 
 const makeGetUser = ({ listUser }) => {
-  return async function getUser(httpRequest) {
-    try {
-      const user = await listUser({ id: httpRequest.user.id })
-      return onSuccess({
-        type: 'user',
-        attributes: user,
-        statusCode: 200,
-        self: `http://localhost:4000/api/v1/users`
-      })
-    } catch (error) {
-      return makeHttpError({
-        title: error.name,
-        errorMessage: error.message,
-        statusCode: error.statusCode || 400,
-        stack: error.stack
-      })
-    }
-  }
+  const getUser = tryCatchHandler(async (httpRequest) => {
+    const user = await listUser({ id: httpRequest.user.id })
+    return apiResponse({
+      status: 'OK',
+      statusCode: 200,
+      message: 'Authorized',
+      data: [user]
+    })
+  })
+  return getUser
 }
 
 export default makeGetUser

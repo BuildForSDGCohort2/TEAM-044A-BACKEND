@@ -17,7 +17,7 @@ const makePostTransaction = ({ createTransaction }) => {
       ...transactionInfo
     })
     return apiResponse({
-      status: true,
+      status: 'OK',
       message: 'Transaction Created',
       data: [{ transaction }],
       statusCode: 201

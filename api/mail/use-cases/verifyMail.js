@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable no-useless-catch */
 /* eslint-disable consistent-return */
 const makeVerifyEmail = ({ decodeToken, transactionDb }) => {
