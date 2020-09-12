@@ -7,6 +7,8 @@ exports.default = void 0;
 
 var _mongoose = _interopRequireDefault(require("mongoose"));
 
+var _errors = require("../../helpers/errors");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* eslint-disable no-plusplus */
@@ -14,10 +16,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /* eslint-disable no-await-in-loop */
 
 /* eslint-disable no-unused-expressions */
-
-/* eslint-disable no-return-await */
-
-/* eslint-disable no-underscore-dangle */
 const objectId = _mongoose.default.Types.ObjectId;
 
 const makeTransactionsDb = ({
@@ -39,7 +37,7 @@ const makeTransactionsDb = ({
       await user.save();
       return newTransaction;
     } catch (error) {
-      console.error(error);
+      throw new _errors.DatabaseError(error);
     }
   }
 
@@ -63,43 +61,57 @@ const makeTransactionsDb = ({
     id: _id
   }) {
     // eslint-disable-next-line no-return-await
-    return await Transaction.findByIdAndDelete(objectId(_id));
+    return Transaction.findByIdAndDelete(objectId(_id));
   }
 
   async function findById({
     id: _id
   }) {
-    return await Transaction.findById(objectId(_id)).populate('initiator');
+    return Transaction.findById(objectId(_id)).populate('initiator');
   }
 
   async function findMyTransactions(email) {
-    const transaction = await Transaction.find({
+    try {
+      const user = await User.findOne({
+        email
+      }).select('-password -__v -createdOn -modifiedOn');
+      const transaction = await Transaction.find({
+        email
+      });
+      const result = transaction.map(obj => obj.email).find(myMail => myMail === email);
+
+      if (result) {
+        for (let i = 0; i < transaction.length; i++) {
+          const toAdd = transaction[i];
+          await user.transactions.addToSet(toAdd);
+          await user.save();
+        }
+
+        return user;
+      }
+
+      return user;
+    } catch (error) {
+      throw new _errors.DatabaseError(error);
+    }
+  }
+
+  async function findByEmail(email) {
+    return Transaction.findOne({
       email
     });
-    const result = transaction.map(obj => obj.email).find(myMail => myMail === email);
-    const user = await User.findOne({
-      email: result
-    });
-
-    for (let i = 0; i < transaction.length; i++) {
-      const toAdd = transaction[i];
-      await user.transactions.addToSet(toAdd);
-      await user.save();
-    }
-
-    return user;
   }
 
   async function findByRef({
     ref
   }) {
-    return await Transaction.findOne({
+    return Transaction.findOne({
       reference: ref
     });
   }
 
   async function findAll() {
-    return await Transaction.find().populate('initiator');
+    return Transaction.find().populate('initiator');
   }
 
   async function findByTransactionStatus(status) {
@@ -168,7 +180,8 @@ const makeTransactionsDb = ({
     findByRef,
     findAll,
     findByTransactionStatus,
-    handleMoneyTransfer
+    handleMoneyTransfer,
+    findByEmail
   });
 };
 
