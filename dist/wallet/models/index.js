@@ -5,21 +5,22 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _usersDb = _interopRequireDefault(require("./usersDb"));
+var _walletDb = _interopRequireDefault(require("./walletDb"));
 
 var _models = _interopRequireDefault(require("../../database/models"));
 
-var _jsonwt = require("../../helpers/jsonwt");
+var _model = _interopRequireDefault(require("../../users/model"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const {
-  User
+  Wallet,
+  WalletTransaction
 } = _models.default;
-const usersDb = (0, _usersDb.default)({
-  User,
-  hashPassword: _jsonwt.hashPassword,
-  createToken: _jsonwt.createToken
+const walletDb = (0, _walletDb.default)({
+  WalletTransaction,
+  usersDb: _model.default,
+  Wallet
 });
-var _default = usersDb;
+var _default = walletDb;
 exports.default = _default;

@@ -16,11 +16,10 @@ const makePostUser = ({
   addUser
 }) => {
   const postUser = (0, _tryCatchHandler.default)(async httpRequest => {
-    let { ...userInfo
-    } = httpRequest.body;
     let {
-      source = {}
-    } = httpRequest;
+      source = {},
+      ...userInfo
+    } = httpRequest.body;
     source.ip = httpRequest.ip;
     source.browser = httpRequest.headers['User-Agent'];
 
@@ -28,27 +27,15 @@ const makePostUser = ({
       source.referrer = httpRequest.headers.Referer;
     }
 
-    if (typeof httpRequest.body === 'string') {
-      try {
-        userInfo = JSON.parse(userInfo);
-      } catch {
-        return (0, _httpResponse.makeHttpError)({
-          statusCode: 403,
-          errorMessage: 'Bad request. POST body must be valid JSON'
-        });
-      }
-    }
-
     const user = await addUser({
       source,
       ...userInfo
     });
-    return (0, _httpResponse.onSuccess)({
-      type: 'users',
-      attributes: user,
+    return (0, _httpResponse.apiResponse)({
+      status: true,
       statusCode: 201,
-      self: `http://localhost:3000/api/v1/users`,
-      location: `http://localhost:3000/api/v1/users`
+      data: [user],
+      message: 'User created'
     });
   });
   return postUser;

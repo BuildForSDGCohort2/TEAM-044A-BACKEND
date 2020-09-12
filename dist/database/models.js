@@ -15,13 +15,19 @@ var _escrowModel = _interopRequireDefault(require("../core-payment/models/escrow
 
 var _disputeModel = _interopRequireDefault(require("../disputes/models/disputeModel"));
 
+var _walletModel = _interopRequireDefault(require("../wallet/models/walletModel"));
+
+var _walletTransactionModel = _interopRequireDefault(require("../wallet/models/walletTransactionModel"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const models = {
   User: _mongoose.default.model('User', _userModel.default),
   Transaction: _mongoose.default.model('Transaction', _transactionModel.default),
   Escrow: _mongoose.default.model('Escrow', _escrowModel.default),
-  Dispute: _mongoose.default.model('Dispute', _disputeModel.default)
+  Dispute: _mongoose.default.model('Dispute', _disputeModel.default),
+  Wallet: _mongoose.default.model('Wallet', _walletModel.default),
+  WalletTransaction: _mongoose.default.model('WalletTransaction', _walletTransactionModel.default)
 };
 Object.values(models).forEach(model => {
   if (!model) {

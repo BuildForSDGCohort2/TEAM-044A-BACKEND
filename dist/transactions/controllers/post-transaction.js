@@ -36,7 +36,7 @@ const makePostTransaction = ({
       ...transactionInfo
     });
     return (0, _httpResponse.apiResponse)({
-      status: true,
+      status: 'OK',
       message: 'Transaction Created',
       data: [{
         transaction

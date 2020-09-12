@@ -12,6 +12,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /* eslint-disable consistent-return */
 
 /* eslint-disable no-console */
+process.env.NODE_ENV = 'dev';
 const url = process.env.DB_URL || 'mongodb://DESKTOP-SNA1HQK:27017,DESKTOP-SNA1HQK:27018,DESKTOP-SNA1HQK:27019/escrow?replicaSet=rs';
 
 const setupDB = async () => {
@@ -25,20 +26,7 @@ const setupDB = async () => {
   } catch (e) {
     return console.log(e);
   }
-}; // mongoose
-//   .connect(
-//     `mongodb://DESKTOP-SNA1HQK:27017,DESKTOP-SNA1HQK:27018,DESKTOP-SNA1HQK:27019/escrow?replicaSet=rs`,
-//     {
-//       useUnifiedTopology: true,
-//       useNewUrlParser: true,
-//       replicaSet: 'rs'
-//     }
-//   )
-//   .then(() => {
-//     console.log('Connected')
-//   })
-//   .catch((e) => console.log(e))
-
+};
 
 var _default = setupDB;
 exports.default = _default;
