@@ -74,7 +74,7 @@ const makeTransactionsDb = ({
     try {
       const user = await User.findOne({
         email
-      }).select('-password -__v -createdOn -modifiedOn');
+      }).select('-password -__v -createdOn -modifiedOn').populate('transactions');
       const transaction = await Transaction.find({
         email
       });

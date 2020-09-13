@@ -39,9 +39,9 @@ const makeTransactionsDb = ({ User, Transaction, Escrow }) => {
 
   async function findMyTransactions(email) {
     try {
-      const user = await User.findOne({ email }).select(
-        '-password -__v -createdOn -modifiedOn'
-      )
+      const user = await User.findOne({ email })
+        .select('-password -__v -createdOn -modifiedOn')
+        .populate('transactions')
       const transaction = await Transaction.find({ email })
       const result = transaction
         .map((obj) => obj.email)
