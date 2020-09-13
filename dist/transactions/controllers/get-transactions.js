@@ -54,9 +54,7 @@ const makeGetTransactions = ({
     return (0, _httpResponse.apiResponse)({
       status: true,
       message: 'Transactions',
-      data: [{
-        transactions
-      }],
+      data: [transactions],
       statusCode: 200
     });
   });

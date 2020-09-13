@@ -25,7 +25,7 @@ const makeGetTransactions = ({ listTransactions }) => {
     return apiResponse({
       status: true,
       message: 'Transactions',
-      data: [{ transactions }],
+      data: [transactions],
       statusCode: 200
     })
   })
