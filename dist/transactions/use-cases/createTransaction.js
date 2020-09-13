@@ -18,7 +18,7 @@ const makeBuildCreateTransaction = ({
     ...transactionInfo
   } = {}) {
     const {
-      _id
+      id
     } = user;
     const transaction = (0, _factory.default)({ ...transactionInfo
     });
@@ -35,7 +35,7 @@ const makeBuildCreateTransaction = ({
       inspectionPeriod: transaction.getInspectionPeriod(),
       dueDate: transaction.getDueDate(),
       reference: transaction.getRef(),
-      initiator: _id,
+      initiator: id,
       source: {
         ip: transactionSource.getIp(),
         browser: transactionSource.getBrowser(),
