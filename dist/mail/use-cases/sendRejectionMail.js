@@ -5,7 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-/* eslint-disable no-return-await */
+var _errors = require("../../helpers/errors");
+
 const makeRejectionEmail = ({
   transactionDb,
   usersDb,
@@ -17,30 +18,34 @@ const makeRejectionEmail = ({
     ref,
     user
   }) {
-    const receiver = await usersDb.findById({
-      id: user.id
-    });
-    const sender = await transactionDb.findByRef({
-      ref
-    });
-    const transactionRef = sender.reference;
-    const {
-      transactionTitle,
-      transactionDesc,
-      amount,
-      transactionStatus
-    } = sender;
-    const transaction = {
-      transactionTitle,
-      transactionDesc,
-      amount,
-      transactionStatus
-    };
-    const url = dashboardURL(transactionRef);
-    const emailTemplate = rejectionEmailTemplate(receiver, sender, transaction, url);
-    return await sendMail({
-      emailTemplate
-    });
+    try {
+      const receiver = await usersDb.findById({
+        id: user.id
+      });
+      const sender = await transactionDb.findByRef({
+        ref
+      });
+      const transactionRef = sender.reference;
+      const {
+        transactionTitle,
+        transactionDesc,
+        amount,
+        transactionStatus
+      } = sender;
+      const transaction = {
+        transactionTitle,
+        transactionDesc,
+        amount,
+        transactionStatus
+      };
+      const url = dashboardURL(transactionRef);
+      const emailTemplate = rejectionEmailTemplate(receiver, sender, transaction, url);
+      return sendMail({
+        emailTemplate
+      });
+    } catch (error) {
+      throw new _errors.SendGridError(error.message);
+    }
   };
 };
 

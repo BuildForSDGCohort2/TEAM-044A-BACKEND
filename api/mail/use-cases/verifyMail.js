@@ -1,19 +1,17 @@
-/* eslint-disable prefer-const */
-/* eslint-disable no-useless-catch */
-/* eslint-disable consistent-return */
+import { InvalidPropertyError } from '../../helpers/errors'
+
 const makeVerifyEmail = ({ decodeToken, transactionDb }) => {
   return async function verifyEmail({ ...details } = {}) {
-    try {
-      const toDecode = decodeToken(details.token)
-      let { emailVerified, id } = toDecode
+    const toDecode = decodeToken(details.token)
+    let { emailVerified, id } = toDecode
+    if (!emailVerified) {
       emailVerified = true
-      return await transactionDb.update({
+      return transactionDb.update({
         emailVerified,
         id
       })
-    } catch (error) {
-      throw error
     }
+    throw new InvalidPropertyError('Email has been verified already')
   }
 }
 

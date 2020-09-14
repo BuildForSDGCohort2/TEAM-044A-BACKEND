@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DatabaseError = exports.UnauthorizedError = exports.UniqueConstraintError = exports.InvalidPropertyError = exports.RequiredParameterError = void 0;
+exports.SendGridError = exports.DatabaseError = exports.UnauthorizedError = exports.UniqueConstraintError = exports.InvalidPropertyError = exports.RequiredParameterError = void 0;
 
 /* eslint-disable max-classes-per-file */
 class RequiredParameterError extends Error {
@@ -77,3 +77,18 @@ class DatabaseError extends Error {
 }
 
 exports.DatabaseError = DatabaseError;
+
+class SendGridError extends Error {
+  constructor(message, statusCode = 400) {
+    super(message);
+    this.name = 'SendGridError';
+    this.statusCode = statusCode;
+
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, SendGridError);
+    }
+  }
+
+}
+
+exports.SendGridError = SendGridError;

@@ -5,31 +5,29 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-/* eslint-disable prefer-const */
+var _errors = require("../../helpers/errors");
 
-/* eslint-disable no-useless-catch */
-
-/* eslint-disable consistent-return */
 const makeVerifyEmail = ({
   decodeToken,
   transactionDb
 }) => {
   return async function verifyEmail({ ...details
   } = {}) {
-    try {
-      const toDecode = decodeToken(details.token);
-      let {
-        emailVerified,
-        id
-      } = toDecode;
+    const toDecode = decodeToken(details.token);
+    let {
+      emailVerified,
+      id
+    } = toDecode;
+
+    if (!emailVerified) {
       emailVerified = true;
-      return await transactionDb.update({
+      return transactionDb.update({
         emailVerified,
         id
       });
-    } catch (error) {
-      throw error;
     }
+
+    throw new _errors.InvalidPropertyError('Email has been verified already');
   };
 };
 

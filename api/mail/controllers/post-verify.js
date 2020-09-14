@@ -4,7 +4,7 @@ const makeGetEmail = ({ verifyEmail }) => {
   return async function getEmail(httpRequest) {
     try {
       const { ...details } = httpRequest.pathParams
-      const redirect = '/api/v1/users'
+      const redirect = '/api/v1/email/verify'
       const user = await verifyEmail({ ...details })
       return {
         headers: {

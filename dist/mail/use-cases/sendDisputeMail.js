@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _errors = require("../../helpers/errors");
+
 const makeSendDisputeMail = ({
   transactionDb,
   usersDb,
@@ -40,11 +42,11 @@ const makeSendDisputeMail = ({
         transactionStatus
       };
       const emailTemplate = disputeMailTemplate(receiver, sender, transaction, url);
-      return await sendMail({
+      return sendMail({
         emailTemplate
       });
     } catch (error) {
-      console.error(error);
+      throw new _errors.SendGridError(error.message);
     }
   };
 };

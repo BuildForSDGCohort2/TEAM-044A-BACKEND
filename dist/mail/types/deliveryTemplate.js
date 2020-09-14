@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 const deliveryEmailTemplate = (receiver, sender, transaction, url) => {
-  const from = 'kingetiosasere@gmail.com';
+  const from = 'etiosaserekings@gmail.com';
   const to = receiver.email;
   const username = receiver.firstName;
   const name = sender.firstName;
