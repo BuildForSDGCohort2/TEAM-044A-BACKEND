@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+/* eslint-disable prefer-const */
 const makeDeliveryComplete = ({
   transactionDb,
   sendDeliveryEmail
@@ -21,7 +22,7 @@ const makeDeliveryComplete = ({
       initiator
     } = currentTransaction;
     transactionStatus = 'Delivered';
-    const [updated, email] = await Promise.all([transactionDb.update({
+    const [updated] = await Promise.all([transactionDb.update({
       id: _id,
       transactionStatus
     }), sendDeliveryEmail({

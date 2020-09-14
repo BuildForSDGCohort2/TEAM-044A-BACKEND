@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /**
  * @function makeRejectTransactionRequest
  * POST - It rejects the current transaction request.

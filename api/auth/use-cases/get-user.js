@@ -1,13 +1,14 @@
-/* eslint-disable no-return-await */
-const makeListUser = ({ usersDb, transactionDb }) => {
-  return async function listUser({ id } = {}) {
-    if (!id) {
-      throw new Error('User must have a valid id.')
-    }
-    const user = await usersDb.findById({ id })
-    const { email } = user
+import requiredParam from '../../helpers/requireParam'
+import { InvalidPropertyError } from '../../helpers/errors'
 
-    return await transactionDb.findMyTransactions(email)
+const makeListUser = ({ usersDb, transactionDb }) => {
+  return async function listUser({ id = requiredParam('Id') } = {}) {
+    const user = await usersDb.findById({ id })
+    if (!user) {
+      throw new InvalidPropertyError('User does not exist.')
+    }
+    const { email } = user
+    return transactionDb.findMyTransactions(email)
   }
 }
 

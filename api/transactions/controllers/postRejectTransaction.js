@@ -1,26 +1,19 @@
-import { makeHttpError, apiResponse } from '../../helpers/http-response'
+import { apiResponse } from '../../helpers/http-response'
+import tryCatchHandler from '../../helpers/try-catch-handler'
 
 const makePostRejectTransaction = ({ rejectTransactionRequest }) => {
-  return async function postAcceptTransaction(httpRequest) {
-    try {
-      const { ref } = httpRequest.pathParams
+  const postAcceptTransaction = tryCatchHandler(async (httpRequest) => {
+    const { ref } = httpRequest.pathParams
 
-      await rejectTransactionRequest({ ref })
-      return apiResponse({
-        status: true,
-        statusCode: 200,
-        message: 'Transaction Rejected',
-        data: null
-      })
-    } catch (error) {
-      return makeHttpError({
-        statusCode: error.statusCode || 400,
-        title: error.name,
-        errorMessage: error.message,
-        stack: error.stack
-      })
-    }
-  }
+    await rejectTransactionRequest({ ref })
+    return apiResponse({
+      status: true,
+      statusCode: 200,
+      message: 'Transaction Rejected',
+      data: null
+    })
+  })
+  return postAcceptTransaction
 }
 
 export default makePostRejectTransaction

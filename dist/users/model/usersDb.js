@@ -7,30 +7,40 @@ exports.default = void 0;
 
 var _mongoose = _interopRequireDefault(require("mongoose"));
 
+var _errors = require("../../helpers/errors");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* eslint-disable no-underscore-dangle */
-
-/* eslint-disable no-return-await */
 const objectId = _mongoose.default.Types.ObjectId;
 
 const makeUsersDb = ({
   User,
-  createToken
+  createToken,
+  hashPassword
 }) => {
   async function insert({ ...userInfo
   }) {
-    const user = await new User({ ...userInfo
-    });
-    const userId = {
-      id: user._id
-    };
-    const token = await createToken(userId);
-    await user.save();
-    return {
-      user,
-      token
-    };
+    try {
+      if (userInfo.password) {
+        // eslint-disable-next-line no-param-reassign
+        userInfo.password = await hashPassword(userInfo.password);
+      }
+
+      const newUser = new User({ ...userInfo
+      });
+      const userId = {
+        id: newUser._id
+      };
+      const token = await createToken(userId);
+      const user = await newUser.save();
+      return {
+        user,
+        token
+      };
+    } catch (error) {
+      throw new _errors.DatabaseError(error);
+    }
   }
 
   async function update({
@@ -52,7 +62,7 @@ const makeUsersDb = ({
   async function findByEmail({
     email
   }) {
-    return await User.findOne({
+    return User.findOne({
       email
     }).populate('transactions');
   }
@@ -60,11 +70,11 @@ const makeUsersDb = ({
   async function findById({
     id: _id
   }) {
-    return await User.findById(objectId(_id)).populate('transactions').exec();
+    return User.findById(objectId(_id)).populate('transactions').exec();
   }
 
   async function findAll() {
-    return await User.find();
+    return User.find().select('-password');
   }
 
   return Object.freeze({

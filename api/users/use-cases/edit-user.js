@@ -1,14 +1,15 @@
 import makeUser from '../factory'
+import requiredParam from '../../helpers/requireParam'
+import { InvalidPropertyError } from '../../helpers/errors'
 
 const makeEditUser = ({ usersDb }) => {
-  return async function editUser({ id, ...changes } = {}) {
-    if (!id) {
-      throw new Error('You must supply a valid id.')
-    }
-
-    const exists = await usersDb.findById(id)
+  return async function editUser({
+    id = requiredParam('Id'),
+    ...changes
+  } = {}) {
+    const exists = await usersDb.findById({ id })
     if (!exists) {
-      throw new RangeError('User does not exist.')
+      throw new InvalidPropertyError('User does not exist.')
     }
     const user = makeUser({ ...changes })
     return usersDb.update({

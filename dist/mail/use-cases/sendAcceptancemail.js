@@ -5,7 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-/* eslint-disable no-return-await */
+var _errors = require("../../helpers/errors");
+
 const makeAcceptanceEmail = ({
   transactionDb,
   usersDb,
@@ -18,10 +19,6 @@ const makeAcceptanceEmail = ({
     initiator
   }) {
     try {
-      /**
-       * The initiator of the transaction is meant to get the email stating the recipient has accepted.
-       * The initiator in this case is the incoming user object.
-       */
       const receiver = await usersDb.findById({
         id: initiator
       });
@@ -32,11 +29,11 @@ const makeAcceptanceEmail = ({
         transactionTitle,
         transactionDesc,
         amount,
-        reference,
+        // reference,
         email,
         transactionStatus
-      } = transactionDetails;
-      const transactionRef = reference;
+      } = transactionDetails; // const transactionRef = reference
+
       const sender = await usersDb.findByEmail({
         email
       });
@@ -46,13 +43,13 @@ const makeAcceptanceEmail = ({
         amount,
         transactionStatus
       };
-      const url = dashboardURL(transactionRef);
+      const url = dashboardURL();
       const emailTemplate = transactionEmailTemplate(receiver, sender, transaction, url);
-      return await sendMail({
+      return sendMail({
         emailTemplate
       });
     } catch (error) {
-      console.error(error);
+      throw new _errors.SendGridError(error.message);
     }
   };
 };

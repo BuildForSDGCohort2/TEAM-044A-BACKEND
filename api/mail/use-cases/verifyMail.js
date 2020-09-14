@@ -1,14 +1,17 @@
-/* eslint-disable no-return-await */
-/* eslint-disable consistent-return */
+import { InvalidPropertyError } from '../../helpers/errors'
+
 const makeVerifyEmail = ({ decodeToken, transactionDb }) => {
   return async function verifyEmail({ ...details } = {}) {
     const toDecode = decodeToken(details.token)
     let { emailVerified, id } = toDecode
-    emailVerified = true
-    return await transactionDb.update({
-      emailVerified,
-      id
-    })
+    if (!emailVerified) {
+      emailVerified = true
+      return transactionDb.update({
+        emailVerified,
+        id
+      })
+    }
+    throw new InvalidPropertyError('Email has been verified already')
   }
 }
 

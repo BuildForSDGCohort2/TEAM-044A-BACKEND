@@ -1,27 +1,21 @@
-import { makeHttpError, apiResponse } from '../../helpers/http-response'
+import { apiResponse } from '../../helpers/http-response'
+import tryCatchHandler from '../../helpers/try-catch-handler'
 
 const makePostConfirmTransaction = ({ confirmTransaction }) => {
-  return async function postConfirmTransaction(httpRequest) {
-    try {
-      const { user } = httpRequest
-      const { ref } = httpRequest.pathParams
+  const postConfirmTransaction = tryCatchHandler(async (httpRequest) => {
+    const { user } = httpRequest
+    const { ref } = httpRequest.pathParams
 
-      await confirmTransaction({ user, ref })
-      return apiResponse({
-        status: true,
-        message: 'Transaction Delivery Confirmed',
-        data: null,
-        statusCode: 200
-      })
-    } catch (error) {
-      return makeHttpError({
-        statusCode: error.statusCode || 400,
-        title: error.name,
-        errorMessage: error.message,
-        stack: error.stack
-      })
-    }
-  }
+    await confirmTransaction({ user, ref })
+    return apiResponse({
+      status: true,
+      message: 'Transaction Delivery Confirmed',
+      data: null,
+      statusCode: 200
+    })
+  })
+
+  return postConfirmTransaction
 }
 
 export default makePostConfirmTransaction

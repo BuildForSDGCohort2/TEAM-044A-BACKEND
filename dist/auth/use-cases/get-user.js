@@ -5,25 +5,31 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-/* eslint-disable no-return-await */
+var _requireParam = _interopRequireDefault(require("../../helpers/requireParam"));
+
+var _errors = require("../../helpers/errors");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 const makeListUser = ({
   usersDb,
   transactionDb
 }) => {
   return async function listUser({
-    id
+    id = (0, _requireParam.default)('Id')
   } = {}) {
-    if (!id) {
-      throw new Error('User must have a valid id.');
-    }
-
     const user = await usersDb.findById({
       id
     });
+
+    if (!user) {
+      throw new _errors.InvalidPropertyError('User does not exist.');
+    }
+
     const {
       email
     } = user;
-    return await transactionDb.findMyTransactions(email);
+    return transactionDb.findMyTransactions(email);
   };
 };
 

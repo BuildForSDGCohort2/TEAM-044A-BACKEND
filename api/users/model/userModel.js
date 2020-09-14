@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-// import mongoose from '../../database'
 
 const userSchema = new mongoose.Schema({
   firstName: {
@@ -46,8 +45,11 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 20000
   },
-
   transactions: [{ type: mongoose.Types.ObjectId, ref: 'Transaction' }],
+  walletId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Wallet'
+  },
   source: {}
 })
 

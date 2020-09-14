@@ -7,29 +7,25 @@ exports.default = void 0;
 
 var _httpResponse = require("../../helpers/http-response");
 
+var _tryCatchHandler = _interopRequireDefault(require("../../helpers/try-catch-handler"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 const makeGetUser = ({
   listUser
 }) => {
-  return async function getUser(httpRequest) {
-    try {
-      const user = await listUser({
-        id: httpRequest.user.id
-      });
-      return (0, _httpResponse.onSuccess)({
-        type: 'user',
-        attributes: user,
-        statusCode: 200,
-        self: `http://localhost:4000/api/v1/users`
-      });
-    } catch (error) {
-      return (0, _httpResponse.makeHttpError)({
-        title: error.name,
-        errorMessage: error.message,
-        statusCode: error.statusCode || 400,
-        stack: error.stack
-      });
-    }
-  };
+  const getUser = (0, _tryCatchHandler.default)(async httpRequest => {
+    const user = await listUser({
+      id: httpRequest.user.id
+    });
+    return (0, _httpResponse.apiResponse)({
+      status: 'OK',
+      statusCode: 200,
+      message: 'Authorized',
+      data: [user]
+    });
+  });
+  return getUser;
 };
 
 var _default = makeGetUser;

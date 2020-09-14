@@ -3,10 +3,10 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.rejectionEmailTemplate = void 0;
+exports.default = void 0;
 
 const rejectionEmailTemplate = (receiver, sender, transaction, url) => {
-  const from = 'kingetiosasere@gmail.com';
+  const from = 'etiosaserekings@gmail.com';
   const to = receiver.email;
   const username = receiver.firstName;
   const name = sender.firstName;
@@ -45,4 +45,5 @@ const rejectionEmailTemplate = (receiver, sender, transaction, url) => {
   };
 };
 
-exports.rejectionEmailTemplate = rejectionEmailTemplate;
+var _default = rejectionEmailTemplate;
+exports.default = _default;

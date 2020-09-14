@@ -1,12 +1,14 @@
 import makeUser from '../factory'
+import { UniqueConstraintError } from '../../helpers/errors'
+// import publishToQueue from '../../pubsub/publisher'
 
 const makeAddUser = ({ usersDb }) => {
   return async function addUser(userInfo) {
     const user = makeUser(userInfo)
-    // const exists = await usersDb.findByEmail({ email: user.getEmail() })
-    // if (exists) {
-    //   throw new Error('Email address is registered already.')
-    // }
+    const exists = await usersDb.findByEmail({ email: user.getEmail() })
+    if (exists) {
+      throw new UniqueConstraintError('Email address')
+    }
 
     const userSource = user.getSource()
     return usersDb.insert({

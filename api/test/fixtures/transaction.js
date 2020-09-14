@@ -24,9 +24,6 @@ const makeFakeTransaction = (overrides) => {
       browser: faker.internet.userAgent(),
       referrer: faker.internet.url()
     },
-    // user: {
-    //   id: Id.makeId()
-    // },
     initiator: '5f2bb93768a73f458c1db215',
     _id: '5f2bbad770427348f84dbcf0'
   }

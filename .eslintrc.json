@@ -9,6 +9,11 @@
     "sourceType": "module"
   },
   "rules": {
-    "allowForLoopAfterthoughts": true
+    "allowForLoopAfterthoughts": 0,
+    "no-underscore-dangle": "off",
+    "no-useless-constructor": "off",
+    "no-use-before-define": "off",
+    "no-console": "warn",
+    "prefer-const": "off"
   }
 }

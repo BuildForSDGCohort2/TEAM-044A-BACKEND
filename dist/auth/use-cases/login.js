@@ -7,6 +7,10 @@ exports.default = void 0;
 
 var _factory = _interopRequireDefault(require("../factory"));
 
+var _errors = require("../../helpers/errors");
+
+var _jsonwt = require("../../helpers/jsonwt");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* eslint-disable no-underscore-dangle */
@@ -21,7 +25,13 @@ const makeLoginUser = ({
     });
 
     if (!exists) {
-      throw new Error('User does not exist.');
+      throw new _errors.InvalidPropertyError('User does not exist.');
+    }
+
+    const password = await (0, _jsonwt.validatePassword)(user.getPassword(), exists.password);
+
+    if (!password) {
+      throw new _errors.InvalidPropertyError('Password is incorrect.');
     }
 
     const payload = {

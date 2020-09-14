@@ -1,4 +1,5 @@
-/* eslint-disable no-return-await */
+import { SendGridError } from '../../helpers/errors'
+
 const makeInProgressEmail = ({
   transactionDb,
   usersDb,
@@ -6,36 +7,40 @@ const makeInProgressEmail = ({
   dashboardURL,
   inProgressEmailTemplate
 }) => {
-  return async function sendInProgressMail({ ref, user, initiator }) {
-    /**
-     * The initiator of the transaction is meant to get the email stating the recipient is delivering the product or service.
-     * The initiator in this case is the incoming user object.
-     */
-    const receiver = await usersDb.findById({ id: initiator })
-    const transactionDetails = await transactionDb.findByRef({ ref })
-    const { email } = transactionDetails
-    const transactionRef = transactionDetails.reference
-    const sender = await usersDb.findByEmail({ email })
-    const {
-      transactionTitle,
-      transactionDesc,
-      amount,
-      transactionStatus
-    } = transactionDetails
-    const transaction = {
-      transactionTitle,
-      transactionDesc,
-      amount,
-      transactionStatus
+  return async function sendInProgressMail({ ref, initiator }) {
+    try {
+      /**
+       * The initiator of the transaction is meant to get the email stating the recipient is delivering the product or service.
+       * The initiator in this case is the incoming user object.
+       */
+      const receiver = await usersDb.findById({ id: initiator })
+      const transactionDetails = await transactionDb.findByRef({ ref })
+      const { email } = transactionDetails
+      // const transactionRef = transactionDetails.reference
+      const sender = await usersDb.findByEmail({ email })
+      const {
+        transactionTitle,
+        transactionDesc,
+        amount,
+        transactionStatus
+      } = transactionDetails
+      const transaction = {
+        transactionTitle,
+        transactionDesc,
+        amount,
+        transactionStatus
+      }
+      const url = dashboardURL()
+      const emailTemplate = inProgressEmailTemplate(
+        receiver,
+        sender,
+        transaction,
+        url
+      )
+      return sendMail({ emailTemplate })
+    } catch (error) {
+      throw new SendGridError(error.message)
     }
-    const url = dashboardURL(transactionRef)
-    const emailTemplate = inProgressEmailTemplate(
-      receiver,
-      sender,
-      transaction,
-      url
-    )
-    return await sendMail({ emailTemplate })
   }
 }
 

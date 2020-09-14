@@ -1,8 +1,4 @@
-/* eslint-disable consistent-return */
-/* eslint-disable no-useless-catch */
-/* eslint-disable no-console */
-/* eslint-disable no-return-await */
-/* eslint-disable no-underscore-dangle */
+import { SendGridError } from '../../helpers/errors'
 
 const buildMakeSendTransaction = ({
   transactionDb,
@@ -16,6 +12,8 @@ const buildMakeSendTransaction = ({
     try {
       const sender = await usersDb.findById({ id: user.id })
       const receiver = await transactionDb.findById({ id: newTransaction._id })
+      const { email } = receiver
+      const exists = await usersDb.findByEmail({ email })
       const toSend = {
         id: receiver._id,
         email: receiver.email,
@@ -35,15 +33,16 @@ const buildMakeSendTransaction = ({
         transactionStatus
       }
       const url = getTransactionEmailURL(transactionRef)
+      const url2 = 'http://localhost:3000/login'
       const emailTemplate = createTransactionTemplate(
         receiver,
         sender,
         transaction,
-        url
+        exists ? url2 : url
       )
-      return await sendMail({ emailTemplate })
+      return sendMail({ emailTemplate })
     } catch (error) {
-      console.log(error)
+      throw new SendGridError(error.message)
     }
   }
 }

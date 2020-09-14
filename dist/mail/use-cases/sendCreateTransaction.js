@@ -5,15 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-/* eslint-disable consistent-return */
+var _errors = require("../../helpers/errors");
 
-/* eslint-disable no-useless-catch */
-
-/* eslint-disable no-console */
-
-/* eslint-disable no-return-await */
-
-/* eslint-disable no-underscore-dangle */
 const buildMakeSendTransaction = ({
   transactionDb,
   usersDb,
@@ -32,6 +25,12 @@ const buildMakeSendTransaction = ({
       });
       const receiver = await transactionDb.findById({
         id: newTransaction._id
+      });
+      const {
+        email
+      } = receiver;
+      const exists = await usersDb.findByEmail({
+        email
       });
       const toSend = {
         id: receiver._id,
@@ -52,12 +51,13 @@ const buildMakeSendTransaction = ({
         transactionStatus
       };
       const url = getTransactionEmailURL(transactionRef);
-      const emailTemplate = createTransactionTemplate(receiver, sender, transaction, url);
-      return await sendMail({
+      const url2 = 'http://localhost:3000/login';
+      const emailTemplate = createTransactionTemplate(receiver, sender, transaction, exists ? url2 : url);
+      return sendMail({
         emailTemplate
       });
     } catch (error) {
-      console.log(error);
+      throw new _errors.SendGridError(error.message);
     }
   };
 };

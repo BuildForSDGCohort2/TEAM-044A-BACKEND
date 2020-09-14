@@ -1,33 +1,29 @@
 import express from 'express'
-import setupDB from '../database'
+import cors from 'cors'
 import path from 'path'
-import usersDb from '../users/model'
+import setupDB from '../database'
+// import usersDb from '../users/model'
+import subscriber from '../pubsub/subscriber'
+
 const app = express()
 
-// setupDB('mongodb://localhost:27017,localhost:27018,localhost:27019', 'escrow')
-// setupDB(
-//   'mongodb://DESKTOP-SNA1HQK:27017,DESKTOP-SNA1HQK:27018,DESKTOP-SNA1HQK:27019',
-//   'escrow?replicaSet=rs'
-// )
+setupDB()
+subscriber()
 
-setupDB(
-  `mongodb+srv://king:${process.env.DB_PASS}@projects.yhzkf.mongodb.net`,
-  `${process.env.DB_URL}?retryWrites=true&w=majority`
-)
-
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-//Initiator
-app.use(async (req, res, next) => {
-  const user = await usersDb.findById({ id: '5f4aa44f16d0172a30a92362' })
-  req.user = user
-  next()
-})
+// Initiator
+// app.use(async (req, res, next) => {
+//   const user = await usersDb.findById({ id: '5f4fd5b0d9f81a072c337b48' })
+//   req.user = user
+//   next()
+// })
 
 // Recipient
 // app.use(async (req, res, next) => {
-//   const user = await usersDb.findById({ id: '5f460a421ff47031a02f4775' })
+//   const user = await usersDb.findById({ id: '5f57e4feffa22d0e104e210a' })
 //   req.user = user
 //   next()
 // })
@@ -36,6 +32,7 @@ app.get('/', (_, res) => res.json({ msg: 'MoneyGuard is Protectinggg.' }))
 app.get('/:ref', (req, res) => {
   res.sendFile(path.join(__dirname, './pay.html'))
 })
+
 require('../routes')(app)
 
 module.exports = app

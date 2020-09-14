@@ -1,4 +1,5 @@
 import { Types } from 'mongoose'
+
 const objectId = Types.ObjectId
 
 const makeDisputeDb = ({ Dispute }) => {
@@ -9,11 +10,13 @@ const makeDisputeDb = ({ Dispute }) => {
   }
 
   async function findAll() {
-    return await Dispute.find().populate('transactionId')
+    const found = await Dispute.find().populate('transactionId')
+    return found
   }
 
   async function findById({ id: _id }) {
-    return await Dispute.findById(objectId(_id))
+    const found = Dispute.findById(objectId(_id))
+    return found
   }
 
   async function update({ id: _id, ...changes }) {

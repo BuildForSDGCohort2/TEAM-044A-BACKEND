@@ -1,17 +1,26 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable no-return-await */
 import mongoose from 'mongoose'
+import { DatabaseError } from '../../helpers/errors'
 
 const objectId = mongoose.Types.ObjectId
-const makeUsersDb = ({ User, createToken }) => {
+const makeUsersDb = ({ User, createToken, hashPassword }) => {
   async function insert({ ...userInfo }) {
-    const user = await new User({ ...userInfo })
-    const userId = {
-      id: user._id
+    try {
+      if (userInfo.password) {
+        // eslint-disable-next-line no-param-reassign
+        userInfo.password = await hashPassword(userInfo.password)
+      }
+      const newUser = new User({ ...userInfo })
+      const userId = {
+        id: newUser._id
+      }
+
+      const token = await createToken(userId)
+      const user = await newUser.save()
+      return { user, token }
+    } catch (error) {
+      throw new DatabaseError(error)
     }
-    const token = await createToken(userId)
-    await user.save()
-    return { user, token }
   }
 
   async function update({ id: _id, ...changes }) {
@@ -22,15 +31,15 @@ const makeUsersDb = ({ User, createToken }) => {
   }
 
   async function findByEmail({ email }) {
-    return await User.findOne({ email }).populate('transactions')
+    return User.findOne({ email }).populate('transactions')
   }
 
   async function findById({ id: _id }) {
-    return await User.findById(objectId(_id)).populate('transactions').exec()
+    return User.findById(objectId(_id)).populate('transactions').exec()
   }
 
   async function findAll() {
-    return await User.find()
+    return User.find().select('-password')
   }
 
   return Object.freeze({

@@ -5,6 +5,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _requireParam = _interopRequireDefault(require("../../helpers/requireParam"));
+
+var _errors = require("../../helpers/errors");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /* eslint-disable no-param-reassign */
 
 /* eslint-disable no-return-assign */
@@ -17,68 +23,24 @@ const buildMakeTransactionFactory = ({
   moment
 }) => {
   return function makeTransaction({
-    firstName,
-    lastName,
-    phoneNumber,
-    email,
-    transactionTitle,
-    transactionDesc,
-    currency,
-    inspectionPeriod,
-    dueDate,
-    source,
-    amount
+    firstName = (0, _requireParam.default)('First name'),
+    lastName = (0, _requireParam.default)('Last name'),
+    phoneNumber = (0, _requireParam.default)('Phone number'),
+    email = (0, _requireParam.default)('Email'),
+    transactionTitle = (0, _requireParam.default)('Transaction Title'),
+    transactionDesc = (0, _requireParam.default)('Transaction Description'),
+    currency = (0, _requireParam.default)('Currency'),
+    inspectionPeriod = (0, _requireParam.default)('Inspection Period'),
+    dueDate = (0, _requireParam.default)('Due date'),
+    source = (0, _requireParam.default)('Source'),
+    amount = (0, _requireParam.default)('Amount')
   } = {}) {
-    if (!firstName) {
-      throw new Error("Receiver's First name is required.");
-    }
-
-    if (!lastName) {
-      throw new Error("Receiver's Last name is required.");
-    }
-
-    if (!phoneNumber) {
-      throw new Error("Receiver's Phone number is required.");
-    }
-
-    if (!email) {
-      throw new Error("Receiver's Email is required.");
-    }
-
     if (!isValidEmail(email)) {
-      throw new Error('Please enter a valid email.');
-    }
-
-    if (!transactionTitle) {
-      throw new Error('Transaction title is required.');
-    }
-
-    if (!transactionDesc) {
-      throw new Error('You must provide a transaction description');
-    }
-
-    if (!currency) {
-      throw new Error('Please enter currency.');
-    }
-
-    if (!inspectionPeriod) {
-      throw new Error('Please specify the inspection period.');
-    }
-
-    if (!dueDate) {
-      throw new Error('Please specify a due date.');
-    }
-
-    if (!source) {
-      throw new Error('Buyer must have a valid source.');
-    }
-
-    if (!amount) {
-      throw new Error('Please enter the amount to be transferred.');
+      throw new _errors.InvalidPropertyError('Email is invalid');
     }
 
     if (!isValidAmount(amount)) {
-      throw new Error('Please enter a valid amount');
+      throw new _errors.InvalidPropertyError('Amount is invalid');
     }
 
     let reference;

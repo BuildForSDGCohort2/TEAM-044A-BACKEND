@@ -1,5 +1,5 @@
 const acceptanceEmailTemplate = (receiver, user, transaction, url) => {
-  const from = 'kingetiosasere@gmail.com'
+  const from = 'etiosaserekings@gmail.com'
   const to = receiver.email
   const username = receiver.firstName
   const name = user.firstName
@@ -30,4 +30,4 @@ const acceptanceEmailTemplate = (receiver, user, transaction, url) => {
   return { from, to, username, name, subject, html }
 }
 
-export { acceptanceEmailTemplate }
+export default acceptanceEmailTemplate

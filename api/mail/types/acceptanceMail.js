@@ -1,5 +1,5 @@
 const transactionEmailTemplate = (receiver, sender, transaction, url) => {
-  const from = 'kingetiosasere@gmail.com'
+  const from = 'etiosaserekings@gmail.com'
   const to = receiver.email
   const username = receiver.firstName
   const name = sender.firstName
@@ -13,7 +13,7 @@ const transactionEmailTemplate = (receiver, sender, transaction, url) => {
       <tr>
         <th>Title</th>
         <th>Description</th>
-        <th>Amount</th> 
+        <th>Amount</th>  
         <th>Status</th>
       </tr>
       <tr>
@@ -30,4 +30,4 @@ const transactionEmailTemplate = (receiver, sender, transaction, url) => {
   return { from, to, username, name, subject, html }
 }
 
-export { transactionEmailTemplate }
+export default transactionEmailTemplate

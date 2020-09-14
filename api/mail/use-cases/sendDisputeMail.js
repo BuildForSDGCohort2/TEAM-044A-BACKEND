@@ -1,3 +1,5 @@
+import { SendGridError } from '../../helpers/errors'
+
 const makeSendDisputeMail = ({
   transactionDb,
   usersDb,
@@ -32,9 +34,9 @@ const makeSendDisputeMail = ({
         transaction,
         url
       )
-      return await sendMail({ emailTemplate })
+      return sendMail({ emailTemplate })
     } catch (error) {
-      console.error(error)
+      throw new SendGridError(error.message)
     }
   }
 }

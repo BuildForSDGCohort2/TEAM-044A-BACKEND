@@ -1,5 +1,5 @@
 const rejectionEmailTemplate = (receiver, sender, transaction, url) => {
-  const from = 'kingetiosasere@gmail.com'
+  const from = 'etiosaserekings@gmail.com'
   const to = receiver.email
   const username = receiver.firstName
   const name = sender.firstName
@@ -31,4 +31,4 @@ const rejectionEmailTemplate = (receiver, sender, transaction, url) => {
   return { from, to, username, name, subject, html }
 }
 
-export { rejectionEmailTemplate }
+export default rejectionEmailTemplate

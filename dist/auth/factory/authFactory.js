@@ -5,17 +5,19 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _errors = require("../../helpers/errors");
+
 const buildAuthFactory = () => {
   return function makeAuth({
     email,
     password
   } = {}) {
     if (!email) {
-      throw new Error('Email is required.');
+      throw new _errors.RequiredParameterError('Email');
     }
 
     if (!password) {
-      throw new Error('Password is required.');
+      throw new _errors.RequiredParameterError('Password');
     }
 
     return Object.freeze({

@@ -18,6 +18,7 @@ const {
 } = _models.default;
 const usersDb = (0, _usersDb.default)({
   User,
+  hashPassword: _jsonwt.hashPassword,
   createToken: _jsonwt.createToken
 });
 var _default = usersDb;

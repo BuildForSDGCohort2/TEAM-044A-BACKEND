@@ -9,7 +9,6 @@ var _factory = _interopRequireDefault(require("../factory"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* eslint-disable no-return-await */
 const makeBuildCreateTransaction = ({
   transactionDb,
   sendTransactionMail
@@ -19,7 +18,7 @@ const makeBuildCreateTransaction = ({
     ...transactionInfo
   } = {}) {
     const {
-      _id
+      id
     } = user;
     const transaction = (0, _factory.default)({ ...transactionInfo
     });
@@ -36,7 +35,7 @@ const makeBuildCreateTransaction = ({
       inspectionPeriod: transaction.getInspectionPeriod(),
       dueDate: transaction.getDueDate(),
       reference: transaction.getRef(),
-      initiator: _id,
+      initiator: id,
       source: {
         ip: transactionSource.getIp(),
         browser: transactionSource.getBrowser(),

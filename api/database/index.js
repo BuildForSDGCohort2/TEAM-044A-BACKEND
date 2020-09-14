@@ -2,30 +2,22 @@
 /* eslint-disable no-console */
 import mongoose from 'mongoose'
 
-const setupDB = async (uri, dbUrl) => {
+process.env.NODE_ENV = 'dev'
+
+const url =
+  process.env.DB_URL ||
+  'mongodb://DESKTOP-SNA1HQK:27017,DESKTOP-SNA1HQK:27018,DESKTOP-SNA1HQK:27019/escrow?replicaSet=rs'
+const setupDB = async () => {
   try {
-    await mongoose.connect(`${uri}/${dbUrl}`, {
+    await mongoose.connect(url, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
       replicaSet: 'rs'
     })
-    console.log('Connected')
+    console.log(`Connected to ${url}`)
   } catch (e) {
     return console.log(e)
   }
 }
 
-// mongoose
-//   .connect(
-//     `mongodb://DESKTOP-SNA1HQK:27017,DESKTOP-SNA1HQK:27018,DESKTOP-SNA1HQK:27019/escrow?replicaSet=rs`,
-//     {
-//       useUnifiedTopology: true,
-//       useNewUrlParser: true,
-//       replicaSet: 'rs'
-//     }
-//   )
-//   .then(() => {
-//     console.log('Connected')
-//   })
-//   .catch((e) => console.log(e))
 export default setupDB

@@ -5,9 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-/* eslint-disable no-return-await */
+var _errors = require("../../helpers/errors");
 
-/* eslint-disable consistent-return */
 const makeVerifyEmail = ({
   decodeToken,
   transactionDb
@@ -19,11 +18,16 @@ const makeVerifyEmail = ({
       emailVerified,
       id
     } = toDecode;
-    emailVerified = true;
-    return await transactionDb.update({
-      emailVerified,
-      id
-    });
+
+    if (!emailVerified) {
+      emailVerified = true;
+      return transactionDb.update({
+        emailVerified,
+        id
+      });
+    }
+
+    throw new _errors.InvalidPropertyError('Email has been verified already');
   };
 };
 

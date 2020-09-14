@@ -38,6 +38,10 @@ const escrowSchema = new mongoose.Schema({
   updatedAt: {
     type: Date,
     default: Date.now()
+  },
+  isCustomerPaid: {
+    type: Boolean,
+    default: false
   }
 })
 export default escrowSchema

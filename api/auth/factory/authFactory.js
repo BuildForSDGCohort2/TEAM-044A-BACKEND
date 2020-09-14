@@ -1,10 +1,12 @@
+import { RequiredParameterError } from '../../helpers/errors'
+
 const buildAuthFactory = () => {
   return function makeAuth({ email, password } = {}) {
     if (!email) {
-      throw new Error('Email is required.')
+      throw new RequiredParameterError('Email')
     }
     if (!password) {
-      throw new Error('Password is required.')
+      throw new RequiredParameterError('Password')
     }
 
     return Object.freeze({

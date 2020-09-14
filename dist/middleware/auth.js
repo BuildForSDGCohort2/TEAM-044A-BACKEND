@@ -9,7 +9,9 @@ var _dotenv = _interopRequireDefault(require("dotenv"));
 
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
-var _httpResponse = require("../helpers/http-response");
+var _errors = require("../helpers/errors");
+
+var _tryCatchHandler = _interopRequireDefault(require("../helpers/try-catch-handler"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -17,31 +19,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _dotenv.default.config();
 
 const decodeToken = controller => {
-  return async function sendToken(httpRequest) {
+  const sendToken = (0, _tryCatchHandler.default)(async httpRequest => {
     const token = httpRequest.headers['x-auth-token'];
 
-    try {
-      if (!token) {
-        return (0, _httpResponse.makeHttpError)({
-          statusCode: 401,
-          title: 'Unauthorized',
-          errorMessage: 'No token, authorization denied.'
-        });
-      }
-
-      const decoded = _jsonwebtoken.default.verify(token, process.env.JWT_SECRET);
-
-      httpRequest.user = decoded;
-      return controller(httpRequest);
-    } catch (error) {
-      return (0, _httpResponse.makeHttpError)({
-        statusCode: error.statusCode || 401,
-        title: error.name,
-        errorMessage: error.message,
-        stack: error.stack
-      });
+    if (!token) {
+      throw new _errors.UnauthorizedError('No token, authorization denied.');
     }
-  };
+
+    const decoded = _jsonwebtoken.default.verify(token, process.env.JWT_SECRET);
+
+    httpRequest.user = decoded;
+    return controller(httpRequest);
+  });
+  return sendToken;
 };
 
 var _default = decodeToken;

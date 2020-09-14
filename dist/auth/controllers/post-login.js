@@ -5,45 +5,29 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _httpResponse = require("../../helpers/http-response");
+var _tryCatchHandler = _interopRequireDefault(require("../../helpers/try-catch-handler"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const makePostLogin = ({
   loginUser
 }) => {
-  return async function postLogin(httpRequest) {
-    try {
-      let { ...userInfo
-      } = httpRequest.body;
-
-      if (typeof httpRequest.body === 'string') {
-        try {
-          userInfo = JSON.parse(userInfo);
-        } catch (error) {
-          return (0, _httpResponse.makeHttpError)({
-            statusCode: 403,
-            errorMessage: 'Bad request. POST body must be valid JSON'
-          });
-        }
-      }
-
-      const user = await loginUser({ ...userInfo
-      });
-      return {
-        headers: {
-          'Content-Type': 'application/vnd.api+json'
-        },
-        statusCode: 200,
-        data: user
-      };
-    } catch (error) {
-      return (0, _httpResponse.makeHttpError)({
-        title: error.name,
-        errorMessage: error.message,
-        statusCode: error.statusCode || 401,
-        stack: error.stack
-      });
-    }
-  };
+  const postLogin = (0, _tryCatchHandler.default)(async httpRequest => {
+    const { ...userInfo
+    } = httpRequest.body;
+    const token = await loginUser({ ...userInfo
+    });
+    return {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      status: 'OK',
+      statusCode: 200,
+      message: 'Authorized',
+      data: token
+    };
+  });
+  return postLogin;
 };
 
 var _default = makePostLogin;
