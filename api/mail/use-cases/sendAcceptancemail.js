@@ -1,4 +1,5 @@
-/* eslint-disable no-return-await */
+import { SendGridError } from '../../helpers/errors'
+
 const makeAcceptanceEmail = ({
   transactionDb,
   usersDb,
@@ -8,10 +9,6 @@ const makeAcceptanceEmail = ({
 }) => {
   return async function sendAcceptanceEmail({ _id, initiator }) {
     try {
-      /**
-       * The initiator of the transaction is meant to get the email stating the recipient has accepted.
-       * The initiator in this case is the incoming user object.
-       */
       const receiver = await usersDb.findById({ id: initiator })
       const transactionDetails = await transactionDb.findById({
         id: _id
@@ -20,11 +17,11 @@ const makeAcceptanceEmail = ({
         transactionTitle,
         transactionDesc,
         amount,
-        reference,
+        // reference,
         email,
         transactionStatus
       } = transactionDetails
-      const transactionRef = reference
+      // const transactionRef = reference
       const sender = await usersDb.findByEmail({ email })
       const transaction = {
         transactionTitle,
@@ -32,17 +29,16 @@ const makeAcceptanceEmail = ({
         amount,
         transactionStatus
       }
-      const url = dashboardURL(transactionRef)
+      const url = dashboardURL()
       const emailTemplate = transactionEmailTemplate(
         receiver,
         sender,
         transaction,
         url
       )
-      return await sendMail({ emailTemplate })
+      return sendMail({ emailTemplate })
     } catch (error) {
-      console.error(error)
-      process.exit(0)
+      throw new SendGridError(error.message)
     }
   }
 }

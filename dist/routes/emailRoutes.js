@@ -16,6 +16,8 @@ const path = '/api/v1/email';
 exports.path = path;
 
 function config(router) {
-  router.get('/verify/:token', (0, _express.default)(_controllers.default));
+  router.get('/verify/:token', (0, _express.default)(_controllers.default)).get('/verify', (req, res) => res.json({
+    status: 'OK'
+  }));
   return router;
 }

@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _errors = require("../../helpers/errors");
+
 const makeInProgressEmail = ({
   transactionDb,
   usersDb,
@@ -29,8 +31,8 @@ const makeInProgressEmail = ({
       });
       const {
         email
-      } = transactionDetails;
-      const transactionRef = transactionDetails.reference;
+      } = transactionDetails; // const transactionRef = transactionDetails.reference
+
       const sender = await usersDb.findByEmail({
         email
       });
@@ -46,13 +48,13 @@ const makeInProgressEmail = ({
         amount,
         transactionStatus
       };
-      const url = dashboardURL(transactionRef);
+      const url = dashboardURL();
       const emailTemplate = inProgressEmailTemplate(receiver, sender, transaction, url);
-      return await sendMail({
+      return sendMail({
         emailTemplate
       });
     } catch (error) {
-      throw error;
+      throw new _errors.SendGridError(error.message);
     }
   };
 };

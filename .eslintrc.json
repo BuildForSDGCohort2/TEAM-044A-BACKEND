@@ -13,6 +13,7 @@
     "no-underscore-dangle": "off",
     "no-useless-constructor": "off",
     "no-use-before-define": "off",
-    "no-console": "warn"
+    "no-console": "warn",
+    "prefer-const": "off"
   }
 }

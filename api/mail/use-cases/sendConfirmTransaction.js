@@ -1,4 +1,5 @@
-/* eslint-disable no-return-await */
+import { SendGridError } from '../../helpers/errors'
+
 const makeConfirmEmail = ({
   transactionDb,
   usersDb,
@@ -7,29 +8,33 @@ const makeConfirmEmail = ({
   confirmEmailTemplate
 }) => {
   return async function sendConfirmEmail({ ref, initiator }) {
-    const sender = await usersDb.findById({ id: initiator })
-    const receiver = await transactionDb.findByRef({ ref })
-    const transactionRef = receiver.reference
-    const {
-      transactionTitle,
-      transactionDesc,
-      amount,
-      transactionStatus
-    } = receiver
-    const transaction = {
-      transactionTitle,
-      transactionDesc,
-      amount,
-      transactionStatus
+    try {
+      const sender = await usersDb.findById({ id: initiator })
+      const receiver = await transactionDb.findByRef({ ref })
+      // const transactionRef = receiver.reference
+      const {
+        transactionTitle,
+        transactionDesc,
+        amount,
+        transactionStatus
+      } = receiver
+      const transaction = {
+        transactionTitle,
+        transactionDesc,
+        amount,
+        transactionStatus
+      }
+      const url = dashboardURL()
+      const emailTemplate = confirmEmailTemplate(
+        receiver,
+        sender,
+        transaction,
+        url
+      )
+      return sendMail({ emailTemplate })
+    } catch (error) {
+      throw new SendGridError(error.message)
     }
-    const url = dashboardURL(transactionRef)
-    const emailTemplate = confirmEmailTemplate(
-      receiver,
-      sender,
-      transaction,
-      url
-    )
-    return await sendMail({ emailTemplate })
   }
 }
 

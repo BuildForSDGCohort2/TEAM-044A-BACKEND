@@ -1,3 +1,5 @@
+import { SendGridError } from '../../helpers/errors'
+
 const makeInProgressEmail = ({
   transactionDb,
   usersDb,
@@ -14,7 +16,7 @@ const makeInProgressEmail = ({
       const receiver = await usersDb.findById({ id: initiator })
       const transactionDetails = await transactionDb.findByRef({ ref })
       const { email } = transactionDetails
-      const transactionRef = transactionDetails.reference
+      // const transactionRef = transactionDetails.reference
       const sender = await usersDb.findByEmail({ email })
       const {
         transactionTitle,
@@ -28,16 +30,16 @@ const makeInProgressEmail = ({
         amount,
         transactionStatus
       }
-      const url = dashboardURL(transactionRef)
+      const url = dashboardURL()
       const emailTemplate = inProgressEmailTemplate(
         receiver,
         sender,
         transaction,
         url
       )
-      return await sendMail({ emailTemplate })
+      return sendMail({ emailTemplate })
     } catch (error) {
-      throw error
+      throw new SendGridError(error.message)
     }
   }
 }

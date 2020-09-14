@@ -56,10 +56,24 @@ class DatabaseError extends Error {
   }
 }
 
+class SendGridError extends Error {
+  constructor(message, statusCode = 400) {
+    super(message)
+
+    this.name = 'SendGridError'
+    this.statusCode = statusCode
+
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, SendGridError)
+    }
+  }
+}
+
 export {
   RequiredParameterError,
   InvalidPropertyError,
   UniqueConstraintError,
   UnauthorizedError,
-  DatabaseError
+  DatabaseError,
+  SendGridError
 }
