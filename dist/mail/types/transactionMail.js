@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.createTransactionTemplate = exports.getTransactionEmailURL = void 0;
 
-const getTransactionEmailURL = transactionRef => `http://localhost:4000/api/v1/email/verify/${transactionRef}`;
+const getTransactionEmailURL = transactionRef => `http://localhost:3000/confirm/${transactionRef}`;
 
 exports.getTransactionEmailURL = getTransactionEmailURL;
 

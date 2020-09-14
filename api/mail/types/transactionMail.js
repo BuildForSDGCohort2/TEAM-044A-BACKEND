@@ -1,5 +1,5 @@
 const getTransactionEmailURL = (transactionRef) =>
-  `http://localhost:4000/api/v1/email/verify/${transactionRef}`
+  `http://localhost:3000/confirm/${transactionRef}`
 
 const createTransactionTemplate = (receiver, sender, transaction, url) => {
   const from = 'etiosaserekings@gmail.com'
