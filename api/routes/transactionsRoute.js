@@ -15,7 +15,6 @@ export const path = '/api/v1/transactions'
 export function config(router) {
   router
     .get('/', makeExpressCallback(decodeToken(getTransactions)))
-    .get('/:ref', makeExpressCallback(decodeToken(getTransactions)))
     .post('/', makeExpressCallback(decodeToken(postTransaction)))
     .patch(
       '/accept-transaction/:ref',

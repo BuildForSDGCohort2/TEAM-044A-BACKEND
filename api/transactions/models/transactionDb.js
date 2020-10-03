@@ -1,6 +1,3 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable no-await-in-loop */
-/* eslint-disable no-unused-expressions */
 import mongoose from 'mongoose'
 import { DatabaseError } from '../../helpers/errors'
 
@@ -29,7 +26,6 @@ const makeTransactionsDb = ({ User, Transaction, Escrow }) => {
   }
 
   async function remove({ id: _id }) {
-    // eslint-disable-next-line no-return-await
     return Transaction.findByIdAndDelete(objectId(_id))
   }
 
@@ -57,7 +53,7 @@ const makeTransactionsDb = ({ User, Transaction, Escrow }) => {
   }
 
   async function findByRef({ ref }) {
-    return Transaction.findOne({ reference: ref })
+    return Transaction.find({ initiator: ref })
   }
 
   async function findAll() {

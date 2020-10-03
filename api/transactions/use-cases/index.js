@@ -28,7 +28,7 @@ const createTransaction = makeCreateTransaction({
 })
 
 // list transactions
-const listTransactions = makeListTransactions({ transactionDb })
+const listTransactions = makeListTransactions({ transactionDb, usersDb })
 
 // recipient/seller accepts transactions
 const acceptTransaction = makeAcceptTransaction({

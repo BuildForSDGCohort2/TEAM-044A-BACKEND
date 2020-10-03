@@ -6,7 +6,7 @@ dotenv.config()
 const getUserEmail = (token) =>
   process.env.NODE_ENV === 'production'
     ? urlGenerator('verify', token)
-    : `http://localhost:3000/verify/${token}`
+    : `http://localhost:3000/email/verify/${token}`
 
 const createVerifyEmailTemplate = (receiver, url) => {
   const from = 'etiosaserekings@gmail.com'
