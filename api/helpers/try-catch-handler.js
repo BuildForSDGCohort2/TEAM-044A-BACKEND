@@ -11,6 +11,7 @@ import {
 
 const tryCatchHandler = (fn) => (req, res, ...otherParams) =>
   fn(req, res, ...otherParams).catch((error) => {
+    console.log(`ERROR`, error)
     // logging.error(`An error occured: Error ${error}`)
     return makeHttpError({
       errorMessage: error.message,

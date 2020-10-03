@@ -1,5 +1,4 @@
-const getTransactionEmailURL = (transactionRef) =>
-  `http://localhost:3000/confirm/${transactionRef}`
+const getTransactionEmailURL = () => `http://localhost:3000/signup`
 
 const createTransactionTemplate = (receiver, sender, transaction, url) => {
   const from = 'etiosaserekings@gmail.com'
@@ -9,7 +8,7 @@ const createTransactionTemplate = (receiver, sender, transaction, url) => {
   const subject = 'You have a new transaction pending'
   const html = `
     <p>Hi ${username}, you have a new transaction from ${from} with name ${name} awaiting your confirmation.</p>
-    <p>Click this link to redirect to accept the transaction <a href=${url}>${url}</a></p>
+    <p>Click this link to accept the transaction <a href=${url}>${url}</a></p>
     <p>Here is the summary of the transaction details.</p>
 
     <table> 

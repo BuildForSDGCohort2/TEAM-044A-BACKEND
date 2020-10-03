@@ -16,13 +16,10 @@ function createNewWallet({
   usersDb
 }) {
   return async function createWallet({
-    user = (0, _requireParam.default)('User Id')
+    id = (0, _requireParam.default)('User Id')
   }) {
-    console.log({
-      user
-    });
     const found = await usersDb.findById({
-      id: user.id
+      id
     });
 
     if (!found) {

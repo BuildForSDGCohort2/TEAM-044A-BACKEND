@@ -12,7 +12,8 @@ var _errors = require("./errors");
 /* eslint-disable no-nested-ternary */
 // import logging from '../configuration/logging/logger'
 const tryCatchHandler = fn => (req, res, ...otherParams) => fn(req, res, ...otherParams).catch(error => {
-  // logging.error(`An error occured: Error ${error}`)
+  console.log(`ERROR`, error); // logging.error(`An error occured: Error ${error}`)
+
   return (0, _httpResponse.makeHttpError)({
     errorMessage: error.message,
     title: error.name,

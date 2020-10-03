@@ -8,6 +8,7 @@ import deliveryRejectionTemplate from './deliveryRejectTemplate'
 import disputeMailTemplate from './disputeMailTemplate'
 
 export * from './transactionMail'
+export * from './verifyUserMailTemplate'
 
 export {
   transactionEmailTemplate,

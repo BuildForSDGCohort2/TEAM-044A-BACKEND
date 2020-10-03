@@ -91,4 +91,17 @@ Object.keys(_transactionMail).forEach(function (key) {
   });
 });
 
+var _verifyUserMailTemplate = require("./verifyUserMailTemplate");
+
+Object.keys(_verifyUserMailTemplate).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _verifyUserMailTemplate[key];
+    }
+  });
+});
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

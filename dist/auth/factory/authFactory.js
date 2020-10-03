@@ -21,7 +21,7 @@ const buildAuthFactory = () => {
     }
 
     return Object.freeze({
-      getEmail: () => email,
+      getEmail: () => email.toLowerCase(),
       getPassword: () => password
     });
   };

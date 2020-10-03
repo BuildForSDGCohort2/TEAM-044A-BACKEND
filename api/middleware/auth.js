@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
-import { UnauthorizedError } from '../helpers/errors'
+import { InvalidPropertyError, UnauthorizedError } from '../helpers/errors'
 import tryCatchHandler from '../helpers/try-catch-handler'
 
 dotenv.config()
@@ -13,6 +13,9 @@ const decodeToken = (controller) => {
       throw new UnauthorizedError('No token, authorization denied.')
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    if (!decoded) {
+      throw new InvalidPropertyError('No User with this token exists.')
+    }
     httpRequest.user = decoded
     return controller(httpRequest)
   })

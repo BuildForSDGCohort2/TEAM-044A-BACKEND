@@ -18,7 +18,6 @@ const path = '/api/v1/wallet';
 exports.path = path;
 
 function config(router) {
-  router // .get('/', makeExpressCallback(decodeToken(getUser)))
-  .post('/', (0, _express.default)((0, _auth.default)(_controllers.postWallet))).post('/deposit', (0, _express.default)((0, _auth.default)(_controllers.postDeposit))).post('/transfer', (0, _express.default)((0, _auth.default)(_controllers.postTransfer))).post('/withdraw', (0, _express.default)((0, _auth.default)(_controllers.postWithdraw)));
+  router.get('/history', (0, _express.default)((0, _auth.default)(_controllers.getHistory))).post('/', (0, _express.default)((0, _auth.default)(_controllers.postWallet))).post('/deposit', (0, _express.default)((0, _auth.default)(_controllers.postDeposit))).post('/transfer', (0, _express.default)((0, _auth.default)(_controllers.postTransfer))).post('/withdraw', (0, _express.default)((0, _auth.default)(_controllers.postWithdraw)));
   return router;
 }

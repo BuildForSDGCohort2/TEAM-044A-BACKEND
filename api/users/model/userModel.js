@@ -50,7 +50,12 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: 'Wallet'
   },
-  source: {}
+  source: {},
+  disputes: [{ type: mongoose.Types.ObjectId, ref: 'Dispute' }],
+  isVerified: {
+    type: Boolean,
+    default: false
+  }
 })
 
 export default userSchema

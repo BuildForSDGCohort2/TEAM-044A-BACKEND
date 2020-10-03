@@ -24,14 +24,15 @@ const makePostAcceptTransaction = ({
     const {
       ref
     } = httpRequest.pathParams;
-    await acceptTransaction({
+    const result = await acceptTransaction({
       ref
     });
+    console.log(result);
     return (0, _httpResponse.apiResponse)({
       status: true,
       statusCode: 200,
       message: 'Transaction Accepted',
-      data: null
+      data: result
     });
   });
   return postAcceptTransaction;

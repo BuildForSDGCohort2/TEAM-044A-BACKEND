@@ -6,6 +6,7 @@ import makeDeliveryComplete from './deliveryComplete'
 import makeConfirmTransaction from './confirmTransaction'
 import makeInProgress from './inProgress'
 import makeRejectTransactionRequest from './rejectTransactionRequest'
+import makeVerifyTransaction from './fundTransaction'
 import publisher from '../../pubsub/publisher'
 import {
   sendAcceptanceEmail,
@@ -17,6 +18,7 @@ import {
   sendDeliveryRejectionEmail
 } from '../../mail'
 import transactionDb from '../models'
+import escrowDb from '../../core-payment/models'
 import usersDb from '../../users/model'
 import DisbursementAPI from '../../pubsub/events'
 
@@ -70,6 +72,9 @@ const inProgress = makeInProgress({
   usersDb
 })
 
+// verify transaction
+const verifyTransaction = makeVerifyTransaction({ transactionDb, escrowDb })
+
 export {
   listTransactions,
   createTransaction,
@@ -78,5 +83,6 @@ export {
   rejectTransactionRequest,
   deliveryComplete,
   confirmTransaction,
-  inProgress
+  inProgress,
+  verifyTransaction
 }

@@ -1,13 +1,13 @@
-import {
-  createTransaction,
-  verifyTransaction
-} from '../transactions/use-cases/fundTransaction'
+import makeExpressCallback from '../express'
+import { verifyPaystack } from '../transactions/controllers'
+import decodeToken from '../middleware/auth'
 
 export const path = '/api/v1/payment'
 
 export function config(router) {
-  router
-    .get('/paystack/callback', verifyTransaction)
-    .post('/paystack/pay/:ref', createTransaction)
+  router.post(
+    '/paystack/callback',
+    makeExpressCallback(decodeToken(verifyPaystack))
+  )
   return router
 }

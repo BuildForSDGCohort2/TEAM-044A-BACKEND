@@ -3,7 +3,7 @@ import { apiResponse } from '../../helpers/http-response'
 import tryCatchHandler from '../../helpers/try-catch-handler'
 
 const makePostUser = ({ addUser }) => {
-  const postUser = tryCatchHandler(async (httpRequest) => {
+  return tryCatchHandler(async (httpRequest) => {
     let { source = {}, ...userInfo } = httpRequest.body
     source.ip = httpRequest.ip
     source.browser = httpRequest.headers['User-Agent']
@@ -20,8 +20,6 @@ const makePostUser = ({ addUser }) => {
       message: 'User created'
     })
   })
-
-  return postUser
 }
 
 export default makePostUser

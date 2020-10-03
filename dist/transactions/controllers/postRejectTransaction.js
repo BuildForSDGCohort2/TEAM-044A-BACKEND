@@ -18,14 +18,14 @@ const makePostRejectTransaction = ({
     const {
       ref
     } = httpRequest.pathParams;
-    await rejectTransactionRequest({
+    const transaction = await rejectTransactionRequest({
       ref
     });
     return (0, _httpResponse.apiResponse)({
       status: true,
       statusCode: 200,
       message: 'Transaction Rejected',
-      data: null
+      data: transaction
     });
   });
   return postAcceptTransaction;

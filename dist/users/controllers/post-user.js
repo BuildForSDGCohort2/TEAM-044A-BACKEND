@@ -15,7 +15,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const makePostUser = ({
   addUser
 }) => {
-  const postUser = (0, _tryCatchHandler.default)(async httpRequest => {
+  return (0, _tryCatchHandler.default)(async httpRequest => {
     let {
       source = {},
       ...userInfo
@@ -38,7 +38,6 @@ const makePostUser = ({
       message: 'User created'
     });
   });
-  return postUser;
 };
 
 var _default = makePostUser;

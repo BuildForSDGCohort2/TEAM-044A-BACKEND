@@ -1,3 +1,3 @@
-const dashboardURL = () => `http://localhost:4000/api/v1/transactions`
+const dashboardURL = () => `http://localhost:3000/dashboard`
 
 export default dashboardURL

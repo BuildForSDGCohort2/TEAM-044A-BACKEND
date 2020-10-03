@@ -84,42 +84,4 @@ function runCron(
   return job.start()
 }
 
-export const disburse = async (msg) => {
-  // get the transaction that is === the transactionID
-  const transaction = await escrowDb.findEscrow({ msg })
-  const {
-    totalAmount,
-    transactionId,
-    escrowCharge,
-    _id,
-    isCustomerPaid
-  } = transaction
-  const currentTransaction = await transactionDb.findById({
-    id: transactionId
-  })
-  const { email } = currentTransaction
-  let { inspectionPeriod } = currentTransaction
-  const receiver = await usersDb.findByEmail({ email })
-
-  inspectionPeriod = Date.now()
-  // checks to see if the customer's money has been disbursed before now
-  if (isCustomerPaid) {
-    throw new Error('The recipient money has been disbursed already.')
-  } else if (inspectionPeriod === Date.now()) {
-    await escrowDb
-      .transferMoney({
-        totalAmount,
-        transactionId,
-        escrowCharge,
-        receiver
-      })
-      .then(async () => {
-        const result = await escrowDb.update({
-          id: _id,
-          isCustomerPaid: true
-        })
-        return result
-      })
-  }
-}
 export default DisbursementAPI

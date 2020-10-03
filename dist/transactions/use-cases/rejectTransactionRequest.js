@@ -32,13 +32,14 @@ const makeRejectTransactionRequest = ({
       id: initiator
     });
     transactionStatus = 'Transaction Request Rejected';
-    await Promise.all([transactionDb.update({
+    const [transaction] = await Promise.all([transactionDb.update({
       id: _id,
       transactionStatus
     }), sendRejectionMail({
       ref,
       user
     })]);
+    return transaction.transactionStatus;
   };
 };
 

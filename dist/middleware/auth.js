@@ -28,6 +28,10 @@ const decodeToken = controller => {
 
     const decoded = _jsonwebtoken.default.verify(token, process.env.JWT_SECRET);
 
+    if (!decoded) {
+      throw new _errors.InvalidPropertyError('No User with this token exists.');
+    }
+
     httpRequest.user = decoded;
     return controller(httpRequest);
   });

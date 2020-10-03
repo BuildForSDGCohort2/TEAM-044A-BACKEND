@@ -1,9 +1,7 @@
-import publishToQueue from '../../pubsub/publisher'
-
 const makeConfirmTransaction = ({
   transactionDb,
-  sendConfirmEmail
-  // DisbursementAPI
+  sendConfirmEmail,
+  DisbursementAPI
 }) => {
   return async function confirmTransation({ ref } = {}) {
     const currentTransaction = await transactionDb.findByRef({ ref })
@@ -14,11 +12,8 @@ const makeConfirmTransaction = ({
       transactionDb.update({ id: _id, transactionStatus }),
       sendConfirmEmail({ ref, initiator })
     ])
-    const exchange = 'escrow'
-    const routingKey = 'disbursement'
-    await publishToQueue(exchange, routingKey, _id.toString())
-    // const fund = new DisbursementAPI()
-    // fund.on('transferMoney', () => {}).releaseFunds({ transactionID: _id })
+    const fund = new DisbursementAPI()
+    fund.on('transferMoney', () => {}).releaseFunds({ transactionID: _id })
     return updated
   }
 }

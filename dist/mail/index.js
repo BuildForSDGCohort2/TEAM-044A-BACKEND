@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.sendDisputeMail = exports.sendDeliveryRejectionEmail = exports.sendInProgressEmail = exports.sendTransactionMail = exports.sendConfirmEmail = exports.sendDeliveryEmail = exports.sendRejectionMail = exports.sendNotificationEmail = exports.sendAcceptanceEmail = exports.verifyEmail = void 0;
+exports.verifyUser = exports.sendDisputeMail = exports.sendDeliveryRejectionEmail = exports.sendInProgressEmail = exports.sendTransactionMail = exports.sendConfirmEmail = exports.sendDeliveryEmail = exports.sendRejectionMail = exports.sendNotificationEmail = exports.sendAcceptanceEmail = exports.verifyEmail = void 0;
 
 var _verifyMail = _interopRequireDefault(require("./use-cases/verifyMail"));
 
@@ -25,6 +25,8 @@ var _deliveryRejectionMail = _interopRequireDefault(require("./use-cases/deliver
 
 var _sendDisputeMail = _interopRequireDefault(require("./use-cases/sendDisputeMail"));
 
+var _verifyUser = _interopRequireDefault(require("./use-cases/verifyUser"));
+
 var _dashboard = _interopRequireDefault(require("./use-cases/dashboard"));
 
 var _jsonwt = require("../helpers/jsonwt");
@@ -39,10 +41,18 @@ var _index = require("./types/index");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+const verifyUser = (0, _verifyUser.default)({
+  usersDb: _model.default,
+  createToken: _jsonwt.createToken,
+  createVerifyEmailTemplate: _index.createVerifyEmailTemplate,
+  sendMail: _sendMail.default,
+  getUserEmail: _index.getUserEmail
+});
+exports.verifyUser = verifyUser;
 const verifyEmail = (0, _verifyMail.default)({
   decodeToken: _jsonwt.decodeToken,
   sendTokenResponse: _jsonwt.sendTokenResponse,
-  transactionDb: _models.default
+  usersDb: _model.default
 }); // Notifies the buyer that the seller has accepted to be paid XYZ amount
 
 exports.verifyEmail = verifyEmail;

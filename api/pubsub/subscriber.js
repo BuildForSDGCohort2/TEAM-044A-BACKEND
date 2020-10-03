@@ -1,47 +1,31 @@
-/* eslint-disable no-use-before-define */
-import amqp from 'amqplib/callback_api'
-import { disburse } from './events'
-import { createWallet } from '../wallet/use-cases'
+import amqp from 'amqplib'
+import AMQP_URI from '../helpers/config'
+import { MessageBrokerError } from '../helpers/errors'
 
-const url = process.env.CLOUDAMQP_URL || 'amqp://localhost'
-export default function subscriber() {
-  amqp.connect(url, (err, conn) => {
-    console.log(`CONNECTED TO: ${url}`)
-    conn.createChannel((error, channel) => {
-      if (error) {
-        console.log(`An error occured ${error}`)
-      }
+const assertQueueOptions = { durable: true }
+const assertExchangeOptions = { durable: true }
+const consumeQueueOptions = { noAck: false }
+const exchange = 'escrow'
 
-      const exchange = 'escrow'
-      const queue = 'disburse'
-      const walletQueue = 'wallet_queue'
-      channel.assertExchange(exchange, 'direct', { durable: true })
-      channel.assertQueue(queue, { durable: true })
-      channel.assertQueue(walletQueue, { durable: true })
-      // escrow queue
-      channel.bindQueue(queue, exchange, 'disbursement')
-      // wallet queue
-      channel.bindQueue(walletQueue, exchange, '*.walletCreation.*')
-      channel.consume(
-        queue,
-        async (msg) => {
-          await disburse(msg.content.toString())
-          await createWallet(msg.content.toString())
-          channel.ack(msg)
-        },
-        { noAck: false }
-      )
-
-      // wallet consumer
-      channel.consume(
-        walletQueue,
-        async (msg) => {
-          // await disburse(msg.content.toString())
-          await createWallet(msg.content.toString())
-          channel.ack(msg)
-        },
-        { noAck: false }
-      )
-    })
-  })
+const consumer = async (queue, func, key) => {
+  try {
+    const conn = await amqp.connect(AMQP_URI)
+    const channel = await conn.createChannel()
+    await channel.assertExchange(exchange, 'topic', assertExchangeOptions)
+    await channel.assertQueue(queue, assertQueueOptions)
+    await channel.bindQueue(queue, exchange, key)
+    await channel.consume(
+      queue,
+      (msg) => {
+        func(msg.content.toString())
+        channel.ack(msg)
+      },
+      consumeQueueOptions
+    )
+    return channel
+  } catch (error) {
+    throw new MessageBrokerError(error.message)
+  }
 }
+
+export default consumer

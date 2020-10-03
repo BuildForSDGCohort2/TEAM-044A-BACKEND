@@ -41,26 +41,18 @@ const makeTransactionsDb = ({ User, Transaction, Escrow }) => {
     try {
       const user = await User.findOne({ email })
         .select('-password -__v -createdOn -modifiedOn')
-        .populate('transactions')
+        .populate('transactions disputes')
       const transaction = await Transaction.find({ email })
-      const result = transaction
-        .map((obj) => obj.email)
-        .find((myMail) => myMail === email)
-      if (result) {
-        for (let i = 0; i < transaction.length; i++) {
-          const toAdd = transaction[i]
-          await user.transactions.addToSet(toAdd)
-          await user.save()
-        }
-        return user
-      }
+      transaction.map((item) => {
+        return user.transactions.addToSet(item)
+      })
       return user
     } catch (error) {
-      throw new DatabaseError(error)
+      throw new DatabaseError(error.message)
     }
   }
 
-  async function findByEmail(email) {
+  async function findByEmail({ email }) {
     return Transaction.findOne({ email })
   }
 
@@ -70,13 +62,6 @@ const makeTransactionsDb = ({ User, Transaction, Escrow }) => {
 
   async function findAll() {
     return Transaction.find().populate('initiator')
-  }
-
-  async function findByTransactionStatus(status) {
-    const transactionStatus = await Transaction.find({
-      transactionStatus: status
-    })
-    return transactionStatus
   }
 
   async function handleMoneyTransfer({ senderId, receiverId, amount, ref }) {
@@ -123,7 +108,6 @@ const makeTransactionsDb = ({ User, Transaction, Escrow }) => {
     findMyTransactions,
     findByRef,
     findAll,
-    findByTransactionStatus,
     handleMoneyTransfer,
     findByEmail
   })

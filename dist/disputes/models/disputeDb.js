@@ -10,20 +10,32 @@ var _mongoose = require("mongoose");
 const objectId = _mongoose.Types.ObjectId;
 
 const makeDisputeDb = ({
-  Dispute
+  Dispute,
+  User
 }) => {
-  async function insert({ ...info
+  async function insert({
+    userId,
+    ...info
   }) {
     const dispute = await new Dispute({ ...info
     });
     await dispute.save();
+    const user = await User.findOne({
+      _id: userId
+    });
+    await user.disputes.addToSet(dispute);
+    await user.save();
     return {
       dispute
     };
   }
 
-  async function findAll() {
-    const found = await Dispute.find().populate('transactionId');
+  async function findAll({
+    id
+  }) {
+    const found = await Dispute.find({
+      initiatorId: id
+    }).populate('transactionId');
     return found;
   }
 

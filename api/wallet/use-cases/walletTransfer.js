@@ -4,11 +4,11 @@ import requiredParam from '../../helpers/requireParam'
 
 export default function makeWalletTransfer({ walletDb, usersDb }) {
   return async function walletTransfer({
-    user = requiredParam('User Id'),
+    id = requiredParam('User Id'),
     ...walletDetails
   }) {
     const transfer = makeWallet(walletDetails)
-    const foundUser = await usersDb.findById({ id: user.id })
+    const foundUser = await usersDb.findById({ id })
     if (!foundUser) {
       throw new InvalidPropertyError('User does not exist.')
     }

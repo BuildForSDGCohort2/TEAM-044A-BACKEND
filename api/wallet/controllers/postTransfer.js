@@ -2,11 +2,11 @@ import { apiResponse } from '../../helpers/http-response'
 import tryCatchHandler from '../../helpers/try-catch-handler'
 
 const makePostTransfer = ({ walletTransfer }) => {
-  const postTransfer = tryCatchHandler(async (httpRequest) => {
-    const { user } = httpRequest
+  return tryCatchHandler(async (httpRequest) => {
+    const { id } = httpRequest.user
     const { ...walletDetails } = httpRequest.body
 
-    await walletTransfer({ user, ...walletDetails })
+    await walletTransfer({ id, ...walletDetails })
     return apiResponse({
       status: 'OK',
       statusCode: 200,
@@ -14,7 +14,6 @@ const makePostTransfer = ({ walletTransfer }) => {
       data: null
     })
   })
-  return postTransfer
 }
 
 export default makePostTransfer

@@ -1,4 +1,7 @@
 import makeTransaction from '../factory'
+// import publisher from '../../pubsub/publisher'
+// import consumer from '../../pubsub/subscriber'
+// import { sendTransactionMail } from '../../mail'
 
 const makeBuildCreateTransaction = ({ transactionDb, sendTransactionMail }) => {
   return async function createTransaction({ user, ...transactionInfo } = {}) {
@@ -25,6 +28,14 @@ const makeBuildCreateTransaction = ({ transactionDb, sendTransactionMail }) => {
       },
       user
     })
+    // const transactionId = newTransaction._id
+    // const userId = user.id
+    // await publisher(transactionId.toString(), userId, 'newtransaction.transaction_email')
+    // await consumer(
+    //   'transaction_email_queue',
+    //   sendTransactionMail,
+    //   '*.transaction_email'
+    // )
     await sendTransactionMail({ newTransaction, user })
     return newTransaction
   }

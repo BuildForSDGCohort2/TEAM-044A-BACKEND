@@ -15,10 +15,11 @@ const makeRejectTransactionRequest = ({
     let { transactionStatus, _id, initiator } = currentTransaction
     const user = await usersDb.findById({ id: initiator })
     transactionStatus = 'Transaction Request Rejected'
-    await Promise.all([
+    const [transaction] = await Promise.all([
       transactionDb.update({ id: _id, transactionStatus }),
       sendRejectionMail({ ref, user })
     ])
+    return transaction.transactionStatus
   }
 }
 

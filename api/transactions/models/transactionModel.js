@@ -80,7 +80,28 @@ const transactionSchema = new mongoose.Schema({
   },
   amount: { type: Number, required: true },
   source: {},
-  initiator: { type: mongoose.Types.ObjectId, email: String, ref: 'User' }
+  initiator: { type: mongoose.Types.ObjectId, email: String, ref: 'User' },
+  tag: {
+    type: String,
+    enum: [
+      'ac',
+      'bft',
+      'srt',
+      'anp',
+      'ip',
+      'dl',
+      'pa',
+      'dr',
+      'sp',
+      'cc',
+      'bco'
+    ],
+    default: 'ac'
+  },
+  accepted: {
+    type: Boolean,
+    default: false
+  }
 })
 
 export default transactionSchema

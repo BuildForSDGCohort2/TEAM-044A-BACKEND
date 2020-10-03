@@ -11,12 +11,13 @@ const makePostAcceptTransaction = ({ acceptTransaction }) => {
   const postAcceptTransaction = tryCatchHandler(async (httpRequest) => {
     const { ref } = httpRequest.pathParams
 
-    await acceptTransaction({ ref })
+    const result = await acceptTransaction({ ref })
+    console.log(result)
     return apiResponse({
       status: true,
       statusCode: 200,
       message: 'Transaction Accepted',
-      data: null
+      data: result
     })
   })
   return postAcceptTransaction

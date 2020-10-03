@@ -15,6 +15,7 @@ const makeAddDispute = ({
   sendDisputeMail
 }) => {
   return async function addDispute({
+    userId,
     transactionId,
     ...disputeInfo
   } = {}) {
@@ -35,7 +36,9 @@ const makeAddDispute = ({
       decision: transaction.getDecision(),
       disputeStatus: transaction.getStatus(),
       createdAt: transaction.getCreatedAt(),
-      updatedAt: transaction.getUpdatedAt()
+      updatedAt: transaction.getUpdatedAt(),
+      initiatorId: userId,
+      userId
     });
     await sendDisputeMail({
       transactionId
