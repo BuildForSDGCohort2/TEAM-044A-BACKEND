@@ -1,4 +1,7 @@
+import dotenv from 'dotenv'
 import { urlGenerator } from '../../helpers/config'
+
+dotenv.config()
 
 const getUserEmail = (token) =>
   process.env.NODE_ENV === 'production'
