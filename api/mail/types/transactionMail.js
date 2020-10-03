@@ -1,4 +1,12 @@
-const getTransactionEmailURL = () => `http://localhost:3000/signup`
+import dotenv from 'dotenv'
+import { urlGenerator } from '../../helpers/config'
+
+dotenv.config()
+
+const getTransactionEmailURL = () =>
+  process.env.NODE_ENV === 'production'
+    ? urlGenerator('signup')
+    : `http://localhost:3000/signup`
 
 const createTransactionTemplate = (receiver, sender, transaction, url) => {
   const from = 'etiosaserekings@gmail.com'
