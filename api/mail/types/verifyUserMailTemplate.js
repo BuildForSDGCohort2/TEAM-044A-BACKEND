@@ -7,6 +7,7 @@ const getUserEmail = (token) =>
   process.env.NODE_ENV === 'production'
     ? urlGenerator('verify', token)
     : `http://localhost:3000/email/verify/${token}`
+
 console.log(process.env.NODE_ENV)
 
 const createVerifyEmailTemplate = (receiver, url) => {
