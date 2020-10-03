@@ -1,6 +1,12 @@
-// const getUserEmail = (userInfo) =>
-//   `http://localhost:4000/api/v1/email/verify/${userInfo}`
-const getUserEmail = (token) => `http://localhost:3000/confirm/${token}`
+import dotenv from 'dotenv'
+import { urlGenerator } from '../../helpers/config'
+
+dotenv.config()
+
+const getUserEmail = (token) =>
+  process.env.NODE_ENV === 'production'
+    ? urlGenerator('verify', token)
+    : `http://localhost:3000/verify/${token}`
 
 const createVerifyEmailTemplate = (receiver, url) => {
   const from = 'etiosaserekings@gmail.com'
