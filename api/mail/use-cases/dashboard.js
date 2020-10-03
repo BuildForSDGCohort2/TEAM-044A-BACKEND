@@ -3,7 +3,7 @@ import { urlGenerator } from '../../helpers/config'
 
 dotenv.config()
 
-process.env.NODE_ENV = 'production'
+// process.env.NODE_ENV = 'production'
 
 const dashboardURL = () =>
   process.env.NODE_ENV === 'production'
