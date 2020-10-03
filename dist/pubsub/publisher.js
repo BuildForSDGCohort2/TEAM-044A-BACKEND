@@ -20,6 +20,9 @@ const assertExchangeOptions = {
 
 const publisher = async (data, routingKey) => {
   try {
+    console.log({
+      AMQP_URI: _config.default
+    });
     const conn = await _amqplib.default.connect(_config.default);
     const channel = await conn.createChannel();
     await channel.assertExchange(exchange, 'topic', assertExchangeOptions);
