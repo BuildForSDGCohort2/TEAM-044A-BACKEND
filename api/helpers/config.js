@@ -16,7 +16,7 @@ export function urlGenerator(type, token) {
       return `https://money-guard.herokuapp.com/login`
 
     case 'verify':
-      return `https://money-guard.herokuapp.com/email/verify/]${token}`
+      return `https://money-guard.herokuapp.com/email/verify/${token}`
     default:
       return `https://money-guard.herokuapp.com/`
   }
