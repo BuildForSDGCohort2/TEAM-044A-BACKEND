@@ -12,9 +12,15 @@ const makePostDispute = ({
 }) => {
   return async function postDispute(httpRequest) {
     try {
+      const {
+        id
+      } = httpRequest.user;
+      let userId = id;
       const { ...disputeInfo
       } = httpRequest.body;
-      const dispute = await addDispute({ ...disputeInfo
+      const dispute = await addDispute({
+        userId,
+        ...disputeInfo
       });
       return (0, _httpResponse.apiResponse)({
         status: true,

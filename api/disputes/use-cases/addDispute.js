@@ -1,7 +1,11 @@
 import makeDispute from '../factory'
 
 const makeAddDispute = ({ transactionDb, disputeDb, sendDisputeMail }) => {
-  return async function addDispute({ transactionId, ...disputeInfo } = {}) {
+  return async function addDispute({
+    userId,
+    transactionId,
+    ...disputeInfo
+  } = {}) {
     const transaction = makeDispute({ transactionId, ...disputeInfo })
     const currentTransaction = await transactionDb.findById({
       id: transaction.getId()
@@ -15,7 +19,9 @@ const makeAddDispute = ({ transactionDb, disputeDb, sendDisputeMail }) => {
       decision: transaction.getDecision(),
       disputeStatus: transaction.getStatus(),
       createdAt: transaction.getCreatedAt(),
-      updatedAt: transaction.getUpdatedAt()
+      updatedAt: transaction.getUpdatedAt(),
+      initiatorId: userId,
+      userId
     })
     await sendDisputeMail({ transactionId })
     return dispute

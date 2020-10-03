@@ -3,8 +3,10 @@ import { apiResponse, makeHttpError } from '../../helpers/http-response'
 const makePostDispute = ({ addDispute }) => {
   return async function postDispute(httpRequest) {
     try {
+      const { id } = httpRequest.user
+      let userId = id
       const { ...disputeInfo } = httpRequest.body
-      const dispute = await addDispute({ ...disputeInfo })
+      const dispute = await addDispute({ userId, ...disputeInfo })
       return apiResponse({
         status: true,
         message: 'Dispute Created',

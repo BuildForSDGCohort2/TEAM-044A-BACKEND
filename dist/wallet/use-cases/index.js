@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.walletWithdraw = exports.walletTransfer = exports.walletDeposit = exports.createWallet = void 0;
+exports.walletHistory = exports.walletWithdraw = exports.walletTransfer = exports.walletDeposit = exports.createWallet = void 0;
 
 var _createWallet = _interopRequireDefault(require("./createWallet"));
 
@@ -12,6 +12,8 @@ var _walletDeposit = _interopRequireDefault(require("./walletDeposit"));
 var _walletTransfer = _interopRequireDefault(require("./walletTransfer"));
 
 var _walletWithdraw = _interopRequireDefault(require("./walletWithdraw"));
+
+var _walletHistory = _interopRequireDefault(require("./walletHistory"));
 
 var _models = _interopRequireDefault(require("../models"));
 
@@ -38,3 +40,8 @@ const walletWithdraw = (0, _walletWithdraw.default)({
   walletDb: _models.default
 });
 exports.walletWithdraw = walletWithdraw;
+const walletHistory = (0, _walletHistory.default)({
+  walletDb: _models.default,
+  usersDb: _model.default
+});
+exports.walletHistory = walletHistory;

@@ -9,6 +9,9 @@ var _factory = _interopRequireDefault(require("../factory"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// import publisher from '../../pubsub/publisher'
+// import consumer from '../../pubsub/subscriber'
+// import { sendTransactionMail } from '../../mail'
 const makeBuildCreateTransaction = ({
   transactionDb,
   sendTransactionMail
@@ -42,7 +45,15 @@ const makeBuildCreateTransaction = ({
         referrer: transactionSource.getReferrer()
       },
       user
-    });
+    }); // const transactionId = newTransaction._id
+    // const userId = user.id
+    // await publisher(transactionId.toString(), userId, 'newtransaction.transaction_email')
+    // await consumer(
+    //   'transaction_email_queue',
+    //   sendTransactionMail,
+    //   '*.transaction_email'
+    // )
+
     await sendTransactionMail({
       newTransaction,
       user

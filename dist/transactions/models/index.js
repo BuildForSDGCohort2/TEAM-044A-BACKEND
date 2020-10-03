@@ -15,10 +15,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const {
   User,
   Transaction,
-  Escrow
+  Escrow,
+  Dispute
 } = _models.default;
 const transactionDb = (0, _transactionDb.default)({
   User,
+  Dispute,
   Transaction,
   Escrow
 });

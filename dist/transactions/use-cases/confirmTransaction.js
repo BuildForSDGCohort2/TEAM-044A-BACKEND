@@ -5,14 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _publisher = _interopRequireDefault(require("../../pubsub/publisher"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 const makeConfirmTransaction = ({
   transactionDb,
-  sendConfirmEmail // DisbursementAPI
-
+  sendConfirmEmail,
+  DisbursementAPI
 }) => {
   return async function confirmTransation({
     ref
@@ -35,11 +31,10 @@ const makeConfirmTransaction = ({
       ref,
       initiator
     })]);
-    const exchange = 'escrow';
-    const routingKey = 'disbursement';
-    await (0, _publisher.default)(exchange, routingKey, _id.toString()); // const fund = new DisbursementAPI()
-    // fund.on('transferMoney', () => {}).releaseFunds({ transactionID: _id })
-
+    const fund = new DisbursementAPI();
+    fund.on('transferMoney', () => {}).releaseFunds({
+      transactionID: _id
+    });
     return updated;
   };
 };

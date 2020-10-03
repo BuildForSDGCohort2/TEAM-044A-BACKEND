@@ -69,11 +69,25 @@ class SendGridError extends Error {
   }
 }
 
+class MessageBrokerError extends Error {
+  constructor(message, statusCode = 400) {
+    super(message)
+
+    this.name = 'MessageBrokerError'
+    this.statusCode = statusCode
+
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, MessageBrokerError)
+    }
+  }
+}
+
 export {
   RequiredParameterError,
   InvalidPropertyError,
   UniqueConstraintError,
   UnauthorizedError,
   DatabaseError,
-  SendGridError
+  SendGridError,
+  MessageBrokerError
 }

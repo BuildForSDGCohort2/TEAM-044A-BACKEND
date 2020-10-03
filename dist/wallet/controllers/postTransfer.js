@@ -14,14 +14,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const makePostTransfer = ({
   walletTransfer
 }) => {
-  const postTransfer = (0, _tryCatchHandler.default)(async httpRequest => {
+  return (0, _tryCatchHandler.default)(async httpRequest => {
     const {
-      user
-    } = httpRequest;
+      id
+    } = httpRequest.user;
     const { ...walletDetails
     } = httpRequest.body;
     await walletTransfer({
-      user,
+      id,
       ...walletDetails
     });
     return (0, _httpResponse.apiResponse)({
@@ -31,7 +31,6 @@ const makePostTransfer = ({
       data: null
     });
   });
-  return postTransfer;
 };
 
 var _default = makePostTransfer;

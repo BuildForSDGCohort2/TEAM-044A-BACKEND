@@ -30,6 +30,10 @@ const disputeSchema = new _mongoose.default.Schema({
   updatedAt: {
     type: Date,
     default: Date.now()
+  },
+  initiatorId: {
+    type: _mongoose.default.Types.ObjectId,
+    ref: 'User'
   }
 });
 var _default = disputeSchema;

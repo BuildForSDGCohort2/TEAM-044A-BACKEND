@@ -32,6 +32,7 @@ const makeExpressCallback = controller => {
       }
 
       res.type('json');
+      res.header('Access-Control-Allow-Origin', '*');
       httpResponse.redirect ? res.redirect(httpResponse.redirect) : res.status(httpResponse.statusCode).send(httpResponse.data);
     }).catch(e => res.sendStatus(e.statusCode || 500).send(e.message));
   };

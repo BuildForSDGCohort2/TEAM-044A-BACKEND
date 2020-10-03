@@ -5,29 +5,22 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _errors = require("../../helpers/errors");
-
 const makeVerifyEmail = ({
   decodeToken,
-  transactionDb
+  usersDb
 }) => {
   return async function verifyEmail({ ...details
   } = {}) {
     const toDecode = decodeToken(details.token);
     let {
-      emailVerified,
-      id
+      isVerified,
+      userId
     } = toDecode;
-
-    if (!emailVerified) {
-      emailVerified = true;
-      return transactionDb.update({
-        emailVerified,
-        id
-      });
-    }
-
-    throw new _errors.InvalidPropertyError('Email has been verified already');
+    isVerified = true;
+    return usersDb.update({
+      isVerified,
+      id: userId
+    });
   };
 };
 

@@ -3,58 +3,43 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = subscriber;
+exports.default = void 0;
 
-var _callback_api = _interopRequireDefault(require("amqplib/callback_api"));
+var _amqplib = _interopRequireDefault(require("amqplib"));
 
-var _events = require("./events");
+var _config = _interopRequireDefault(require("../helpers/config"));
 
-var _useCases = require("../wallet/use-cases");
+var _errors = require("../helpers/errors");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* eslint-disable no-use-before-define */
-const url = process.env.CLOUDAMQP_URL || 'amqp://localhost';
+const assertQueueOptions = {
+  durable: true
+};
+const assertExchangeOptions = {
+  durable: true
+};
+const consumeQueueOptions = {
+  noAck: false
+};
+const exchange = 'escrow';
 
-function subscriber() {
-  _callback_api.default.connect(url, (err, conn) => {
-    console.log(`CONNECTED TO: ${url}`);
-    conn.createChannel((error, channel) => {
-      if (error) {
-        console.log(`An error occured ${error}`);
-      }
+const consumer = async (queue, func, key) => {
+  try {
+    const conn = await _amqplib.default.connect(_config.default);
+    const channel = await conn.createChannel();
+    await channel.assertExchange(exchange, 'topic', assertExchangeOptions);
+    await channel.assertQueue(queue, assertQueueOptions);
+    await channel.bindQueue(queue, exchange, key);
+    await channel.consume(queue, msg => {
+      func(msg.content.toString());
+      channel.ack(msg);
+    }, consumeQueueOptions);
+    return channel;
+  } catch (error) {
+    throw new _errors.MessageBrokerError(error.message);
+  }
+};
 
-      const exchange = 'escrow';
-      const queue = 'disburse';
-      const walletQueue = 'wallet_queue';
-      channel.assertExchange(exchange, 'direct', {
-        durable: true
-      });
-      channel.assertQueue(queue, {
-        durable: true
-      });
-      channel.assertQueue(walletQueue, {
-        durable: true
-      }); // escrow queue
-
-      channel.bindQueue(queue, exchange, 'disbursement'); // wallet queue
-
-      channel.bindQueue(walletQueue, exchange, '*.walletCreation.*');
-      channel.consume(queue, async msg => {
-        await (0, _events.disburse)(msg.content.toString());
-        await (0, _useCases.createWallet)(msg.content.toString());
-        channel.ack(msg);
-      }, {
-        noAck: false
-      }); // wallet consumer
-
-      channel.consume(walletQueue, async msg => {
-        // await disburse(msg.content.toString())
-        await (0, _useCases.createWallet)(msg.content.toString());
-        channel.ack(msg);
-      }, {
-        noAck: false
-      });
-    });
-  });
-}
+var _default = consumer;
+exports.default = _default;

@@ -24,7 +24,8 @@ const makeDeliveryComplete = ({
     transactionStatus = 'Delivered';
     const [updated] = await Promise.all([transactionDb.update({
       id: _id,
-      transactionStatus
+      transactionStatus,
+      tag: 'bco'
     }), sendDeliveryEmail({
       ref,
       initiator

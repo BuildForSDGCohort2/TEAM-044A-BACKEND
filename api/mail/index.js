@@ -8,6 +8,7 @@ import buildMakeSendTransaction from './use-cases/sendCreateTransaction'
 import makeInProgressEmail from './use-cases/sendInProgressMail'
 import makeDeliveryRejectionMail from './use-cases/deliveryRejectionMail'
 import makeSendDisputeMail from './use-cases/sendDisputeMail'
+import makeVerifyUser from './use-cases/verifyUser'
 import dashboardURL from './use-cases/dashboard'
 import { decodeToken, sendTokenResponse, createToken } from '../helpers/jsonwt'
 import transactionDb from '../transactions/models'
@@ -23,13 +24,22 @@ import {
   createTransactionTemplate,
   inProgressEmailTemplate,
   deliveryRejectionTemplate,
-  disputeMailTemplate
+  disputeMailTemplate,
+  createVerifyEmailTemplate,
+  getUserEmail
 } from './types/index'
 
+const verifyUser = makeVerifyUser({
+  usersDb,
+  createToken,
+  createVerifyEmailTemplate,
+  sendMail,
+  getUserEmail
+})
 const verifyEmail = makeVerifyEmail({
   decodeToken,
   sendTokenResponse,
-  transactionDb
+  usersDb
 })
 
 // Notifies the buyer that the seller has accepted to be paid XYZ amount
@@ -121,5 +131,6 @@ export {
   sendTransactionMail,
   sendInProgressEmail,
   sendDeliveryRejectionEmail,
-  sendDisputeMail
+  sendDisputeMail,
+  verifyUser
 }

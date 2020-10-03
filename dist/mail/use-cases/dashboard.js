@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-const dashboardURL = () => `http://localhost:4000/api/v1/transactions`;
+const dashboardURL = () => `http://localhost:3000/dashboard`;
 
 var _default = dashboardURL;
 exports.default = _default;

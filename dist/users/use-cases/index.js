@@ -15,10 +15,13 @@ var _listUser = _interopRequireDefault(require("./list-user"));
 
 var _model = _interopRequireDefault(require("../model"));
 
+var _models = _interopRequireDefault(require("../../transactions/models"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const addUser = (0, _addUser.default)({
-  usersDb: _model.default
+  usersDb: _model.default,
+  transactionsDb: _models.default
 });
 exports.addUser = addUser;
 const editUser = (0, _editUser.default)({

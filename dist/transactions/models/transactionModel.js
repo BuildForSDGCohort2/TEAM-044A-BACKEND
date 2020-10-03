@@ -76,6 +76,15 @@ const transactionSchema = new _mongoose.default.Schema({
     type: _mongoose.default.Types.ObjectId,
     email: String,
     ref: 'User'
+  },
+  tag: {
+    type: String,
+    enum: ['ac', 'bft', 'srt', 'anp', 'ip', 'dl', 'pa', 'dr', 'sp', 'cc', 'bco'],
+    default: 'ac'
+  },
+  accepted: {
+    type: Boolean,
+    default: false
   }
 });
 var _default = transactionSchema;

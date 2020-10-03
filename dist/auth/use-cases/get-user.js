@@ -13,7 +13,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const makeListUser = ({
   usersDb,
-  transactionDb
+  transactionsDb
 }) => {
   return async function listUser({
     id = (0, _requireParam.default)('Id')
@@ -29,7 +29,7 @@ const makeListUser = ({
     const {
       email
     } = user;
-    return transactionDb.findMyTransactions(email);
+    return transactionsDb.findMyTransactions(email);
   };
 };
 

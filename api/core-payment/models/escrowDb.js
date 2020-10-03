@@ -1,16 +1,14 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable no-return-await */
 import mongoose from 'mongoose'
 
 const objectId = mongoose.Types.ObjectId
 
 const makeEscrowDb = ({ Escrow, User, Transaction }) => {
   async function findById({ id: _id }) {
-    return await Escrow.findById(objectId(_id))
+    return Escrow.findById(objectId(_id))
   }
 
   async function findByRef({ ref }) {
-    return await Escrow.findOne({ reference: ref })
+    return Escrow.findOne({ reference: ref })
   }
 
   async function handleMoneyTransfer({ referenceId, receiverId, amount }) {
@@ -71,13 +69,13 @@ const makeEscrowDb = ({ Escrow, User, Transaction }) => {
     }
   }
 
-  async function findEscrow({ msg }) {
-    const found = await Escrow.findOne({ transactionId: objectId(msg) })
+  async function findEscrow({ transactionID }) {
+    const found = await Escrow.findOne({ transactionId: transactionID })
     return found
   }
 
   async function findAll() {
-    return await Escrow.find()
+    return Escrow.find()
       .populate('currentTransaction')
       .populate('sellerInfo')
       .exec()

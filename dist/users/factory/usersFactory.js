@@ -29,16 +29,6 @@ const buildMakeUserFactory = ({
     createdOn = Date.now(),
     modifiedOn = Date.now()
   } = {}) {
-    // if (firstName.length < 3) {
-    //   throw new InvalidPropertyError(
-    //     'First name cannot be less than 3 characters.'
-    //   )
-    // }
-    // if (lastName.length < 3) {
-    //   throw new InvalidPropertyError(
-    //     'Last name cannot be less than 3 characters.'
-    //   )
-    // }
     if (!isValidEmail(email)) {
       throw new _errors.InvalidPropertyError('Please enter a valid email address.');
     }
@@ -56,7 +46,7 @@ const buildMakeUserFactory = ({
       getFirstName: () => upperFirst(firstName),
       getLastName: () => upperFirst(lastName),
       getPhoneNumber: () => phoneNumber,
-      getEmail: () => email,
+      getEmail: () => email.toLowerCase(),
       getSource: () => validSource,
       getUsername: () => username,
       getPassword: () => password,

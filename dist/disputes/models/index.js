@@ -12,10 +12,12 @@ var _disputeDb = _interopRequireDefault(require("./disputeDb"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const {
-  Dispute
+  Dispute,
+  User
 } = _models.default;
 const disputeDb = (0, _disputeDb.default)({
-  Dispute
+  Dispute,
+  User
 });
 var _default = disputeDb;
 exports.default = _default;

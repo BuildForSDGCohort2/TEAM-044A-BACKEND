@@ -44,7 +44,11 @@ export default function makeWalletDb({ Wallet, usersDb, WalletTransaction }) {
         receiver.balance += amount
         await receiver.save({ session })
         const newTransfer = new WalletTransaction({ ...walletDetails })
-        await newTransfer.save()
+        await newTransfer.save({ session })
+        sender.walletTransactions.addToSet(newTransfer)
+        await sender.save({ session })
+        receiver.walletTransactions.addToSet(newTransfer)
+        await receiver.save({ session })
       })
     } catch (error) {
       logging.error(`An error occured: Error ${error}`)
@@ -55,8 +59,12 @@ export default function makeWalletDb({ Wallet, usersDb, WalletTransaction }) {
   }
 
   async function findByAccountId({ id: _id }) {
-    const found = await Wallet.findOne({ _id })
+    const found = await Wallet.findOne({ _id }).populate('walletTransactions')
     return found
+  }
+
+  async function findUserById({ id: _id }) {
+    return Wallet.find({ userId: _id }).populate('walletTransactions')
   }
 
   async function withdraw({ ...walletDetails }) {
@@ -67,6 +75,8 @@ export default function makeWalletDb({ Wallet, usersDb, WalletTransaction }) {
       await user.save()
       const withdrawal = new WalletTransaction({ ...walletDetails })
       await withdrawal.save()
+      user.walletTransactions.addToSet(withdrawal)
+      await user.save()
       return withdrawal
     } catch (error) {
       throw new DatabaseError(error)
@@ -78,6 +88,7 @@ export default function makeWalletDb({ Wallet, usersDb, WalletTransaction }) {
     create,
     transfer,
     findByAccountId,
-    withdraw
+    withdraw,
+    findUserById
   })
 }

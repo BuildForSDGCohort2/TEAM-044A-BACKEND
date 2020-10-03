@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.postWithdraw = exports.postTransfer = exports.postDeposit = exports.postWallet = void 0;
+exports.getHistory = exports.postWithdraw = exports.postTransfer = exports.postDeposit = exports.postWallet = void 0;
 
 var _postCreateWallet = _interopRequireDefault(require("./postCreateWallet"));
 
@@ -12,6 +12,8 @@ var _postDeposit = _interopRequireDefault(require("./postDeposit"));
 var _postTransfer = _interopRequireDefault(require("./postTransfer"));
 
 var _postWithdraw = _interopRequireDefault(require("./postWithdraw"));
+
+var _getHistory = _interopRequireDefault(require("./getHistory"));
 
 var _useCases = require("../use-cases");
 
@@ -33,3 +35,7 @@ const postWithdraw = (0, _postWithdraw.default)({
   walletWithdraw: _useCases.walletWithdraw
 });
 exports.postWithdraw = postWithdraw;
+const getHistory = (0, _getHistory.default)({
+  walletHistory: _useCases.walletHistory
+});
+exports.getHistory = getHistory;

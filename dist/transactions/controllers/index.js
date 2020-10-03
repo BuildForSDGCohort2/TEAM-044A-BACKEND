@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.postRejectDelivery = exports.postInProgress = exports.postConfirmTransaction = exports.postDeliverTransaction = exports.rejectTransactions = exports.postAcceptTransaction = exports.getTransactions = exports.postTransaction = void 0;
+exports.postRejectDelivery = exports.postInProgress = exports.postConfirmTransaction = exports.postDeliverTransaction = exports.rejectTransactions = exports.postAcceptTransaction = exports.getTransactions = exports.verifyPaystack = exports.postTransaction = void 0;
 
 var _postTransaction = _interopRequireDefault(require("./post-transaction"));
 
@@ -20,6 +20,8 @@ var _postConfirmTransaction = _interopRequireDefault(require("./postConfirmTrans
 var _postInProgress = _interopRequireDefault(require("./postInProgress"));
 
 var _postRejectDelivery = _interopRequireDefault(require("./postRejectDelivery"));
+
+var _postVerifyFunds = _interopRequireDefault(require("./postVerifyFunds"));
 
 var _useCases = require("../use-cases");
 
@@ -57,3 +59,7 @@ const postInProgress = (0, _postInProgress.default)({
   inProgress: _useCases.inProgress
 });
 exports.postInProgress = postInProgress;
+const verifyPaystack = (0, _postVerifyFunds.default)({
+  verifyTransaction: _useCases.verifyTransaction
+});
+exports.verifyPaystack = verifyPaystack;

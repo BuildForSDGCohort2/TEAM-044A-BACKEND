@@ -3,30 +3,31 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = publishToQueue;
+exports.default = void 0;
 
-var _callback_api = _interopRequireDefault(require("amqplib/callback_api"));
+var _amqplib = _interopRequireDefault(require("amqplib"));
+
+var _config = _interopRequireDefault(require("../helpers/config"));
+
+var _errors = require("../helpers/errors");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* eslint-disable no-use-before-define */
-let ch = null;
-const url = process.env.CLOUDAMQP_URL || 'amqp://localhost';
+const exchange = 'escrow';
+const assertExchangeOptions = {
+  durable: true
+};
 
-_callback_api.default.connect(url, (err, conn) => {
-  conn.createChannel((err, channel) => {
-    if (err) {
-      throw err;
-    }
+const publisher = async (data, routingKey) => {
+  try {
+    const conn = await _amqplib.default.connect(_config.default);
+    const channel = await conn.createChannel();
+    await channel.assertExchange(exchange, 'topic', assertExchangeOptions);
+    return channel.publish(exchange, routingKey, Buffer.from(data));
+  } catch (error) {
+    throw new _errors.MessageBrokerError(error.message);
+  }
+};
 
-    const exchange = 'escrow';
-    ch = channel;
-    channel.assertExchange(exchange, 'direct', {
-      durable: true
-    });
-  });
-});
-
-async function publishToQueue(exchange, routingKey, data) {
-  return ch.publish(exchange, routingKey, Buffer.from(data));
-}
+var _default = publisher;
+exports.default = _default;

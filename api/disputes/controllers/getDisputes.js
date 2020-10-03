@@ -3,12 +3,12 @@ import { apiResponse, makeHttpError } from '../../helpers/http-response'
 const makeGetDisputes = ({ listDisputes }) => {
   return async function postDispute(httpRequest) {
     try {
-      const { id } = httpRequest.pathParams
-      const disputes = id ? await listDisputes({ id }) : await listDisputes()
+      const { id } = httpRequest.user
+      const disputes = await listDisputes({ id })
       return apiResponse({
         status: true,
         message: 'Transaction Disputes',
-        data: disputes,
+        data: [disputes],
         statusCode: 200
       })
     } catch (error) {

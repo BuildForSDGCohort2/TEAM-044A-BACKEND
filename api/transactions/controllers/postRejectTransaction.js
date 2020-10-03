@@ -5,12 +5,12 @@ const makePostRejectTransaction = ({ rejectTransactionRequest }) => {
   const postAcceptTransaction = tryCatchHandler(async (httpRequest) => {
     const { ref } = httpRequest.pathParams
 
-    await rejectTransactionRequest({ ref })
+    const transaction = await rejectTransactionRequest({ ref })
     return apiResponse({
       status: true,
       statusCode: 200,
       message: 'Transaction Rejected',
-      data: null
+      data: transaction
     })
   })
   return postAcceptTransaction

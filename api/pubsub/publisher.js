@@ -1,19 +1,19 @@
-/* eslint-disable no-use-before-define */
-import amqp from 'amqplib/callback_api'
+import amqp from 'amqplib'
+import AMQP_URI from '../helpers/config'
+import { MessageBrokerError } from '../helpers/errors'
 
-let ch = null
-const url = process.env.CLOUDAMQP_URL || 'amqp://localhost'
-amqp.connect(url, (err, conn) => {
-  conn.createChannel((err, channel) => {
-    if (err) {
-      throw err
-    }
-    const exchange = 'escrow'
-    ch = channel
-    channel.assertExchange(exchange, 'direct', { durable: true })
-  })
-})
+const exchange = 'escrow'
+const assertExchangeOptions = { durable: true }
 
-export default async function publishToQueue(exchange, routingKey, data) {
-  return ch.publish(exchange, routingKey, Buffer.from(data))
+const publisher = async (data, routingKey) => {
+  try {
+    const conn = await amqp.connect(AMQP_URI)
+    const channel = await conn.createChannel()
+    await channel.assertExchange(exchange, 'topic', assertExchangeOptions)
+    return channel.publish(exchange, routingKey, Buffer.from(data))
+  } catch (error) {
+    throw new MessageBrokerError(error.message)
+  }
 }
+
+export default publisher

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.inProgress = exports.confirmTransaction = exports.deliveryComplete = exports.rejectTransactionRequest = exports.rejectDeliveredTransaction = exports.acceptTransaction = exports.createTransaction = exports.listTransactions = void 0;
+exports.verifyTransaction = exports.inProgress = exports.confirmTransaction = exports.deliveryComplete = exports.rejectTransactionRequest = exports.rejectDeliveredTransaction = exports.acceptTransaction = exports.createTransaction = exports.listTransactions = void 0;
 
 var _createTransaction = _interopRequireDefault(require("./createTransaction"));
 
@@ -21,11 +21,15 @@ var _inProgress = _interopRequireDefault(require("./inProgress"));
 
 var _rejectTransactionRequest = _interopRequireDefault(require("./rejectTransactionRequest"));
 
+var _fundTransaction = _interopRequireDefault(require("./fundTransaction"));
+
 var _publisher = _interopRequireDefault(require("../../pubsub/publisher"));
 
 var _mail = require("../../mail");
 
 var _models = _interopRequireDefault(require("../models"));
+
+var _models2 = _interopRequireDefault(require("../../core-payment/models"));
 
 var _model = _interopRequireDefault(require("../../users/model"));
 
@@ -83,5 +87,11 @@ const inProgress = (0, _inProgress.default)({
   transactionDb: _models.default,
   sendInProgressEmail: _mail.sendInProgressEmail,
   usersDb: _model.default
-});
+}); // verify transaction
+
 exports.inProgress = inProgress;
+const verifyTransaction = (0, _fundTransaction.default)({
+  transactionDb: _models.default,
+  escrowDb: _models2.default
+});
+exports.verifyTransaction = verifyTransaction;

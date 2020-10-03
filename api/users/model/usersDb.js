@@ -35,7 +35,7 @@ const makeUsersDb = ({ User, createToken, hashPassword }) => {
   }
 
   async function findById({ id: _id }) {
-    return User.findById(objectId(_id)).populate('transactions').exec()
+    return User.findById(objectId(_id)).populate('transactions')
   }
 
   async function findAll() {

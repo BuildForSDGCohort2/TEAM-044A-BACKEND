@@ -10,6 +10,7 @@ const disputeSchema = new mongoose.Schema({
   decision: {
     type: String
   },
+
   disputeStatus: {
     type: String,
     enum: ['Open', 'Resolved'],
@@ -22,6 +23,10 @@ const disputeSchema = new mongoose.Schema({
   updatedAt: {
     type: Date,
     default: Date.now()
+  },
+  initiatorId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User'
   }
 })
 

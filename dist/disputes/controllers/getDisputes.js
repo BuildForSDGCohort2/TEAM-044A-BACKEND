@@ -14,14 +14,14 @@ const makeGetDisputes = ({
     try {
       const {
         id
-      } = httpRequest.pathParams;
-      const disputes = id ? await listDisputes({
+      } = httpRequest.user;
+      const disputes = await listDisputes({
         id
-      }) : await listDisputes();
+      });
       return (0, _httpResponse.apiResponse)({
         status: true,
         message: 'Transaction Disputes',
-        data: disputes,
+        data: [disputes],
         statusCode: 200
       });
     } catch (error) {

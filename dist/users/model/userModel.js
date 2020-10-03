@@ -56,7 +56,15 @@ const userSchema = new _mongoose.default.Schema({
     type: _mongoose.default.Types.ObjectId,
     ref: 'Wallet'
   },
-  source: {}
+  source: {},
+  disputes: [{
+    type: _mongoose.default.Types.ObjectId,
+    ref: 'Dispute'
+  }],
+  isVerified: {
+    type: Boolean,
+    default: false
+  }
 });
 var _default = userSchema;
 exports.default = _default;

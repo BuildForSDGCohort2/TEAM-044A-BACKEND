@@ -24,7 +24,8 @@ const makeAcceptTransaction = ({
     transactionStatus = 'Transaction Accepted - Not funded';
     const [updated] = await Promise.all([transactionDb.update({
       id: _id,
-      transactionStatus
+      transactionStatus,
+      accepted: true
     }), sendAcceptanceEmail({
       _id,
       initiator

@@ -1,32 +1,26 @@
+/* eslint-disable no-unused-expressions */
 import express from 'express'
 import cors from 'cors'
 import path from 'path'
 import setupDB from '../database'
-// import usersDb from '../users/model'
-import subscriber from '../pubsub/subscriber'
 
 const app = express()
 
 setupDB()
-subscriber()
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Credentials', true)
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, Content-Type, Accept, x-auth-token, Authorization'
+  )
+  next()
+})
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
-// Initiator
-// app.use(async (req, res, next) => {
-//   const user = await usersDb.findById({ id: '5f4fd5b0d9f81a072c337b48' })
-//   req.user = user
-//   next()
-// })
-
-// Recipient
-// app.use(async (req, res, next) => {
-//   const user = await usersDb.findById({ id: '5f57e4feffa22d0e104e210a' })
-//   req.user = user
-//   next()
-// })
 
 app.get('/', (_, res) => res.json({ msg: 'MoneyGuard is Protectinggg.' }))
 app.get('/:ref', (req, res) => {

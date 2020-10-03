@@ -18,12 +18,12 @@ function makeWalletTransfer({
   usersDb
 }) {
   return async function walletTransfer({
-    user = (0, _requireParam.default)('User Id'),
+    id = (0, _requireParam.default)('User Id'),
     ...walletDetails
   }) {
     const transfer = (0, _factory.default)(walletDetails);
     const foundUser = await usersDb.findById({
-      id: user.id
+      id
     });
 
     if (!foundUser) {

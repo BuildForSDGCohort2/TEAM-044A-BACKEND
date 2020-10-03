@@ -9,9 +9,6 @@ var _mongoose = _interopRequireDefault(require("mongoose"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* eslint-disable no-underscore-dangle */
-
-/* eslint-disable no-return-await */
 const objectId = _mongoose.default.Types.ObjectId;
 
 const makeEscrowDb = ({
@@ -22,13 +19,13 @@ const makeEscrowDb = ({
   async function findById({
     id: _id
   }) {
-    return await Escrow.findById(objectId(_id));
+    return Escrow.findById(objectId(_id));
   }
 
   async function findByRef({
     ref
   }) {
-    return await Escrow.findOne({
+    return Escrow.findOne({
       reference: ref
     });
   }
@@ -117,16 +114,16 @@ const makeEscrowDb = ({
   }
 
   async function findEscrow({
-    msg
+    transactionID
   }) {
     const found = await Escrow.findOne({
-      transactionId: objectId(msg)
+      transactionId: transactionID
     });
     return found;
   }
 
   async function findAll() {
-    return await Escrow.find().populate('currentTransaction').populate('sellerInfo').exec();
+    return Escrow.find().populate('currentTransaction').populate('sellerInfo').exec();
   }
 
   async function update({
