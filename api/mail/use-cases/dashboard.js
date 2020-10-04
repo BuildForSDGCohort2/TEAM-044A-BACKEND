@@ -1,7 +1,10 @@
+import dotenv from 'dotenv'
 import { urlGenerator } from '../../helpers/config'
 
+dotenv.config()
+
 const dashboardURL = () =>
-  process.env.NODE_ENV === 'production'
+  process.env.EMAIL_ENV === 'production'
     ? urlGenerator('dashboard')
     : `http://localhost:3000/dashboard`
 
