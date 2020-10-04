@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const AMQP_URI = process.env.CLOUDAMQP_URL || 'amqp://localhost'
+export default process.env.CLOUDAMQP_URL || 'amqp://localhost'
 
 export function urlGenerator(type, token) {
   switch (type) {
@@ -21,5 +21,3 @@ export function urlGenerator(type, token) {
       return `https://money-guard.herokuapp.com/`
   }
 }
-
-export default AMQP_URI

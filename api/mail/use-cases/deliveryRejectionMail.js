@@ -9,7 +9,6 @@ const makeDeliveryRejectionMail = ({
 }) => {
   return async function sendDeliveryRejectionEmail({ ref, user }) {
     try {
-      console.log('USER', user)
       const sender = await usersDb.findById({ id: user.id })
       const receiver = await transactionDb.findByRef({ ref })
       const transactionRef = receiver.reference

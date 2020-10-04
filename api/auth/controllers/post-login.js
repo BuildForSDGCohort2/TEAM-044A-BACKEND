@@ -1,7 +1,7 @@
 import tryCatchHandler from '../../helpers/try-catch-handler'
 
 const makePostLogin = ({ loginUser }) => {
-  const postLogin = tryCatchHandler(async (httpRequest) => {
+  return tryCatchHandler(async (httpRequest) => {
     const { ...userInfo } = httpRequest.body
     const token = await loginUser({ ...userInfo })
     return {
@@ -14,7 +14,6 @@ const makePostLogin = ({ loginUser }) => {
       data: token
     }
   })
-  return postLogin
 }
 
 export default makePostLogin
