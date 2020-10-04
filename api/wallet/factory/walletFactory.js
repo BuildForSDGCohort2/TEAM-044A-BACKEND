@@ -12,10 +12,12 @@ export default function buildMakeWalletFactory({ uuidv4 }) {
     destinationWalletId,
     createdAt = Date.now()
   } = {}) {
-    if (typeof amount !== 'number' || amount <= 0) {
-      throw new InvalidPropertyError(
-        'Amount must be a valid number and must be greater than zero.'
-      )
+    if (!amount || amount <= 0) {
+      throw new InvalidPropertyError('Amount must be greater than zero.')
+    }
+
+    if (typeof amount === 'string') {
+      amount = Number(amount)
     }
 
     if (!operationType) {

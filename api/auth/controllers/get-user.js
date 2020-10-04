@@ -2,7 +2,7 @@ import { apiResponse } from '../../helpers/http-response'
 import tryCatchHandler from '../../helpers/try-catch-handler'
 
 const makeGetUser = ({ listUser }) => {
-  const getUser = tryCatchHandler(async (httpRequest) => {
+  return tryCatchHandler(async (httpRequest) => {
     const user = await listUser({ id: httpRequest.user.id })
     return apiResponse({
       status: 'OK',
@@ -11,7 +11,6 @@ const makeGetUser = ({ listUser }) => {
       data: [user]
     })
   })
-  return getUser
 }
 
 export default makeGetUser
