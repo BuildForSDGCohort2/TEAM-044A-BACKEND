@@ -4,7 +4,7 @@ import { urlGenerator } from '../../helpers/config'
 dotenv.config()
 
 const getUserEmail = (token) =>
-  process.env.NODE_ENV === 'production'
+  process.env.EMAIL_ENV === 'production'
     ? urlGenerator('verify', token)
     : `http://localhost:3000/email/verify/${token}`
 
