@@ -83,12 +83,17 @@ export default function makeWalletDb({ Wallet, usersDb, WalletTransaction }) {
     }
   }
 
+  async function findTransactions({ id: _id }) {
+    return WalletTransaction.findById(_id)
+  }
+
   return Object.freeze({
     deposit,
     create,
     transfer,
     findByAccountId,
     withdraw,
-    findUserById
+    findUserById,
+    findTransactions
   })
 }
