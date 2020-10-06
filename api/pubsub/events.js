@@ -12,7 +12,6 @@ class DisbursementAPI extends EventEmitter {
   }
 
   async releaseFunds({ transactionID }) {
-    // get the transaction that is === the transactionID
     const transaction = await escrowDb.findEscrow({ transactionID })
     const {
       totalAmount,

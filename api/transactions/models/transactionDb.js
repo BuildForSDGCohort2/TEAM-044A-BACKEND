@@ -53,7 +53,7 @@ const makeTransactionsDb = ({ User, Transaction, Escrow }) => {
   }
 
   async function findByRef({ ref }) {
-    return Transaction.find({ initiator: ref })
+    return Transaction.findOne({ reference: ref })
   }
 
   async function findAll() {
@@ -72,7 +72,7 @@ const makeTransactionsDb = ({ User, Transaction, Escrow }) => {
       const transactionInfo = await Transaction.findOne({
         reference: ref
       }).session(session)
-      const newEscrow = await new Escrow({
+      const newEscrow = new Escrow({
         amount,
         reference: ref,
         buyerInfo: {

@@ -8,7 +8,7 @@ const makeListTransactions = ({ usersDb, transactionDb }) => {
     }
     const { email } = user
     const found = await transactionDb.findMyTransactions(email)
-    return found
+    return found.transactions
   }
 }
 
