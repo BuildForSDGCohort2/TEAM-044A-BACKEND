@@ -35,7 +35,9 @@ const makeUsersDb = ({ User, createToken, hashPassword }) => {
   }
 
   async function findById({ id: _id }) {
-    return User.findById(objectId(_id)).populate('transactions')
+    return User.findById(objectId(_id))
+      .populate('transactions')
+      .select('-password -__v -createdOn -modifiedOn -isVerified -source')
   }
 
   async function findAll() {
