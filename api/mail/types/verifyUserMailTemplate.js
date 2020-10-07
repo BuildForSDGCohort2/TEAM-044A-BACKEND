@@ -18,7 +18,7 @@ const createVerifyEmailTemplate = (receiver, url) => {
     <p>Please click the link to verify your email.</p>
     <p><a href=${url}>Verify my email.</a></p>
 
-    <p>Thank you</p>
+    <p>Thank you.</p>
     <p>MoneyGuard</p>
   `
   return { from, to, username, subject, html }
