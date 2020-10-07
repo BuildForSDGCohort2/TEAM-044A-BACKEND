@@ -9,7 +9,7 @@ const getUserEmail = (token) =>
     : `http://localhost:3000/email/verify/${token}`
 
 const createVerifyEmailTemplate = (receiver, url) => {
-  const from = 'etiosaserekings@gmail.com'
+  const from = 'imoneyguard@gmail.com'
   const to = receiver.email
   const username = receiver.firstName
   const subject = 'Please Verify Your Email'

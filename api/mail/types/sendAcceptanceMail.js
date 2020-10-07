@@ -1,5 +1,5 @@
 const acceptanceEmailTemplate = (receiver, user, transaction, url) => {
-  const from = 'etiosaserekings@gmail.com'
+  const from = 'imoneyguard@gmail.com'
   const to = receiver.email
   const username = receiver.firstName
   const name = user.firstName
